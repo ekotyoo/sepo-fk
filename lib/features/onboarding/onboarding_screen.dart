@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingItem {
   final String title;
@@ -17,9 +18,18 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final _items = [
-    OnboardingItem('title-1', 'subtitle-1', 'assets/images/onboard_1.png'),
-    OnboardingItem('title-2', 'subtitle-2', 'assets/images/onboard_2.png'),
-    OnboardingItem('title-3', 'subtitle-3', 'assets/images/onboard_3.png'),
+    OnboardingItem(
+        'Selamat Datang di SEPO',
+        'Self Education Programs Of Osteoarthritis. Dengan bangga kami persembahkan aplikasi SEPO. Aplikasi ini dirancang khusus untuk meningkatkan pemahaman tentang osteoarthritis lutut/nyeri lutut.',
+        'assets/images/onboard_1.png'),
+    OnboardingItem(
+        'Manfaat SEPO',
+        'SEPO akan menginformasikan tentang penyebab, pencegahan, dan pengobatan nyeri lutut. Anda akan menerima saran gaya hidup, pola makan, dan latihan fisik yang membantu meringankan nyeri lutut.',
+        'assets/images/onboard_2.png'),
+    OnboardingItem(
+        'Terima kasih telah bergabung dengan SEPO',
+        'Selesaikan tantangan dan dapatkan HADIAH menarik!',
+        'assets/images/onboard_3.png'),
   ];
 
   late int _page;
@@ -40,7 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             PageIndicator(
               currentCount: _page + 1,
               totalCount: _items.length,
-              onSkip: () {},
+              onSkip: () => context.pushNamed('login'),
             ),
             Expanded(
               child: PageView.builder(
@@ -49,23 +59,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemBuilder: (context, index) {
                   final item = _items[index];
                   return Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 80),
-                        SizedBox(
-                          height: 250,
-                          child: Image.asset(item.imagePath),
-                        ),
-                        const SizedBox(height: 32),
-                        Text(
-                          item.title,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          item.subtitle,
-                        ),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 80),
+                          SizedBox(
+                            height: 250,
+                            child: Image.asset(item.imagePath),
+                          ),
+                          const SizedBox(height: 32),
+                          Text(
+                            item.title,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            item.subtitle,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -79,12 +98,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 }
 
 class PageIndicator extends StatelessWidget {
-  const PageIndicator(
-      {Key? key,
-      required this.totalCount,
-      required this.currentCount,
-      this.onSkip})
-      : super(key: key);
+  const PageIndicator({
+    Key? key,
+    required this.totalCount,
+    required this.currentCount,
+    this.onSkip,
+  }) : super(key: key);
 
   final int totalCount;
   final int currentCount;
@@ -106,10 +125,12 @@ class PageIndicator extends StatelessWidget {
         ),
         SizedBox(
           width: 80,
-          child: TextButton(
-            onPressed: onSkip,
-            child: const Text('Lewati'),
-          ),
+          child: onSkip != null
+              ? TextButton(
+                  onPressed: onSkip,
+                  child: const Text('Lewati'),
+                )
+              : null,
         ),
       ],
     );
