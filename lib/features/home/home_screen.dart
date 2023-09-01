@@ -151,13 +151,61 @@ class _HomeNote extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      child: Placeholder(),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(26),
+                          color: kColorPrimary),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Poin kamu',
+                                style: TextStyle(color: Colors.white, fontSize: 14),
+                              ),
+                              Spacer(),
+                              Icon(Icons.star, size: 45,)
+                            ],
+                          ),
+                          Spacer(),
+                          Text(
+                            '60',
+                            style: TextStyle(color: Colors.white, fontSize: 65
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
                   Expanded(
                     child: Container(
-                      child: Placeholder(),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(26),
+                          color: kColorSecondary),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Latihan hari ke',
+                                style: TextStyle(color: Colors.white, fontSize: 14),
+                              ),
+                              Spacer(),
+                              Icon(Icons.sunny, size: 45,)
+                            ],
+                          ),
+                          Spacer(),
+                          Text(
+                            '19',
+                            style: TextStyle(color: Colors.white, fontSize: 65
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -167,7 +215,16 @@ class _HomeNote extends StatelessWidget {
             Container(
               height: width * 2,
               width: width - 6,
-              child: Placeholder(),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(26),
+                  color: Colors.white
+              ),
+              child: Column(
+                children: [
+                  Text("Nilai Pre Test")
+                ],
+              ),
             ),
           ],
         ),
