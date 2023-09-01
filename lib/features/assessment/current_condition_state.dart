@@ -7,7 +7,15 @@ part 'current_condition_state.freezed.dart';
 @freezed
 class CurrentConditionState with _$CurrentConditionState {
   const factory CurrentConditionState({
-    @Default([]) List<String> illnessHistory,
+    @Default(
+      {
+        'asam_urat': false,
+        'hipertensi': false,
+        'diabetes': false
+      },
+    )
+    Map<String, bool> illnessHistory,
+    @Default(null) String? otherIllness,
     @Default(IllnessDurationInput.pure()) illnessDurationInput,
     @Default(ExerciseDurationInput.pure()) exerciseDurationInput,
     String? jointTraumaCause,

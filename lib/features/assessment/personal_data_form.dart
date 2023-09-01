@@ -47,14 +47,15 @@ class PersonalDataForm extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   SepoTextField(
-                      label: 'Nama Lengkap',
-                      initialText: state.nameInput.value,
-                      onChanged: (value) {
-                        ref
-                            .read(assessmentControllerProvider.notifier)
-                            .onNameChange(value);
-                      },
-                      errorText: null),
+                    label: 'Nama Lengkap',
+                    initialText: state.nameInput.value,
+                    onChanged: (value) {
+                      ref
+                          .read(assessmentControllerProvider.notifier)
+                          .onNameChange(value);
+                    },
+                    errorText: null,
+                  ),
                   const SizedBox(height: 12),
                   _PickDateButton(
                     dateInput: state.birthDateInput,

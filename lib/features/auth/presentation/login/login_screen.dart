@@ -8,7 +8,7 @@ import '../../../../utils/snackbar_utils.dart';
 import '../../models/email_text_input.dart';
 import 'login_controller.dart';
 
-enum SepoTextFieldType { normal, email, password }
+enum SepoTextFieldType { normal, email, password, number }
 
 class SepoTextField extends StatefulWidget {
   const SepoTextField({
@@ -22,14 +22,18 @@ class SepoTextField extends StatefulWidget {
     this.onChanged,
     this.enabled = true,
     this.initialText,
+    this.minLines = 1,
+    this.expands = false,
   });
 
   final TextEditingController? controller;
   final String? initialText;
   final SepoTextFieldType type;
-  final String label;
+  final String? label;
   final TextInputAction? action;
-  final int maxLines;
+  final int? maxLines;
+  final int? minLines;
+  final bool expands;
   final String? errorText;
   final Function(String)? onChanged;
   final bool enabled;
@@ -39,17 +43,77 @@ class SepoTextField extends StatefulWidget {
 }
 
 class _SepoTextFieldState extends State<SepoTextField> {
+  var obscureText = false;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller ?? TextEditingController();
+    if (widget.initialText != null) {
+      _controller.text = widget.initialText!;
+    }
+    obscureText = widget.type == SepoTextFieldType.password;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 56,
-      child: TextField(
-        textAlignVertical: TextAlignVertical.center,
-        onChanged: widget.onChanged,
-        decoration: InputDecoration(
-          label: Text(widget.label),
+    TextInputType? keyboardType;
+    Widget? inputIcon;
+
+    if (widget.type == SepoTextFieldType.email) {
+      keyboardType = TextInputType.emailAddress;
+    } else if (widget.type == SepoTextFieldType.password) {
+      keyboardType = TextInputType.visiblePassword;
+      inputIcon = GestureDetector(
+        onTap: () => setState(() => obscureText = !obscureText),
+        child: Icon(
+          obscureText ? Icons.visibility_off_rounded : Icons.visibility_rounded,
         ),
-      ),
+      );
+    } else if  (widget.type == SepoTextFieldType.number) {
+      keyboardType = TextInputType.number;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: _controller,
+          keyboardType: keyboardType,
+          enabled: widget.enabled,
+          textInputAction: widget.action,
+          maxLines: widget.maxLines,
+          minLines: widget.minLines,
+          textAlign: TextAlign.start,
+          textAlignVertical: TextAlignVertical.top,
+          expands: widget.expands,
+          style: Theme.of(context).textTheme.bodyMedium,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            hintText: widget.label,
+            suffixIcon: inputIcon,
+          ),
+          onChanged: widget.onChanged,
+        ),
+        if (widget.errorText != null) ...[
+          const SizedBox(height: 4),
+          Text(
+            widget.errorText!,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(color: Theme.of(context).colorScheme.error),
+          ),
+          const SizedBox(height: 4),
+        ]
+      ],
     );
   }
 }

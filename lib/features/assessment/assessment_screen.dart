@@ -6,7 +6,6 @@ import 'package:sepo_app/features/assessment/personal_data_form.dart';
 import 'package:sepo_app/features/assessment/pill_count_form.dart';
 import 'package:sepo_app/features/onboarding/onboarding_screen.dart';
 
-import '../../common/models/date_input.dart';
 import '../../common/widgets/sepo_button.dart';
 import 'assessment_controller.dart';
 
