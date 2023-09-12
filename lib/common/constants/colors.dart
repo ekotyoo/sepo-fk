@@ -18,13 +18,31 @@ const kColorAccentTint2 = Color(0xFFEDFF1A);
 const kColorAccentTint3 = Color(0xFFEDFF1A);
 const kColorAccentTint4 = Color(0xFFEDFF1A);
 
-const kColorGradient = LinearGradient(
+const kColorGradient1 = LinearGradient(
   colors: [
     Color(0xFFB1BDFC),
     Color(0xFF7570FF)
   ],
-  begin: FractionalOffset.topLeft,
-  end: FractionalOffset.bottomRight
+    begin: FractionalOffset.bottomLeft,
+    end: FractionalOffset.topRight
+);
+
+const kColorGradient2 = LinearGradient(
+  colors: [
+    Color(0xFFA1ABFF),
+    Color(0xFF549DF3)
+  ],
+    begin: FractionalOffset.bottomLeft,
+    end: FractionalOffset.topRight
+);
+
+const kColorGradient3 = LinearGradient(
+    colors: [
+      Color(0xFF9185FF),
+      Color(0xFF5F51E8)
+    ],
+    begin: FractionalOffset.bottomLeft,
+    end: FractionalOffset.topRight
 );
 
 const kColorBackground = Color(0xFFF3F5F9);
