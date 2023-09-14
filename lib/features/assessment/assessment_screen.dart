@@ -7,6 +7,7 @@ import 'package:sepo_app/features/assessment/pill_count_form.dart';
 import 'package:sepo_app/features/onboarding/onboarding_screen.dart';
 
 import '../../common/widgets/sepo_button.dart';
+import '../../utils/snackbar_utils.dart';
 import 'assessment_controller.dart';
 
 class AssessmentScreen extends ConsumerStatefulWidget {
@@ -44,6 +45,59 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
     final state = ref.watch(assessmentControllerProvider);
     final canGoBack = state.currentPage > 0;
 
+    final personalData = state.personalDataState;
+    final personalDataFormValidated = personalData.nameInput.isValid &&
+        personalData.birthDateInput.isValid &&
+        personalData.genderInput.isValid &&
+        personalData.addressInput.isValid &&
+        personalData.phoneInput.isValid &&
+        personalData.educationInput.isValid;
+    final personalDataFormEnabled =
+        personalDataFormValidated && state.currentPage == 0;
+
+    final currentCondition = state.currentConditionState;
+    final currentConditionFormValidated =
+        currentCondition.illnessDurationInput.isValid &&
+            currentCondition.exerciseDurationInput.isValid;
+    final currentConditionEnabled =
+        currentConditionFormValidated && state.currentPage == 1;
+
+    final pillCount = state.pillCountState;
+    final pillCountFormValidated = pillCount.medicineAfter.isNotEmpty &&
+        pillCount.medicineBefore.isNotEmpty &&
+        pillCount.medicineSource != null &&
+        pillCount.medicineUsed.isNotEmpty;
+    final pillCountEnabled = pillCountFormValidated && state.currentPage == 2;
+
+    const forms = [PersonalDataForm(), CurrentConditionForm(), PillCountForm()];
+
+    ref.listen(
+      assessmentControllerProvider.select((value) => value.errorMessage),
+      (previous, next) {
+        if (next != null && context.mounted) {
+          showSnackbar(context, message: next, type: SnackbarType.error);
+        }
+        ref.read(assessmentControllerProvider.notifier).setErrorMessage(null);
+      },
+    );
+
+    ref.listen(
+      assessmentControllerProvider.select((value) => value.successMessage),
+      (previous, next) {
+        if (next != null && context.mounted) {
+          showSnackbar(context, message: next);
+          if (state.currentPage < forms.length - 1) {
+            _animateToPage(state.currentPage + 1);
+            debugPrint('animating to page ${state.currentPage + 1}');
+          } else {
+            debugPrint('navigating to home');
+            context.goNamed('home');
+          }
+        }
+        ref.read(assessmentControllerProvider.notifier).setSuccessMessage(null);
+      },
+    );
+
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -71,11 +125,7 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
                         .read(assessmentControllerProvider.notifier)
                         .onPageChange(value),
                     physics: const NeverScrollableScrollPhysics(),
-                    children: const [
-                      PersonalDataForm(),
-                      CurrentConditionForm(),
-                      PillCountForm()
-                    ],
+                    children: forms,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -98,14 +148,25 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
                         flex: 2,
                         child: SepoButton(
                           label: 'Selanjutnya',
+                          disabled: !personalDataFormEnabled &&
+                              !currentConditionEnabled &&
+                              !pillCountEnabled,
+                          loading: state.isLoading,
                           onPressed: () async {
                             final currentPage = state.currentPage;
-                            if (currentPage < 2) {
-                              _animateToPage(currentPage + 1);
-                            } else {
-                              await ref.read(assessmentControllerProvider.notifier).onSubmit();
-                              if (!mounted) return;
-                              context.goNamed('home');
+                            if (forms[currentPage] is PersonalDataForm) {
+                              ref
+                                  .read(assessmentControllerProvider.notifier)
+                                  .onPersonalDataSubmit();
+                            } else if (forms[currentPage]
+                                is CurrentConditionForm) {
+                              ref
+                                  .read(assessmentControllerProvider.notifier)
+                                  .onCurrentConditionSubmit();
+                            } else if (forms[currentPage] is PillCountForm) {
+                              ref
+                                  .read(assessmentControllerProvider.notifier)
+                                  .onSubmit();
                             }
                           },
                         ),

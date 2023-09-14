@@ -153,11 +153,11 @@ class FormOption extends StatelessWidget {
   const FormOption({
     Key? key,
     required this.items,
-    required this.title,
+    this.title,
     this.subtitle,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final String? subtitle;
   final List<CheckboxItem> items;
 
@@ -166,7 +166,7 @@ class FormOption extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        if (title != null) Text(title!),
         if (subtitle != null)
           Text(
             subtitle!,
@@ -176,17 +176,19 @@ class FormOption extends StatelessWidget {
                 ?.copyWith(color: kColorNeutral50),
           ),
         const SizedBox(height: 12),
-        ...items
-            .map(
-              (e) => OptionItem(
-                item: e,
-                onChanged: (value) {
-                  if (value == null) return;
-                  e.onChanged?.call(value);
-                },
-              ),
-            )
-            .toList(),
+        SizedBox(
+          height: 220,
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) => OptionItem(
+              item: items[index],
+              onChanged: (value) {
+                if (value == null) return;
+                items[index].onChanged?.call(value);
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -250,20 +252,25 @@ class OptionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Container(
-        height: 48,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(12)),
-        child: Row(
-          children: [
-            Expanded(child: Text(item.label)),
-            Checkbox(
-              value: item.value,
-              onChanged: onChanged,
-            ),
-          ],
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: InkWell(
+        onTap: () {
+          onChanged?.call(!item.value);
+        },
+        child: Container(
+          height: 48,
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(12)),
+          child: Row(
+            children: [
+              Expanded(child: Text(item.label)),
+              Checkbox(
+                value: item.value,
+                onChanged: onChanged,
+              ),
+            ],
+          ),
         ),
       ),
     );

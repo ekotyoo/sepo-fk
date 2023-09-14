@@ -16,8 +16,8 @@ class CurrentConditionState with _$CurrentConditionState {
     )
     Map<String, bool> illnessHistory,
     @Default(null) String? otherIllness,
-    @Default(IllnessDurationInput.pure()) illnessDurationInput,
-    @Default(ExerciseDurationInput.pure()) exerciseDurationInput,
+    @Default(IllnessDurationInput.pure()) IllnessDurationInput illnessDurationInput,
+    @Default(ExerciseDurationInput.pure()) ExerciseDurationInput exerciseDurationInput,
     String? jointTraumaCause,
   }) = _CurrentConditionState;
 }
