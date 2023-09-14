@@ -206,6 +206,7 @@ class LoginScreen extends ConsumerWidget {
                   onChanged: (value) => ref
                       .read(loginControllerProvider.notifier)
                       .onPasswordChange(value),
+                  type: SepoTextFieldType.password,
                   errorText: state.passwordTextInput.isPure
                       ? null
                       : state.passwordTextInput.error?.getErrorMessage(),
