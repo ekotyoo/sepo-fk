@@ -18,8 +18,15 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CurrentConditionState {
   Map<String, bool> get illnessHistory => throw _privateConstructorUsedError;
   String? get otherIllness => throw _privateConstructorUsedError;
+<<<<<<< HEAD
   dynamic get illnessDurationInput => throw _privateConstructorUsedError;
   dynamic get exerciseDurationInput => throw _privateConstructorUsedError;
+=======
+  IllnessDurationInput get illnessDurationInput =>
+      throw _privateConstructorUsedError;
+  ExerciseDurationInput get exerciseDurationInput =>
+      throw _privateConstructorUsedError;
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
   String? get jointTraumaCause => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,8 +43,13 @@ abstract class $CurrentConditionStateCopyWith<$Res> {
   $Res call(
       {Map<String, bool> illnessHistory,
       String? otherIllness,
+<<<<<<< HEAD
       dynamic illnessDurationInput,
       dynamic exerciseDurationInput,
+=======
+      IllnessDurationInput illnessDurationInput,
+      ExerciseDurationInput exerciseDurationInput,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
       String? jointTraumaCause});
 }
 
@@ -57,8 +69,13 @@ class _$CurrentConditionStateCopyWithImpl<$Res,
   $Res call({
     Object? illnessHistory = null,
     Object? otherIllness = freezed,
+<<<<<<< HEAD
     Object? illnessDurationInput = freezed,
     Object? exerciseDurationInput = freezed,
+=======
+    Object? illnessDurationInput = null,
+    Object? exerciseDurationInput = null,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
     Object? jointTraumaCause = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,6 +87,7 @@ class _$CurrentConditionStateCopyWithImpl<$Res,
           ? _value.otherIllness
           : otherIllness // ignore: cast_nullable_to_non_nullable
               as String?,
+<<<<<<< HEAD
       illnessDurationInput: freezed == illnessDurationInput
           ? _value.illnessDurationInput
           : illnessDurationInput // ignore: cast_nullable_to_non_nullable
@@ -78,6 +96,16 @@ class _$CurrentConditionStateCopyWithImpl<$Res,
           ? _value.exerciseDurationInput
           : exerciseDurationInput // ignore: cast_nullable_to_non_nullable
               as dynamic,
+=======
+      illnessDurationInput: null == illnessDurationInput
+          ? _value.illnessDurationInput
+          : illnessDurationInput // ignore: cast_nullable_to_non_nullable
+              as IllnessDurationInput,
+      exerciseDurationInput: null == exerciseDurationInput
+          ? _value.exerciseDurationInput
+          : exerciseDurationInput // ignore: cast_nullable_to_non_nullable
+              as ExerciseDurationInput,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
       jointTraumaCause: freezed == jointTraumaCause
           ? _value.jointTraumaCause
           : jointTraumaCause // ignore: cast_nullable_to_non_nullable
@@ -97,8 +125,13 @@ abstract class _$$_CurrentConditionStateCopyWith<$Res>
   $Res call(
       {Map<String, bool> illnessHistory,
       String? otherIllness,
+<<<<<<< HEAD
       dynamic illnessDurationInput,
       dynamic exerciseDurationInput,
+=======
+      IllnessDurationInput illnessDurationInput,
+      ExerciseDurationInput exerciseDurationInput,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
       String? jointTraumaCause});
 }
 
@@ -115,8 +148,13 @@ class __$$_CurrentConditionStateCopyWithImpl<$Res>
   $Res call({
     Object? illnessHistory = null,
     Object? otherIllness = freezed,
+<<<<<<< HEAD
     Object? illnessDurationInput = freezed,
     Object? exerciseDurationInput = freezed,
+=======
+    Object? illnessDurationInput = null,
+    Object? exerciseDurationInput = null,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
     Object? jointTraumaCause = freezed,
   }) {
     return _then(_$_CurrentConditionState(
@@ -128,12 +166,23 @@ class __$$_CurrentConditionStateCopyWithImpl<$Res>
           ? _value.otherIllness
           : otherIllness // ignore: cast_nullable_to_non_nullable
               as String?,
+<<<<<<< HEAD
       illnessDurationInput: freezed == illnessDurationInput
           ? _value.illnessDurationInput!
           : illnessDurationInput,
       exerciseDurationInput: freezed == exerciseDurationInput
           ? _value.exerciseDurationInput!
           : exerciseDurationInput,
+=======
+      illnessDurationInput: null == illnessDurationInput
+          ? _value.illnessDurationInput
+          : illnessDurationInput // ignore: cast_nullable_to_non_nullable
+              as IllnessDurationInput,
+      exerciseDurationInput: null == exerciseDurationInput
+          ? _value.exerciseDurationInput
+          : exerciseDurationInput // ignore: cast_nullable_to_non_nullable
+              as ExerciseDurationInput,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
       jointTraumaCause: freezed == jointTraumaCause
           ? _value.jointTraumaCause
           : jointTraumaCause // ignore: cast_nullable_to_non_nullable
@@ -171,10 +220,17 @@ class _$_CurrentConditionState implements _CurrentConditionState {
   final String? otherIllness;
   @override
   @JsonKey()
+<<<<<<< HEAD
   final dynamic illnessDurationInput;
   @override
   @JsonKey()
   final dynamic exerciseDurationInput;
+=======
+  final IllnessDurationInput illnessDurationInput;
+  @override
+  @JsonKey()
+  final ExerciseDurationInput exerciseDurationInput;
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
   @override
   final String? jointTraumaCause;
 
@@ -192,10 +248,17 @@ class _$_CurrentConditionState implements _CurrentConditionState {
                 .equals(other._illnessHistory, _illnessHistory) &&
             (identical(other.otherIllness, otherIllness) ||
                 other.otherIllness == otherIllness) &&
+<<<<<<< HEAD
             const DeepCollectionEquality()
                 .equals(other.illnessDurationInput, illnessDurationInput) &&
             const DeepCollectionEquality()
                 .equals(other.exerciseDurationInput, exerciseDurationInput) &&
+=======
+            (identical(other.illnessDurationInput, illnessDurationInput) ||
+                other.illnessDurationInput == illnessDurationInput) &&
+            (identical(other.exerciseDurationInput, exerciseDurationInput) ||
+                other.exerciseDurationInput == exerciseDurationInput) &&
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
             (identical(other.jointTraumaCause, jointTraumaCause) ||
                 other.jointTraumaCause == jointTraumaCause));
   }
@@ -205,8 +268,13 @@ class _$_CurrentConditionState implements _CurrentConditionState {
       runtimeType,
       const DeepCollectionEquality().hash(_illnessHistory),
       otherIllness,
+<<<<<<< HEAD
       const DeepCollectionEquality().hash(illnessDurationInput),
       const DeepCollectionEquality().hash(exerciseDurationInput),
+=======
+      illnessDurationInput,
+      exerciseDurationInput,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
       jointTraumaCause);
 
   @JsonKey(ignore: true)
@@ -221,8 +289,13 @@ abstract class _CurrentConditionState implements CurrentConditionState {
   const factory _CurrentConditionState(
       {final Map<String, bool> illnessHistory,
       final String? otherIllness,
+<<<<<<< HEAD
       final dynamic illnessDurationInput,
       final dynamic exerciseDurationInput,
+=======
+      final IllnessDurationInput illnessDurationInput,
+      final ExerciseDurationInput exerciseDurationInput,
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
       final String? jointTraumaCause}) = _$_CurrentConditionState;
 
   @override
@@ -230,9 +303,15 @@ abstract class _CurrentConditionState implements CurrentConditionState {
   @override
   String? get otherIllness;
   @override
+<<<<<<< HEAD
   dynamic get illnessDurationInput;
   @override
   dynamic get exerciseDurationInput;
+=======
+  IllnessDurationInput get illnessDurationInput;
+  @override
+  ExerciseDurationInput get exerciseDurationInput;
+>>>>>>> 3f143dd88bba15ff4f210a0d0d2c12067fc6061b
   @override
   String? get jointTraumaCause;
   @override

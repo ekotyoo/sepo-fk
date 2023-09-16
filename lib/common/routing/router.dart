@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sepo_app/features/assessment/assessment_screen.dart';
+import 'package:sepo_app/features/auth/presentation/profile/profile_screen.dart';
+import 'package:sepo_app/features/test/presentation/test_list/test_list_screen.dart';
+import 'package:sepo_app/features/test/presentation/test_session/test_session_screen.dart';
 import '../../features/auth/auth_controller.dart';
 import '../../features/auth/presentation/email_verification/email_verification_screen.dart';
 import '../../features/auth/presentation/login/login_screen.dart';
 import '../../features/auth/presentation/register/register_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
+import '../../features/test/presentation/test_intro/test_intro_screen.dart';
 import '../services/shared_prefs.dart';
 import 'app_scaffold.dart';
 
@@ -26,8 +30,6 @@ class AppRouter extends _$AppRouter implements Listenable {
     assessed = await ref.watch(
       sharedPreferencesProvider.selectAsync((data) => data.getBool('assessed') ?? false),
     );
-
-    debugPrint(assessed.toString());
 
     authenticated = await ref.watch(
       authControllerProvider.selectAsync(
@@ -69,7 +71,7 @@ class AppRouter extends _$AppRouter implements Listenable {
               name: 'profile',
               pageBuilder: (context, state) => NoTransitionPage(
                 key: state.pageKey,
-                child: Container(),
+                child: const ProfileScreen(),
               ),
             ),
           ],
@@ -80,6 +82,42 @@ class AppRouter extends _$AppRouter implements Listenable {
           pageBuilder: (context, state) => const MaterialPage(
             child: AssessmentScreen(),
           ),
+        ),
+        GoRoute(
+          path: '/test',
+          name: 'test',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) => const MaterialPage(
+            child: TestListScreen(),
+          ),
+          routes: [
+            GoRoute(
+              path: 'intro/:testId',
+              name: 'intro',
+              parentNavigatorKey: kNavigatorKey,
+              pageBuilder: (context, state) {
+                final testId = state.params['testId'];
+                if (testId == null) throw Error();
+
+                return MaterialPage(
+                  child: TestIntroScreen(testId: testId),
+                );
+              },
+            ),
+            GoRoute(
+              path: ':testId/session/:surveyId',
+              name: 'session',
+              parentNavigatorKey: kNavigatorKey,
+              pageBuilder: (context, state) {
+                final testId = state.params['testId'];
+                final surveyId = state.params['surveyId'];
+                if (testId == null || surveyId == null) throw Error();
+                return MaterialPage(
+                  child: TestSessionScreen(testId: testId, surveyId: surveyId),
+                );
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: '/auth',

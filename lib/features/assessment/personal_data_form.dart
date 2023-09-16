@@ -57,8 +57,9 @@ class PersonalDataForm extends ConsumerWidget {
                     errorText: null,
                   ),
                   const SizedBox(height: 12),
-                  _PickDateButton(
+                  PickDateButton(
                     dateInput: state.birthDateInput,
+                    label: 'Tanggal Lahir',
                     onTap: () async {
                       final date = await showDatePicker(
                         context: context,
@@ -143,11 +144,12 @@ class PersonalDataForm extends ConsumerWidget {
   }
 }
 
-class _PickDateButton extends StatelessWidget {
-  const _PickDateButton({Key? key, required this.dateInput, this.onTap})
+class PickDateButton extends StatelessWidget {
+  const PickDateButton({Key? key, required this.dateInput, required this.label, this.onTap})
       : super(key: key);
 
   final DateInput dateInput;
+  final String label;
   final VoidCallback? onTap;
 
   @override
@@ -167,7 +169,7 @@ class _PickDateButton extends StatelessWidget {
             children: [
               Text(
                 dateInput.value == null
-                    ? 'Tanggal Lahir'
+                    ? label
                     : '${dateInput.value}',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
