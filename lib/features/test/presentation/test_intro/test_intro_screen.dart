@@ -24,7 +24,7 @@ class TestIntroScreen extends ConsumerWidget {
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-            gradient: kColorGradient,
+            gradient: kColorGradient1,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

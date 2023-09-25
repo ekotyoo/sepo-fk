@@ -30,6 +30,12 @@ mixin _$AuthUserWrapper {
   bool get isAdmin => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_active', defaultValue: false)
   bool get isActive => throw _privateConstructorUsedError;
+  @JsonKey(name: 'personal_data_filled', defaultValue: false)
+  bool get personalDataFilled => throw _privateConstructorUsedError;
+  @JsonKey(name: 'current_condition_filled', defaultValue: false)
+  bool get currentConditionFilled => throw _privateConstructorUsedError;
+  @JsonKey(name: 'pill_count_filled', defaultValue: false)
+  bool get pillCountFilled => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +56,13 @@ abstract class $AuthUserWrapperCopyWith<$Res> {
       @JsonKey(name: 'access_token') String? accessToken,
       String? avatar,
       @JsonKey(name: 'is_admin', defaultValue: false) bool isAdmin,
-      @JsonKey(name: 'is_active', defaultValue: false) bool isActive});
+      @JsonKey(name: 'is_active', defaultValue: false) bool isActive,
+      @JsonKey(name: 'personal_data_filled', defaultValue: false)
+      bool personalDataFilled,
+      @JsonKey(name: 'current_condition_filled', defaultValue: false)
+      bool currentConditionFilled,
+      @JsonKey(name: 'pill_count_filled', defaultValue: false)
+      bool pillCountFilled});
 }
 
 /// @nodoc
@@ -73,6 +85,9 @@ class _$AuthUserWrapperCopyWithImpl<$Res, $Val extends AuthUserWrapper>
     Object? avatar = freezed,
     Object? isAdmin = null,
     Object? isActive = null,
+    Object? personalDataFilled = null,
+    Object? currentConditionFilled = null,
+    Object? pillCountFilled = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -103,6 +118,18 @@ class _$AuthUserWrapperCopyWithImpl<$Res, $Val extends AuthUserWrapper>
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
+      personalDataFilled: null == personalDataFilled
+          ? _value.personalDataFilled
+          : personalDataFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentConditionFilled: null == currentConditionFilled
+          ? _value.currentConditionFilled
+          : currentConditionFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      pillCountFilled: null == pillCountFilled
+          ? _value.pillCountFilled
+          : pillCountFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -122,7 +149,13 @@ abstract class _$$_AuthUserWrapperCopyWith<$Res>
       @JsonKey(name: 'access_token') String? accessToken,
       String? avatar,
       @JsonKey(name: 'is_admin', defaultValue: false) bool isAdmin,
-      @JsonKey(name: 'is_active', defaultValue: false) bool isActive});
+      @JsonKey(name: 'is_active', defaultValue: false) bool isActive,
+      @JsonKey(name: 'personal_data_filled', defaultValue: false)
+      bool personalDataFilled,
+      @JsonKey(name: 'current_condition_filled', defaultValue: false)
+      bool currentConditionFilled,
+      @JsonKey(name: 'pill_count_filled', defaultValue: false)
+      bool pillCountFilled});
 }
 
 /// @nodoc
@@ -143,6 +176,9 @@ class __$$_AuthUserWrapperCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? isAdmin = null,
     Object? isActive = null,
+    Object? personalDataFilled = null,
+    Object? currentConditionFilled = null,
+    Object? pillCountFilled = null,
   }) {
     return _then(_$_AuthUserWrapper(
       id: null == id
@@ -173,6 +209,18 @@ class __$$_AuthUserWrapperCopyWithImpl<$Res>
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
+      personalDataFilled: null == personalDataFilled
+          ? _value.personalDataFilled
+          : personalDataFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentConditionFilled: null == currentConditionFilled
+          ? _value.currentConditionFilled
+          : currentConditionFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      pillCountFilled: null == pillCountFilled
+          ? _value.pillCountFilled
+          : pillCountFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -187,7 +235,13 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
       @JsonKey(name: 'access_token') this.accessToken,
       this.avatar,
       @JsonKey(name: 'is_admin', defaultValue: false) required this.isAdmin,
-      @JsonKey(name: 'is_active', defaultValue: false) required this.isActive});
+      @JsonKey(name: 'is_active', defaultValue: false) required this.isActive,
+      @JsonKey(name: 'personal_data_filled', defaultValue: false)
+      required this.personalDataFilled,
+      @JsonKey(name: 'current_condition_filled', defaultValue: false)
+      required this.currentConditionFilled,
+      @JsonKey(name: 'pill_count_filled', defaultValue: false)
+      required this.pillCountFilled});
 
   factory _$_AuthUserWrapper.fromJson(Map<String, dynamic> json) =>
       _$$_AuthUserWrapperFromJson(json);
@@ -209,10 +263,19 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
   @override
   @JsonKey(name: 'is_active', defaultValue: false)
   final bool isActive;
+  @override
+  @JsonKey(name: 'personal_data_filled', defaultValue: false)
+  final bool personalDataFilled;
+  @override
+  @JsonKey(name: 'current_condition_filled', defaultValue: false)
+  final bool currentConditionFilled;
+  @override
+  @JsonKey(name: 'pill_count_filled', defaultValue: false)
+  final bool pillCountFilled;
 
   @override
   String toString() {
-    return 'AuthUserWrapper(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, isActive: $isActive)';
+    return 'AuthUserWrapper(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, isActive: $isActive, personalDataFilled: $personalDataFilled, currentConditionFilled: $currentConditionFilled, pillCountFilled: $pillCountFilled)';
   }
 
   @override
@@ -228,13 +291,29 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.isActive, isActive) ||
-                other.isActive == isActive));
+                other.isActive == isActive) &&
+            (identical(other.personalDataFilled, personalDataFilled) ||
+                other.personalDataFilled == personalDataFilled) &&
+            (identical(other.currentConditionFilled, currentConditionFilled) ||
+                other.currentConditionFilled == currentConditionFilled) &&
+            (identical(other.pillCountFilled, pillCountFilled) ||
+                other.pillCountFilled == pillCountFilled));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, name, email, accessToken, avatar, isAdmin, isActive);
+      runtimeType,
+      id,
+      name,
+      email,
+      accessToken,
+      avatar,
+      isAdmin,
+      isActive,
+      personalDataFilled,
+      currentConditionFilled,
+      pillCountFilled);
 
   @JsonKey(ignore: true)
   @override
@@ -260,7 +339,13 @@ abstract class _AuthUserWrapper implements AuthUserWrapper {
       @JsonKey(name: 'is_admin', defaultValue: false)
       required final bool isAdmin,
       @JsonKey(name: 'is_active', defaultValue: false)
-      required final bool isActive}) = _$_AuthUserWrapper;
+      required final bool isActive,
+      @JsonKey(name: 'personal_data_filled', defaultValue: false)
+      required final bool personalDataFilled,
+      @JsonKey(name: 'current_condition_filled', defaultValue: false)
+      required final bool currentConditionFilled,
+      @JsonKey(name: 'pill_count_filled', defaultValue: false)
+      required final bool pillCountFilled}) = _$_AuthUserWrapper;
 
   factory _AuthUserWrapper.fromJson(Map<String, dynamic> json) =
       _$_AuthUserWrapper.fromJson;
@@ -282,6 +367,15 @@ abstract class _AuthUserWrapper implements AuthUserWrapper {
   @override
   @JsonKey(name: 'is_active', defaultValue: false)
   bool get isActive;
+  @override
+  @JsonKey(name: 'personal_data_filled', defaultValue: false)
+  bool get personalDataFilled;
+  @override
+  @JsonKey(name: 'current_condition_filled', defaultValue: false)
+  bool get currentConditionFilled;
+  @override
+  @JsonKey(name: 'pill_count_filled', defaultValue: false)
+  bool get pillCountFilled;
   @override
   @JsonKey(ignore: true)
   _$$_AuthUserWrapperCopyWith<_$_AuthUserWrapper> get copyWith =>
@@ -305,24 +399,48 @@ AuthUser _$AuthUserFromJson(Map<String, dynamic> json) {
 mixin _$AuthUser {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int id, String name, String email,
-            String? accessToken, String? avatar, bool isAdmin)
+    required TResult Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)
         signedIn,
     required TResult Function() signedOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int id, String name, String email, String? accessToken,
-            String? avatar, bool isAdmin)?
+    TResult? Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)?
         signedIn,
     TResult? Function()? signedOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int id, String name, String email, String? accessToken,
-            String? avatar, bool isAdmin)?
+    TResult Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),
@@ -379,7 +497,10 @@ abstract class _$$SignedInCopyWith<$Res> {
       String email,
       String? accessToken,
       String? avatar,
-      bool isAdmin});
+      bool isAdmin,
+      bool personalDataFilled,
+      bool currentConditionFilled,
+      bool pillCountFilled});
 }
 
 /// @nodoc
@@ -398,6 +519,9 @@ class __$$SignedInCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? avatar = freezed,
     Object? isAdmin = null,
+    Object? personalDataFilled = null,
+    Object? currentConditionFilled = null,
+    Object? pillCountFilled = null,
   }) {
     return _then(_$SignedIn(
       id: null == id
@@ -424,6 +548,18 @@ class __$$SignedInCopyWithImpl<$Res>
           ? _value.isAdmin
           : isAdmin // ignore: cast_nullable_to_non_nullable
               as bool,
+      personalDataFilled: null == personalDataFilled
+          ? _value.personalDataFilled
+          : personalDataFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentConditionFilled: null == currentConditionFilled
+          ? _value.currentConditionFilled
+          : currentConditionFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      pillCountFilled: null == pillCountFilled
+          ? _value.pillCountFilled
+          : pillCountFilled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -438,6 +574,9 @@ class _$SignedIn implements SignedIn {
       required this.accessToken,
       this.avatar,
       this.isAdmin = false,
+      this.personalDataFilled = false,
+      this.currentConditionFilled = false,
+      this.pillCountFilled = false,
       final String? $type})
       : $type = $type ?? 'signedIn';
 
@@ -457,13 +596,22 @@ class _$SignedIn implements SignedIn {
   @override
   @JsonKey()
   final bool isAdmin;
+  @override
+  @JsonKey()
+  final bool personalDataFilled;
+  @override
+  @JsonKey()
+  final bool currentConditionFilled;
+  @override
+  @JsonKey()
+  final bool pillCountFilled;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AuthUser.signedIn(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin)';
+    return 'AuthUser.signedIn(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, personalDataFilled: $personalDataFilled, currentConditionFilled: $currentConditionFilled, pillCountFilled: $pillCountFilled)';
   }
 
   @override
@@ -477,13 +625,28 @@ class _$SignedIn implements SignedIn {
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin));
+            (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
+            (identical(other.personalDataFilled, personalDataFilled) ||
+                other.personalDataFilled == personalDataFilled) &&
+            (identical(other.currentConditionFilled, currentConditionFilled) ||
+                other.currentConditionFilled == currentConditionFilled) &&
+            (identical(other.pillCountFilled, pillCountFilled) ||
+                other.pillCountFilled == pillCountFilled));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, email, accessToken, avatar, isAdmin);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      email,
+      accessToken,
+      avatar,
+      isAdmin,
+      personalDataFilled,
+      currentConditionFilled,
+      pillCountFilled);
 
   @JsonKey(ignore: true)
   @override
@@ -494,36 +657,63 @@ class _$SignedIn implements SignedIn {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int id, String name, String email,
-            String? accessToken, String? avatar, bool isAdmin)
+    required TResult Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)
         signedIn,
     required TResult Function() signedOut,
   }) {
-    return signedIn(id, name, email, accessToken, avatar, isAdmin);
+    return signedIn(id, name, email, accessToken, avatar, isAdmin,
+        personalDataFilled, currentConditionFilled, pillCountFilled);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int id, String name, String email, String? accessToken,
-            String? avatar, bool isAdmin)?
+    TResult? Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)?
         signedIn,
     TResult? Function()? signedOut,
   }) {
-    return signedIn?.call(id, name, email, accessToken, avatar, isAdmin);
+    return signedIn?.call(id, name, email, accessToken, avatar, isAdmin,
+        personalDataFilled, currentConditionFilled, pillCountFilled);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int id, String name, String email, String? accessToken,
-            String? avatar, bool isAdmin)?
+    TResult Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
-      return signedIn(id, name, email, accessToken, avatar, isAdmin);
+      return signedIn(id, name, email, accessToken, avatar, isAdmin,
+          personalDataFilled, currentConditionFilled, pillCountFilled);
     }
     return orElse();
   }
@@ -574,7 +764,10 @@ abstract class SignedIn implements AuthUser {
       required final String email,
       required final String? accessToken,
       final String? avatar,
-      final bool isAdmin}) = _$SignedIn;
+      final bool isAdmin,
+      final bool personalDataFilled,
+      final bool currentConditionFilled,
+      final bool pillCountFilled}) = _$SignedIn;
 
   factory SignedIn.fromJson(Map<String, dynamic> json) = _$SignedIn.fromJson;
 
@@ -584,6 +777,9 @@ abstract class SignedIn implements AuthUser {
   String? get accessToken;
   String? get avatar;
   bool get isAdmin;
+  bool get personalDataFilled;
+  bool get currentConditionFilled;
+  bool get pillCountFilled;
   @JsonKey(ignore: true)
   _$$SignedInCopyWith<_$SignedIn> get copyWith =>
       throw _privateConstructorUsedError;
@@ -634,8 +830,16 @@ class _$SignedOut implements SignedOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int id, String name, String email,
-            String? accessToken, String? avatar, bool isAdmin)
+    required TResult Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)
         signedIn,
     required TResult Function() signedOut,
   }) {
@@ -645,8 +849,16 @@ class _$SignedOut implements SignedOut {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int id, String name, String email, String? accessToken,
-            String? avatar, bool isAdmin)?
+    TResult? Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)?
         signedIn,
     TResult? Function()? signedOut,
   }) {
@@ -656,8 +868,16 @@ class _$SignedOut implements SignedOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int id, String name, String email, String? accessToken,
-            String? avatar, bool isAdmin)?
+    TResult Function(
+            int id,
+            String name,
+            String email,
+            String? accessToken,
+            String? avatar,
+            bool isAdmin,
+            bool personalDataFilled,
+            bool currentConditionFilled,
+            bool pillCountFilled)?
         signedIn,
     TResult Function()? signedOut,
     required TResult orElse(),

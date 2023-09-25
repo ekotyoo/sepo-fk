@@ -13,7 +13,10 @@ class AuthUserWrapper with _$AuthUserWrapper {
     @JsonKey(name: 'access_token') String? accessToken,
     String? avatar,
     @JsonKey(name: 'is_admin', defaultValue: false) required bool isAdmin,
-    @JsonKey(name: 'is_active', defaultValue: false) required bool isActive
+    @JsonKey(name: 'is_active', defaultValue: false) required bool isActive,
+    @JsonKey(name: 'personal_data_filled', defaultValue: false) required bool personalDataFilled,
+    @JsonKey(name: 'current_condition_filled', defaultValue: false) required bool currentConditionFilled,
+    @JsonKey(name: 'pill_count_filled', defaultValue: false) required bool pillCountFilled,
   }) = _AuthUserWrapper;
 
   factory AuthUserWrapper.fromJson(Map<String, dynamic> json) => _$AuthUserWrapperFromJson(json);
@@ -28,6 +31,9 @@ class AuthUser with _$AuthUser {
     required String? accessToken,
     String? avatar,
     @Default(false) bool isAdmin,
+    @Default(false) bool personalDataFilled,
+    @Default(false) bool currentConditionFilled,
+    @Default(false) bool pillCountFilled,
   }) = SignedIn;
 
   const factory AuthUser.signedOut() = SignedOut;

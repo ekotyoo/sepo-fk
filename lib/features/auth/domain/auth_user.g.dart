@@ -15,6 +15,10 @@ _$_AuthUserWrapper _$$_AuthUserWrapperFromJson(Map<String, dynamic> json) =>
       avatar: json['avatar'] as String?,
       isAdmin: json['is_admin'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? false,
+      personalDataFilled: json['personal_data_filled'] as bool? ?? false,
+      currentConditionFilled:
+          json['current_condition_filled'] as bool? ?? false,
+      pillCountFilled: json['pill_count_filled'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_AuthUserWrapperToJson(_$_AuthUserWrapper instance) =>
@@ -26,6 +30,9 @@ Map<String, dynamic> _$$_AuthUserWrapperToJson(_$_AuthUserWrapper instance) =>
       'avatar': instance.avatar,
       'is_admin': instance.isAdmin,
       'is_active': instance.isActive,
+      'personal_data_filled': instance.personalDataFilled,
+      'current_condition_filled': instance.currentConditionFilled,
+      'pill_count_filled': instance.pillCountFilled,
     };
 
 _$SignedIn _$$SignedInFromJson(Map<String, dynamic> json) => _$SignedIn(
@@ -35,6 +42,9 @@ _$SignedIn _$$SignedInFromJson(Map<String, dynamic> json) => _$SignedIn(
       accessToken: json['accessToken'] as String?,
       avatar: json['avatar'] as String?,
       isAdmin: json['isAdmin'] as bool? ?? false,
+      personalDataFilled: json['personalDataFilled'] as bool? ?? false,
+      currentConditionFilled: json['currentConditionFilled'] as bool? ?? false,
+      pillCountFilled: json['pillCountFilled'] as bool? ?? false,
       $type: json['runtimeType'] as String?,
     );
 
@@ -46,6 +56,9 @@ Map<String, dynamic> _$$SignedInToJson(_$SignedIn instance) =>
       'accessToken': instance.accessToken,
       'avatar': instance.avatar,
       'isAdmin': instance.isAdmin,
+      'personalDataFilled': instance.personalDataFilled,
+      'currentConditionFilled': instance.currentConditionFilled,
+      'pillCountFilled': instance.pillCountFilled,
       'runtimeType': instance.$type,
     };
 

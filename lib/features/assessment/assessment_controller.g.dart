@@ -7,7 +7,7 @@ part of 'assessment_controller.dart';
 // **************************************************************************
 
 String _$assessmentControllerHash() =>
-    r'77b22f5c76b21ad0dca271bbbdf6a723419ffdd5';
+    r'3287107fdfd85e1c8f499fc3fc5be4daf224b43e';
 
 /// See also [AssessmentController].
 @ProviderFor(AssessmentController)
@@ -24,4 +24,4 @@ final assessmentControllerProvider =
 
 typedef _$AssessmentController = AutoDisposeNotifier<AssessmentState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

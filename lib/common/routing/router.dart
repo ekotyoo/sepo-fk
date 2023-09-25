@@ -12,7 +12,6 @@ import '../../features/auth/presentation/register/register_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/test/presentation/test_intro/test_intro_screen.dart';
-import '../services/shared_prefs.dart';
 import 'app_scaffold.dart';
 
 part 'router.g.dart';
@@ -27,14 +26,15 @@ class AppRouter extends _$AppRouter implements Listenable {
 
   @override
   Future<void> build() async {
-    assessed = await ref.watch(
-      sharedPreferencesProvider.selectAsync((data) => data.getBool('assessed') ?? false),
-    );
-
     authenticated = await ref.watch(
       authControllerProvider.selectAsync(
         (data) => data.map(
-          signedIn: (_) => true,
+          signedIn: (data) {
+            assessed = data.personalDataFilled &&
+                data.pillCountFilled &&
+                data.currentConditionFilled;
+            return true;
+          },
           signedOut: (_) => false,
         ),
       ),

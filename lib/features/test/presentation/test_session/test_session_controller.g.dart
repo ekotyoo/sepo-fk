@@ -92,9 +92,9 @@ class TestSessionControllerProvider
         TestSessionState> {
   /// See also [TestSessionController].
   TestSessionControllerProvider(
-    this.testId,
-    this.surveyId,
-  ) : super.internal(
+    String testId,
+    String surveyId,
+  ) : this._internal(
           () => TestSessionController()
             ..testId = testId
             ..surveyId = surveyId,
@@ -107,10 +107,58 @@ class TestSessionControllerProvider
           dependencies: TestSessionControllerFamily._dependencies,
           allTransitiveDependencies:
               TestSessionControllerFamily._allTransitiveDependencies,
+          testId: testId,
+          surveyId: surveyId,
         );
+
+  TestSessionControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.testId,
+    required this.surveyId,
+  }) : super.internal();
 
   final String testId;
   final String surveyId;
+
+  @override
+  Future<TestSessionState> runNotifierBuild(
+    covariant TestSessionController notifier,
+  ) {
+    return notifier.build(
+      testId,
+      surveyId,
+    );
+  }
+
+  @override
+  Override overrideWith(TestSessionController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: TestSessionControllerProvider._internal(
+        () => create()
+          ..testId = testId
+          ..surveyId = surveyId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        testId: testId,
+        surveyId: surveyId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<TestSessionController,
+      TestSessionState> createElement() {
+    return _TestSessionControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -127,16 +175,26 @@ class TestSessionControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin TestSessionControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<TestSessionState> {
+  /// The parameter `testId` of this provider.
+  String get testId;
+
+  /// The parameter `surveyId` of this provider.
+  String get surveyId;
+}
+
+class _TestSessionControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<TestSessionController,
+        TestSessionState> with TestSessionControllerRef {
+  _TestSessionControllerProviderElement(super.provider);
 
   @override
-  Future<TestSessionState> runNotifierBuild(
-    covariant TestSessionController notifier,
-  ) {
-    return notifier.build(
-      testId,
-      surveyId,
-    );
-  }
+  String get testId => (origin as TestSessionControllerProvider).testId;
+  @override
+  String get surveyId => (origin as TestSessionControllerProvider).surveyId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

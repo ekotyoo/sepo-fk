@@ -61,6 +61,9 @@ class AuthRepository implements IAuthRepository {
         avatar: '${response.avatar}'.replaceAll('public', kBaseUrl),
         isAdmin: response.isAdmin,
         accessToken: response.accessToken,
+        personalDataFilled: response.personalDataFilled,
+        currentConditionFilled: response.currentConditionFilled,
+        pillCountFilled: response.pillCountFilled,
       ) as SignedIn;
 
       final prefs = await SharedPreferences.getInstance();
@@ -90,6 +93,9 @@ class AuthRepository implements IAuthRepository {
         isAdmin: response.isAdmin,
         avatar: '${response.avatar}'.replaceAll('public', kBaseUrl),
         accessToken: token,
+        personalDataFilled: response.personalDataFilled,
+        currentConditionFilled: response.currentConditionFilled,
+        pillCountFilled: response.pillCountFilled,
       ) as SignedIn;
 
       ref.read(authStateProvider.notifier).state = user;

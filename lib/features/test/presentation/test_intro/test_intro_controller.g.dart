@@ -86,8 +86,8 @@ class TestIntroControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     TestIntroController, TestIntroState> {
   /// See also [TestIntroController].
   TestIntroControllerProvider(
-    this.testId,
-  ) : super.internal(
+    String testId,
+  ) : this._internal(
           () => TestIntroController()..testId = testId,
           from: testIntroControllerProvider,
           name: r'testIntroControllerProvider',
@@ -98,9 +98,51 @@ class TestIntroControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: TestIntroControllerFamily._dependencies,
           allTransitiveDependencies:
               TestIntroControllerFamily._allTransitiveDependencies,
+          testId: testId,
         );
 
+  TestIntroControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.testId,
+  }) : super.internal();
+
   final String testId;
+
+  @override
+  FutureOr<TestIntroState> runNotifierBuild(
+    covariant TestIntroController notifier,
+  ) {
+    return notifier.build(
+      testId,
+    );
+  }
+
+  @override
+  Override overrideWith(TestIntroController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: TestIntroControllerProvider._internal(
+        () => create()..testId = testId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        testId: testId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<TestIntroController, TestIntroState>
+      createElement() {
+    return _TestIntroControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,15 +156,21 @@ class TestIntroControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin TestIntroControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<TestIntroState> {
+  /// The parameter `testId` of this provider.
+  String get testId;
+}
+
+class _TestIntroControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<TestIntroController,
+        TestIntroState> with TestIntroControllerRef {
+  _TestIntroControllerProviderElement(super.provider);
 
   @override
-  FutureOr<TestIntroState> runNotifierBuild(
-    covariant TestIntroController notifier,
-  ) {
-    return notifier.build(
-      testId,
-    );
-  }
+  String get testId => (origin as TestIntroControllerProvider).testId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
