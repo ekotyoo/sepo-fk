@@ -7,16 +7,19 @@ class SepoButton extends StatelessWidget {
     required this.label,
     this.disabled = false,
     this.loading = false,
+    this.style,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final String label;
   final bool disabled;
   final bool loading;
+  final ButtonStyle? style;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: style,
       onPressed: disabled
           ? null
           : () {

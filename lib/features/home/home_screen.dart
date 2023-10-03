@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sepo_app/features/auth/domain/auth_user.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../common/constants/colors.dart';
+import 'home_controller.dart';
+import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stateAsync = ref.watch(homeControllerProvider);
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -15,10 +21,24 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 24),
-                _HomeHeader(),
+                const _HomeHeader(),
                 const SizedBox(height: 24),
-                _DataCompletenessCard(),
-                const SizedBox(height: 24),
+                ...stateAsync.when(
+                  data: (data) {
+                    final authState = data.authState as SignedIn;
+                    if (authState.pillCountFilled &&
+                        authState.currentConditionFilled &&
+                        authState.personalDataFilled) {
+                      return [Container()];
+                    }
+                    return const [
+                      SizedBox(height: 24),
+                      _DataCompletenessCard()
+                    ];
+                  },
+                  error: (error, stackTrace) => [Container()],
+                  loading: () => [Container()],
+                ),
                 _HomeNote(),
                 const SizedBox(height: 24),
                 _HomeArticle(),
@@ -32,11 +52,13 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _HomeHeader extends StatelessWidget {
+class _HomeHeader extends ConsumerWidget {
   const _HomeHeader({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stateAsync = ref.watch(homeControllerProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,13 +67,18 @@ class _HomeHeader extends StatelessWidget {
             const Icon(Icons.sunny, color: kColorPrimary, size: 32),
             const SizedBox(width: 8),
             Expanded(
-                child: Text(
-              'Jum, 02 Mei',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(color: kColorPrimary),
-            )),
+              child: stateAsync.when(
+                data: (data) => Text(
+                  DateFormat('EEE, MMM d').format(data.currentDate),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(color: kColorPrimary),
+                ),
+                error: (error, stackTrace) => Container(),
+                loading: () => Container(),
+              ),
+            ),
             IconButton(
               icon: const Icon(Icons.notifications, size: 32),
               onPressed: () {},
@@ -60,7 +87,18 @@ class _HomeHeader extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Text('Hi, Wira', style: Theme.of(context).textTheme.headlineMedium),
+        stateAsync.when(
+          data: (data) {
+            final user = data.authState as SignedIn;
+            final name = user.name.split(' ').first;
+            return Text('Hi, $name',
+                style: Theme.of(context).textTheme.headlineMedium);
+          },
+          error: (error, stackTrace) => Text('Hi, User',
+              style: Theme.of(context).textTheme.headlineMedium),
+          loading: () => Text('Hi, User',
+              style: Theme.of(context).textTheme.headlineMedium),
+        ),
       ],
     );
   }

@@ -17,6 +17,7 @@ class AuthUserWrapper with _$AuthUserWrapper {
     @JsonKey(name: 'personal_data_filled', defaultValue: false) required bool personalDataFilled,
     @JsonKey(name: 'current_condition_filled', defaultValue: false) required bool currentConditionFilled,
     @JsonKey(name: 'pill_count_filled', defaultValue: false) required bool pillCountFilled,
+    @JsonKey(name: 'current_exercise_day') required int currentExerciseDay,
   }) = _AuthUserWrapper;
 
   factory AuthUserWrapper.fromJson(Map<String, dynamic> json) => _$AuthUserWrapperFromJson(json);
@@ -34,6 +35,7 @@ class AuthUser with _$AuthUser {
     @Default(false) bool personalDataFilled,
     @Default(false) bool currentConditionFilled,
     @Default(false) bool pillCountFilled,
+    required int currentExerciseDay,
   }) = SignedIn;
 
   const factory AuthUser.signedOut() = SignedOut;

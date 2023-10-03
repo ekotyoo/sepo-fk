@@ -70,7 +70,9 @@ class ProfileScreen extends ConsumerWidget {
         color: const Color(0xFFFF6B6B),
         icon: Icons.local_hospital,
         title: 'Pill Count',
-        onClick: () {},
+        onClick: () {
+          context.pushNamed('pillcount');
+        },
       ),
       const SizedBox(height: 16),
       MenuTile(

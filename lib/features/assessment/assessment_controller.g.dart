@@ -7,7 +7,7 @@ part of 'assessment_controller.dart';
 // **************************************************************************
 
 String _$assessmentControllerHash() =>
-    r'3287107fdfd85e1c8f499fc3fc5be4daf224b43e';
+    r'c7df01241fb75ef75a99066a242c11015426c855';
 
 /// See also [AssessmentController].
 @ProviderFor(AssessmentController)

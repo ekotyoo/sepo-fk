@@ -23,8 +23,11 @@ class MedicineWithCount with _$MedicineWithCount {
 }
 
 enum MedicineSource {
+  @JsonValue('klinik')
   klinik,
+  @JsonValue('apotek')
   apotek,
+  @JsonValue('toko')
   toko;
 
   String getLabel() => switch(this) {
@@ -35,9 +38,13 @@ enum MedicineSource {
 }
 
 enum MedicineBoughtTime {
+  @JsonValue('thisWeek')
   thisWeek,
+  @JsonValue('thisMonth')
   thisMonth,
+  @JsonValue('thisOneToThreeMonthsAgo')
   oneToThreeMonthsAgo,
+  @JsonValue('fourToSixMonthsAgo')
   fourToSixMonthsAgo;
 
   String getLabel() => switch(this) {

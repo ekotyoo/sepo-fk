@@ -19,6 +19,7 @@ _$_AuthUserWrapper _$$_AuthUserWrapperFromJson(Map<String, dynamic> json) =>
       currentConditionFilled:
           json['current_condition_filled'] as bool? ?? false,
       pillCountFilled: json['pill_count_filled'] as bool? ?? false,
+      currentExerciseDay: json['current_exercise_day'] as int,
     );
 
 Map<String, dynamic> _$$_AuthUserWrapperToJson(_$_AuthUserWrapper instance) =>
@@ -33,6 +34,7 @@ Map<String, dynamic> _$$_AuthUserWrapperToJson(_$_AuthUserWrapper instance) =>
       'personal_data_filled': instance.personalDataFilled,
       'current_condition_filled': instance.currentConditionFilled,
       'pill_count_filled': instance.pillCountFilled,
+      'current_exercise_day': instance.currentExerciseDay,
     };
 
 _$SignedIn _$$SignedInFromJson(Map<String, dynamic> json) => _$SignedIn(
@@ -45,6 +47,7 @@ _$SignedIn _$$SignedInFromJson(Map<String, dynamic> json) => _$SignedIn(
       personalDataFilled: json['personalDataFilled'] as bool? ?? false,
       currentConditionFilled: json['currentConditionFilled'] as bool? ?? false,
       pillCountFilled: json['pillCountFilled'] as bool? ?? false,
+      currentExerciseDay: json['currentExerciseDay'] as int,
       $type: json['runtimeType'] as String?,
     );
 
@@ -59,6 +62,7 @@ Map<String, dynamic> _$$SignedInToJson(_$SignedIn instance) =>
       'personalDataFilled': instance.personalDataFilled,
       'currentConditionFilled': instance.currentConditionFilled,
       'pillCountFilled': instance.pillCountFilled,
+      'currentExerciseDay': instance.currentExerciseDay,
       'runtimeType': instance.$type,
     };
 

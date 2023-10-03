@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sepo_app/features/assessment/current_condition_form.dart';
 import 'package:sepo_app/features/assessment/personal_data_form.dart';
 import 'package:sepo_app/features/assessment/pill_count_form.dart';
+import 'package:sepo_app/features/auth/domain/auth_user.dart';
 import 'package:sepo_app/features/onboarding/onboarding_screen.dart';
 
 import '../../common/widgets/sepo_button.dart';
@@ -45,6 +46,25 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
     final state = ref.watch(assessmentControllerProvider);
     final canGoBack = state.currentPage > 0;
 
+    final authState = state.authState as SignedIn;
+    final forms = [
+      const PersonalDataForm(),
+      const CurrentConditionForm(),
+      const PillCountForm(),
+    ];
+
+    if (authState.personalDataFilled) {
+      forms.removeWhere((element) => element is PersonalDataForm);
+    }
+
+    if (authState.currentConditionFilled) {
+      forms.removeWhere((element) => element is CurrentConditionForm);
+    }
+
+    if (authState.pillCountFilled) {
+      forms.removeWhere((element) => element is PillCountForm);
+    }
+
     final personalData = state.personalDataState;
     final personalDataFormValidated = personalData.nameInput.isValid &&
         personalData.birthDateInput.isValid &&
@@ -53,23 +73,21 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
         personalData.phoneInput.isValid &&
         personalData.educationInput.isValid;
     final personalDataFormEnabled =
-        personalDataFormValidated && state.currentPage == 0;
+        personalDataFormValidated && forms[state.currentPage] is PersonalDataForm;
 
     final currentCondition = state.currentConditionState;
     final currentConditionFormValidated =
         currentCondition.illnessDurationInput.isValid &&
             currentCondition.exerciseDurationInput.isValid;
     final currentConditionEnabled =
-        currentConditionFormValidated && state.currentPage == 1;
+        currentConditionFormValidated && forms[state.currentPage] is CurrentConditionForm;
 
     final pillCount = state.pillCountState;
     final pillCountFormValidated = pillCount.medicineAfter.isNotEmpty &&
         pillCount.medicineBefore.isNotEmpty &&
         pillCount.medicineSource != null &&
         pillCount.medicineUsed.isNotEmpty;
-    final pillCountEnabled = pillCountFormValidated && state.currentPage == 2;
-
-    const forms = [PersonalDataForm(), CurrentConditionForm(), PillCountForm()];
+    final pillCountEnabled = pillCountFormValidated && forms[state.currentPage] is PillCountForm;
 
     ref.listen(
       assessmentControllerProvider.select((value) => value.errorMessage),
@@ -113,7 +131,7 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
               children: [
                 const SizedBox(height: 32),
                 PageIndicator(
-                  totalCount: 3,
+                  totalCount: forms.length,
                   currentCount: state.currentPage + 1,
                 ),
                 const SizedBox(height: 16),

@@ -14,9 +14,12 @@ import 'package:sepo_app/features/assessment/models/gender_input.dart';
 import 'package:sepo_app/features/assessment/models/illness_duration_input.dart';
 import 'package:sepo_app/features/assessment/models/phone_input.dart';
 import 'package:sepo_app/features/assessment/pill_count_state.dart';
+import 'package:sepo_app/features/auth/domain/auth_user.dart';
 import 'package:sepo_app/features/test/data/current_condition_repository.dart';
 import 'package:sepo_app/features/test/data/pill_count_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../auth/data/auth_repository.dart';
 
 part 'assessment_controller.g.dart';
 
@@ -24,12 +27,11 @@ part 'assessment_controller.g.dart';
 class AssessmentController extends _$AssessmentController {
   @override
   AssessmentState build() {
-    initializeAssessment();
-    return const AssessmentState();
-  }
+    final authState = ref.watch(authStateProvider) as SignedIn;
 
-  void initializeAssessment() async {
-
+    return AssessmentState(
+      authState: authState
+    );
   }
 
   void setErrorMessage(String? value) => state = state.copyWith(errorMessage: value);
@@ -204,6 +206,9 @@ class AssessmentController extends _$AssessmentController {
     final repo = ref.read(pillCountRepositoryProvider);
     final pillCountState = state.pillCountState;
 
+    final authState = ref.watch(authStateProvider) as SignedIn;
+    final userId = authState.id;
+
     if (pillCountState.medicineSource == null) return;
     state = state.copyWith(isLoading: true);
 
@@ -213,9 +218,9 @@ class AssessmentController extends _$AssessmentController {
         medicineBefore: pillCountState.medicineBefore,
         medicineAfter: pillCountState.medicineAfter,
         medicineBoughtTime: pillCountState.medicineBoughtTime,
-        medicineBoughtDate: pillCountState
+        medicineBoughtTimestamp: pillCountState
             .medicineBoughtDateInput.value?.millisecondsSinceEpoch);
-    final result = await repo.postPillCount(pillCount);
+    final result = await repo.updatePillCount(userId, 1, pillCount);
 
     result.fold(
       (l) => state = state.copyWith(isLoading: false, errorMessage: l.message),

@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sepo_app/features/assessment/assessment_screen.dart';
+import 'package:sepo_app/features/assessment/domain/pill_count.dart';
 import 'package:sepo_app/features/auth/presentation/profile/profile_screen.dart';
+import 'package:sepo_app/features/exercise/exercise.dart';
+import 'package:sepo_app/features/exercise/exercise_finish_screen.dart';
+import 'package:sepo_app/features/exercise/exercise_session_screen.dart';
+import 'package:sepo_app/features/pill_count/presentation/pill_count_list_screen.dart';
+import 'package:sepo_app/features/pill_count/presentation/post_pill_count/post_pill_count_screen.dart';
 import 'package:sepo_app/features/test/presentation/test_list/test_list_screen.dart';
 import 'package:sepo_app/features/test/presentation/test_session/test_session_screen.dart';
 import '../../features/auth/auth_controller.dart';
 import '../../features/auth/presentation/email_verification/email_verification_screen.dart';
 import '../../features/auth/presentation/login/login_screen.dart';
 import '../../features/auth/presentation/register/register_screen.dart';
+import '../../features/exercise/exercise_list_screen.dart';
+import '../../features/exercise/exercise_schedule_screen.dart';
+import '../../features/exercise/exercise_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
 import '../../features/test/presentation/test_intro/test_intro_screen.dart';
@@ -63,7 +72,7 @@ class AppRouter extends _$AppRouter implements Listenable {
               name: 'exercise',
               pageBuilder: (context, state) => NoTransitionPage(
                 key: state.pageKey,
-                child: Container(),
+                child: const ExerciseScreen(),
               ),
             ),
             GoRoute(
@@ -77,11 +86,91 @@ class AppRouter extends _$AppRouter implements Listenable {
           ],
         ),
         GoRoute(
+          path: '/trainingschedule',
+          name: 'trainingschedule',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) {
+            final level = state.extra as ExerciseLevel;
+            return MaterialPage(child: ExerciseScheduleScreen(level: level));
+          },
+          routes: [
+            GoRoute(
+              path: 'traininglist/:week/:day',
+              name: 'traininglist',
+              parentNavigatorKey: kNavigatorKey,
+              pageBuilder: (context, state) {
+                final week = int.parse(state.params['week']!);
+                final day = int.parse(state.params['day']!);
+
+                return MaterialPage(
+                  child: ExerciseListScreen(
+                    week: week,
+                    day: day,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: 'exercisesession/:week/:day',
+              name: 'exercisesession',
+              parentNavigatorKey: kNavigatorKey,
+              pageBuilder: (context, state) {
+                final week = int.parse(state.params['week']!);
+                final day = int.parse(state.params['day']!);
+                final exercise = state.extra as List<Exercise>;
+                return MaterialPage(
+                  child: ExerciseSessionScreen(
+                    exercises: exercise,
+                    day: day,
+                    week: week,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: 'trainingfinish/:week/:day',
+              name: 'trainingfinish',
+              parentNavigatorKey: kNavigatorKey,
+              pageBuilder: (context, state) {
+                final week = int.parse(state.params['week']!);
+                final day = int.parse(state.params['day']!);
+
+                return MaterialPage(
+                  child: ExerciseFinishScreen(day: day, week: week),
+                );
+              },
+            ),
+          ],
+        ),
+        GoRoute(
           path: '/assessment',
           name: 'assessment',
           pageBuilder: (context, state) => const MaterialPage(
             child: AssessmentScreen(),
           ),
+        ),
+        GoRoute(
+          path: '/pillcount',
+          name: 'pillcount',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) => const MaterialPage(
+            child: PillCountListScreen(),
+          ),
+          routes: [
+            GoRoute(
+              path: 'postpillcount',
+              parentNavigatorKey: kNavigatorKey,
+              name: 'postpillcount',
+              pageBuilder: (context, state) {
+                final pillCount = state.extra as PillCount;
+                return MaterialPage(
+                  child: PostPillCountScreen(
+                    pillCount: pillCount,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: '/test',

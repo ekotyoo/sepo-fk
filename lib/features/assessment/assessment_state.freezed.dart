@@ -22,6 +22,7 @@ mixin _$AssessmentState {
       throw _privateConstructorUsedError;
   PillCountState get pillCountState => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  AuthUser get authState => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   String? get successMessage => throw _privateConstructorUsedError;
 
@@ -42,12 +43,14 @@ abstract class $AssessmentStateCopyWith<$Res> {
       CurrentConditionState currentConditionState,
       PillCountState pillCountState,
       bool isLoading,
+      AuthUser authState,
       String? errorMessage,
       String? successMessage});
 
   $PersonalDataStateCopyWith<$Res> get personalDataState;
   $CurrentConditionStateCopyWith<$Res> get currentConditionState;
   $PillCountStateCopyWith<$Res> get pillCountState;
+  $AuthUserCopyWith<$Res> get authState;
 }
 
 /// @nodoc
@@ -68,6 +71,7 @@ class _$AssessmentStateCopyWithImpl<$Res, $Val extends AssessmentState>
     Object? currentConditionState = null,
     Object? pillCountState = null,
     Object? isLoading = null,
+    Object? authState = null,
     Object? errorMessage = freezed,
     Object? successMessage = freezed,
   }) {
@@ -92,6 +96,10 @@ class _$AssessmentStateCopyWithImpl<$Res, $Val extends AssessmentState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      authState: null == authState
+          ? _value.authState
+          : authState // ignore: cast_nullable_to_non_nullable
+              as AuthUser,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -127,6 +135,14 @@ class _$AssessmentStateCopyWithImpl<$Res, $Val extends AssessmentState>
       return _then(_value.copyWith(pillCountState: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AuthUserCopyWith<$Res> get authState {
+    return $AuthUserCopyWith<$Res>(_value.authState, (value) {
+      return _then(_value.copyWith(authState: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -143,6 +159,7 @@ abstract class _$$_AssessmentStateCopyWith<$Res>
       CurrentConditionState currentConditionState,
       PillCountState pillCountState,
       bool isLoading,
+      AuthUser authState,
       String? errorMessage,
       String? successMessage});
 
@@ -152,6 +169,8 @@ abstract class _$$_AssessmentStateCopyWith<$Res>
   $CurrentConditionStateCopyWith<$Res> get currentConditionState;
   @override
   $PillCountStateCopyWith<$Res> get pillCountState;
+  @override
+  $AuthUserCopyWith<$Res> get authState;
 }
 
 /// @nodoc
@@ -170,6 +189,7 @@ class __$$_AssessmentStateCopyWithImpl<$Res>
     Object? currentConditionState = null,
     Object? pillCountState = null,
     Object? isLoading = null,
+    Object? authState = null,
     Object? errorMessage = freezed,
     Object? successMessage = freezed,
   }) {
@@ -194,6 +214,10 @@ class __$$_AssessmentStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      authState: null == authState
+          ? _value.authState
+          : authState // ignore: cast_nullable_to_non_nullable
+              as AuthUser,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -215,6 +239,7 @@ class _$_AssessmentState implements _AssessmentState {
       this.currentConditionState = const CurrentConditionState(),
       this.pillCountState = const PillCountState(),
       this.isLoading = false,
+      required this.authState,
       this.errorMessage,
       this.successMessage});
 
@@ -234,13 +259,15 @@ class _$_AssessmentState implements _AssessmentState {
   @JsonKey()
   final bool isLoading;
   @override
+  final AuthUser authState;
+  @override
   final String? errorMessage;
   @override
   final String? successMessage;
 
   @override
   String toString() {
-    return 'AssessmentState(currentPage: $currentPage, personalDataState: $personalDataState, currentConditionState: $currentConditionState, pillCountState: $pillCountState, isLoading: $isLoading, errorMessage: $errorMessage, successMessage: $successMessage)';
+    return 'AssessmentState(currentPage: $currentPage, personalDataState: $personalDataState, currentConditionState: $currentConditionState, pillCountState: $pillCountState, isLoading: $isLoading, authState: $authState, errorMessage: $errorMessage, successMessage: $successMessage)';
   }
 
   @override
@@ -258,6 +285,8 @@ class _$_AssessmentState implements _AssessmentState {
                 other.pillCountState == pillCountState) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.authState, authState) ||
+                other.authState == authState) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.successMessage, successMessage) ||
@@ -272,6 +301,7 @@ class _$_AssessmentState implements _AssessmentState {
       currentConditionState,
       pillCountState,
       isLoading,
+      authState,
       errorMessage,
       successMessage);
 
@@ -289,6 +319,7 @@ abstract class _AssessmentState implements AssessmentState {
       final CurrentConditionState currentConditionState,
       final PillCountState pillCountState,
       final bool isLoading,
+      required final AuthUser authState,
       final String? errorMessage,
       final String? successMessage}) = _$_AssessmentState;
 
@@ -302,6 +333,8 @@ abstract class _AssessmentState implements AssessmentState {
   PillCountState get pillCountState;
   @override
   bool get isLoading;
+  @override
+  AuthUser get authState;
   @override
   String? get errorMessage;
   @override

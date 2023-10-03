@@ -20,21 +20,33 @@ PillCount _$PillCountFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PillCount {
+  int? get id => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get number => throw _privateConstructorUsedError;
   @JsonKey(name: 'medicine_used')
-  List<String> get medicineUsed => throw _privateConstructorUsedError;
-  @JsonKey(name: 'medicine_source')
-  MedicineSource get medicineSource => throw _privateConstructorUsedError;
+  List<String>? get medicineUsed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'medicine_source', defaultValue: null)
+  MedicineSource? get medicineSource => throw _privateConstructorUsedError;
   @JsonKey(name: 'medicine_bought_time', defaultValue: null)
   MedicineBoughtTime? get medicineBoughtTime =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: 'medicine_bought_date', defaultValue: null)
-  int? get medicineBoughtDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'medicine_before')
-  List<MedicineWithCount> get medicineBefore =>
+  @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+  int? get medicineBoughtTimestamp => throw _privateConstructorUsedError;
+  @JsonKey(name: 'medicine_bought_date')
+  @TimestampSerializer()
+  DateTime? get medicineBoughtDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'medicine_before', defaultValue: null)
+  List<MedicineWithCount>? get medicineBefore =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: 'medicine_after')
-  List<MedicineWithCount> get medicineAfter =>
+  @JsonKey(name: 'medicine_after', defaultValue: null)
+  List<MedicineWithCount>? get medicineAfter =>
       throw _privateConstructorUsedError;
+  @JsonKey(name: 'done_date')
+  @TimestampSerializer()
+  DateTime? get doneDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'locked_until_date')
+  @TimestampSerializer()
+  DateTime? get lockedUntil => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,14 +60,27 @@ abstract class $PillCountCopyWith<$Res> {
       _$PillCountCopyWithImpl<$Res, PillCount>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'medicine_used') List<String> medicineUsed,
-      @JsonKey(name: 'medicine_source') MedicineSource medicineSource,
+      {int? id,
+      String? name,
+      int? number,
+      @JsonKey(name: 'medicine_used') List<String>? medicineUsed,
+      @JsonKey(name: 'medicine_source', defaultValue: null)
+      MedicineSource? medicineSource,
       @JsonKey(name: 'medicine_bought_time', defaultValue: null)
       MedicineBoughtTime? medicineBoughtTime,
-      @JsonKey(name: 'medicine_bought_date', defaultValue: null)
-      int? medicineBoughtDate,
-      @JsonKey(name: 'medicine_before') List<MedicineWithCount> medicineBefore,
-      @JsonKey(name: 'medicine_after') List<MedicineWithCount> medicineAfter});
+      @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+      int? medicineBoughtTimestamp,
+      @JsonKey(name: 'medicine_bought_date')
+      @TimestampSerializer()
+      DateTime? medicineBoughtDate,
+      @JsonKey(name: 'medicine_before', defaultValue: null)
+      List<MedicineWithCount>? medicineBefore,
+      @JsonKey(name: 'medicine_after', defaultValue: null)
+      List<MedicineWithCount>? medicineAfter,
+      @JsonKey(name: 'done_date') @TimestampSerializer() DateTime? doneDate,
+      @JsonKey(name: 'locked_until_date')
+      @TimestampSerializer()
+      DateTime? lockedUntil});
 }
 
 /// @nodoc
@@ -71,38 +96,68 @@ class _$PillCountCopyWithImpl<$Res, $Val extends PillCount>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? medicineUsed = null,
-    Object? medicineSource = null,
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? number = freezed,
+    Object? medicineUsed = freezed,
+    Object? medicineSource = freezed,
     Object? medicineBoughtTime = freezed,
+    Object? medicineBoughtTimestamp = freezed,
     Object? medicineBoughtDate = freezed,
-    Object? medicineBefore = null,
-    Object? medicineAfter = null,
+    Object? medicineBefore = freezed,
+    Object? medicineAfter = freezed,
+    Object? doneDate = freezed,
+    Object? lockedUntil = freezed,
   }) {
     return _then(_value.copyWith(
-      medicineUsed: null == medicineUsed
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      number: freezed == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int?,
+      medicineUsed: freezed == medicineUsed
           ? _value.medicineUsed
           : medicineUsed // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      medicineSource: null == medicineSource
+              as List<String>?,
+      medicineSource: freezed == medicineSource
           ? _value.medicineSource
           : medicineSource // ignore: cast_nullable_to_non_nullable
-              as MedicineSource,
+              as MedicineSource?,
       medicineBoughtTime: freezed == medicineBoughtTime
           ? _value.medicineBoughtTime
           : medicineBoughtTime // ignore: cast_nullable_to_non_nullable
               as MedicineBoughtTime?,
+      medicineBoughtTimestamp: freezed == medicineBoughtTimestamp
+          ? _value.medicineBoughtTimestamp
+          : medicineBoughtTimestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
       medicineBoughtDate: freezed == medicineBoughtDate
           ? _value.medicineBoughtDate
           : medicineBoughtDate // ignore: cast_nullable_to_non_nullable
-              as int?,
-      medicineBefore: null == medicineBefore
+              as DateTime?,
+      medicineBefore: freezed == medicineBefore
           ? _value.medicineBefore
           : medicineBefore // ignore: cast_nullable_to_non_nullable
-              as List<MedicineWithCount>,
-      medicineAfter: null == medicineAfter
+              as List<MedicineWithCount>?,
+      medicineAfter: freezed == medicineAfter
           ? _value.medicineAfter
           : medicineAfter // ignore: cast_nullable_to_non_nullable
-              as List<MedicineWithCount>,
+              as List<MedicineWithCount>?,
+      doneDate: freezed == doneDate
+          ? _value.doneDate
+          : doneDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lockedUntil: freezed == lockedUntil
+          ? _value.lockedUntil
+          : lockedUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -115,14 +170,27 @@ abstract class _$$_PillCountCopyWith<$Res> implements $PillCountCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'medicine_used') List<String> medicineUsed,
-      @JsonKey(name: 'medicine_source') MedicineSource medicineSource,
+      {int? id,
+      String? name,
+      int? number,
+      @JsonKey(name: 'medicine_used') List<String>? medicineUsed,
+      @JsonKey(name: 'medicine_source', defaultValue: null)
+      MedicineSource? medicineSource,
       @JsonKey(name: 'medicine_bought_time', defaultValue: null)
       MedicineBoughtTime? medicineBoughtTime,
-      @JsonKey(name: 'medicine_bought_date', defaultValue: null)
-      int? medicineBoughtDate,
-      @JsonKey(name: 'medicine_before') List<MedicineWithCount> medicineBefore,
-      @JsonKey(name: 'medicine_after') List<MedicineWithCount> medicineAfter});
+      @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+      int? medicineBoughtTimestamp,
+      @JsonKey(name: 'medicine_bought_date')
+      @TimestampSerializer()
+      DateTime? medicineBoughtDate,
+      @JsonKey(name: 'medicine_before', defaultValue: null)
+      List<MedicineWithCount>? medicineBefore,
+      @JsonKey(name: 'medicine_after', defaultValue: null)
+      List<MedicineWithCount>? medicineAfter,
+      @JsonKey(name: 'done_date') @TimestampSerializer() DateTime? doneDate,
+      @JsonKey(name: 'locked_until_date')
+      @TimestampSerializer()
+      DateTime? lockedUntil});
 }
 
 /// @nodoc
@@ -136,38 +204,68 @@ class __$$_PillCountCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? medicineUsed = null,
-    Object? medicineSource = null,
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? number = freezed,
+    Object? medicineUsed = freezed,
+    Object? medicineSource = freezed,
     Object? medicineBoughtTime = freezed,
+    Object? medicineBoughtTimestamp = freezed,
     Object? medicineBoughtDate = freezed,
-    Object? medicineBefore = null,
-    Object? medicineAfter = null,
+    Object? medicineBefore = freezed,
+    Object? medicineAfter = freezed,
+    Object? doneDate = freezed,
+    Object? lockedUntil = freezed,
   }) {
     return _then(_$_PillCount(
-      medicineUsed: null == medicineUsed
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      number: freezed == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int?,
+      medicineUsed: freezed == medicineUsed
           ? _value._medicineUsed
           : medicineUsed // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      medicineSource: null == medicineSource
+              as List<String>?,
+      medicineSource: freezed == medicineSource
           ? _value.medicineSource
           : medicineSource // ignore: cast_nullable_to_non_nullable
-              as MedicineSource,
+              as MedicineSource?,
       medicineBoughtTime: freezed == medicineBoughtTime
           ? _value.medicineBoughtTime
           : medicineBoughtTime // ignore: cast_nullable_to_non_nullable
               as MedicineBoughtTime?,
+      medicineBoughtTimestamp: freezed == medicineBoughtTimestamp
+          ? _value.medicineBoughtTimestamp
+          : medicineBoughtTimestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
       medicineBoughtDate: freezed == medicineBoughtDate
           ? _value.medicineBoughtDate
           : medicineBoughtDate // ignore: cast_nullable_to_non_nullable
-              as int?,
-      medicineBefore: null == medicineBefore
+              as DateTime?,
+      medicineBefore: freezed == medicineBefore
           ? _value._medicineBefore
           : medicineBefore // ignore: cast_nullable_to_non_nullable
-              as List<MedicineWithCount>,
-      medicineAfter: null == medicineAfter
+              as List<MedicineWithCount>?,
+      medicineAfter: freezed == medicineAfter
           ? _value._medicineAfter
           : medicineAfter // ignore: cast_nullable_to_non_nullable
-              as List<MedicineWithCount>,
+              as List<MedicineWithCount>?,
+      doneDate: freezed == doneDate
+          ? _value.doneDate
+          : doneDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lockedUntil: freezed == lockedUntil
+          ? _value.lockedUntil
+          : lockedUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -176,16 +274,26 @@ class __$$_PillCountCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_PillCount implements _PillCount {
   const _$_PillCount(
-      {@JsonKey(name: 'medicine_used') required final List<String> medicineUsed,
-      @JsonKey(name: 'medicine_source') required this.medicineSource,
+      {this.id,
+      this.name,
+      this.number,
+      @JsonKey(name: 'medicine_used') required final List<String>? medicineUsed,
+      @JsonKey(name: 'medicine_source', defaultValue: null) this.medicineSource,
       @JsonKey(name: 'medicine_bought_time', defaultValue: null)
       this.medicineBoughtTime,
-      @JsonKey(name: 'medicine_bought_date', defaultValue: null)
+      @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+      this.medicineBoughtTimestamp,
+      @JsonKey(name: 'medicine_bought_date')
+      @TimestampSerializer()
       this.medicineBoughtDate,
-      @JsonKey(name: 'medicine_before')
-      required final List<MedicineWithCount> medicineBefore,
-      @JsonKey(name: 'medicine_after')
-      required final List<MedicineWithCount> medicineAfter})
+      @JsonKey(name: 'medicine_before', defaultValue: null)
+      final List<MedicineWithCount>? medicineBefore,
+      @JsonKey(name: 'medicine_after', defaultValue: null)
+      final List<MedicineWithCount>? medicineAfter,
+      @JsonKey(name: 'done_date') @TimestampSerializer() this.doneDate,
+      @JsonKey(name: 'locked_until_date')
+      @TimestampSerializer()
+      this.lockedUntil})
       : _medicineUsed = medicineUsed,
         _medicineBefore = medicineBefore,
         _medicineAfter = medicineAfter;
@@ -193,45 +301,70 @@ class _$_PillCount implements _PillCount {
   factory _$_PillCount.fromJson(Map<String, dynamic> json) =>
       _$$_PillCountFromJson(json);
 
-  final List<String> _medicineUsed;
+  @override
+  final int? id;
+  @override
+  final String? name;
+  @override
+  final int? number;
+  final List<String>? _medicineUsed;
   @override
   @JsonKey(name: 'medicine_used')
-  List<String> get medicineUsed {
+  List<String>? get medicineUsed {
+    final value = _medicineUsed;
+    if (value == null) return null;
     if (_medicineUsed is EqualUnmodifiableListView) return _medicineUsed;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_medicineUsed);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  @JsonKey(name: 'medicine_source')
-  final MedicineSource medicineSource;
+  @JsonKey(name: 'medicine_source', defaultValue: null)
+  final MedicineSource? medicineSource;
   @override
   @JsonKey(name: 'medicine_bought_time', defaultValue: null)
   final MedicineBoughtTime? medicineBoughtTime;
   @override
-  @JsonKey(name: 'medicine_bought_date', defaultValue: null)
-  final int? medicineBoughtDate;
-  final List<MedicineWithCount> _medicineBefore;
+  @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+  final int? medicineBoughtTimestamp;
   @override
-  @JsonKey(name: 'medicine_before')
-  List<MedicineWithCount> get medicineBefore {
+  @JsonKey(name: 'medicine_bought_date')
+  @TimestampSerializer()
+  final DateTime? medicineBoughtDate;
+  final List<MedicineWithCount>? _medicineBefore;
+  @override
+  @JsonKey(name: 'medicine_before', defaultValue: null)
+  List<MedicineWithCount>? get medicineBefore {
+    final value = _medicineBefore;
+    if (value == null) return null;
     if (_medicineBefore is EqualUnmodifiableListView) return _medicineBefore;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_medicineBefore);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<MedicineWithCount> _medicineAfter;
+  final List<MedicineWithCount>? _medicineAfter;
   @override
-  @JsonKey(name: 'medicine_after')
-  List<MedicineWithCount> get medicineAfter {
+  @JsonKey(name: 'medicine_after', defaultValue: null)
+  List<MedicineWithCount>? get medicineAfter {
+    final value = _medicineAfter;
+    if (value == null) return null;
     if (_medicineAfter is EqualUnmodifiableListView) return _medicineAfter;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_medicineAfter);
+    return EqualUnmodifiableListView(value);
   }
+
+  @override
+  @JsonKey(name: 'done_date')
+  @TimestampSerializer()
+  final DateTime? doneDate;
+  @override
+  @JsonKey(name: 'locked_until_date')
+  @TimestampSerializer()
+  final DateTime? lockedUntil;
 
   @override
   String toString() {
-    return 'PillCount(medicineUsed: $medicineUsed, medicineSource: $medicineSource, medicineBoughtTime: $medicineBoughtTime, medicineBoughtDate: $medicineBoughtDate, medicineBefore: $medicineBefore, medicineAfter: $medicineAfter)';
+    return 'PillCount(id: $id, name: $name, number: $number, medicineUsed: $medicineUsed, medicineSource: $medicineSource, medicineBoughtTime: $medicineBoughtTime, medicineBoughtTimestamp: $medicineBoughtTimestamp, medicineBoughtDate: $medicineBoughtDate, medicineBefore: $medicineBefore, medicineAfter: $medicineAfter, doneDate: $doneDate, lockedUntil: $lockedUntil)';
   }
 
   @override
@@ -239,30 +372,46 @@ class _$_PillCount implements _PillCount {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PillCount &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.number, number) || other.number == number) &&
             const DeepCollectionEquality()
                 .equals(other._medicineUsed, _medicineUsed) &&
             (identical(other.medicineSource, medicineSource) ||
                 other.medicineSource == medicineSource) &&
             (identical(other.medicineBoughtTime, medicineBoughtTime) ||
                 other.medicineBoughtTime == medicineBoughtTime) &&
+            (identical(
+                    other.medicineBoughtTimestamp, medicineBoughtTimestamp) ||
+                other.medicineBoughtTimestamp == medicineBoughtTimestamp) &&
             (identical(other.medicineBoughtDate, medicineBoughtDate) ||
                 other.medicineBoughtDate == medicineBoughtDate) &&
             const DeepCollectionEquality()
                 .equals(other._medicineBefore, _medicineBefore) &&
             const DeepCollectionEquality()
-                .equals(other._medicineAfter, _medicineAfter));
+                .equals(other._medicineAfter, _medicineAfter) &&
+            (identical(other.doneDate, doneDate) ||
+                other.doneDate == doneDate) &&
+            (identical(other.lockedUntil, lockedUntil) ||
+                other.lockedUntil == lockedUntil));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
+      name,
+      number,
       const DeepCollectionEquality().hash(_medicineUsed),
       medicineSource,
       medicineBoughtTime,
+      medicineBoughtTimestamp,
       medicineBoughtDate,
       const DeepCollectionEquality().hash(_medicineBefore),
-      const DeepCollectionEquality().hash(_medicineAfter));
+      const DeepCollectionEquality().hash(_medicineAfter),
+      doneDate,
+      lockedUntil);
 
   @JsonKey(ignore: true)
   @override
@@ -280,39 +429,69 @@ class _$_PillCount implements _PillCount {
 
 abstract class _PillCount implements PillCount {
   const factory _PillCount(
-      {@JsonKey(name: 'medicine_used') required final List<String> medicineUsed,
-      @JsonKey(name: 'medicine_source')
-      required final MedicineSource medicineSource,
+      {final int? id,
+      final String? name,
+      final int? number,
+      @JsonKey(name: 'medicine_used') required final List<String>? medicineUsed,
+      @JsonKey(name: 'medicine_source', defaultValue: null)
+      final MedicineSource? medicineSource,
       @JsonKey(name: 'medicine_bought_time', defaultValue: null)
       final MedicineBoughtTime? medicineBoughtTime,
-      @JsonKey(name: 'medicine_bought_date', defaultValue: null)
-      final int? medicineBoughtDate,
-      @JsonKey(name: 'medicine_before')
-      required final List<MedicineWithCount> medicineBefore,
-      @JsonKey(name: 'medicine_after')
-      required final List<MedicineWithCount> medicineAfter}) = _$_PillCount;
+      @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+      final int? medicineBoughtTimestamp,
+      @JsonKey(name: 'medicine_bought_date')
+      @TimestampSerializer()
+      final DateTime? medicineBoughtDate,
+      @JsonKey(name: 'medicine_before', defaultValue: null)
+      final List<MedicineWithCount>? medicineBefore,
+      @JsonKey(name: 'medicine_after', defaultValue: null)
+      final List<MedicineWithCount>? medicineAfter,
+      @JsonKey(name: 'done_date')
+      @TimestampSerializer()
+      final DateTime? doneDate,
+      @JsonKey(name: 'locked_until_date')
+      @TimestampSerializer()
+      final DateTime? lockedUntil}) = _$_PillCount;
 
   factory _PillCount.fromJson(Map<String, dynamic> json) =
       _$_PillCount.fromJson;
 
   @override
-  @JsonKey(name: 'medicine_used')
-  List<String> get medicineUsed;
+  int? get id;
   @override
-  @JsonKey(name: 'medicine_source')
-  MedicineSource get medicineSource;
+  String? get name;
+  @override
+  int? get number;
+  @override
+  @JsonKey(name: 'medicine_used')
+  List<String>? get medicineUsed;
+  @override
+  @JsonKey(name: 'medicine_source', defaultValue: null)
+  MedicineSource? get medicineSource;
   @override
   @JsonKey(name: 'medicine_bought_time', defaultValue: null)
   MedicineBoughtTime? get medicineBoughtTime;
   @override
-  @JsonKey(name: 'medicine_bought_date', defaultValue: null)
-  int? get medicineBoughtDate;
+  @JsonKey(name: 'medicine_bought_timestamp', defaultValue: null)
+  int? get medicineBoughtTimestamp;
   @override
-  @JsonKey(name: 'medicine_before')
-  List<MedicineWithCount> get medicineBefore;
+  @JsonKey(name: 'medicine_bought_date')
+  @TimestampSerializer()
+  DateTime? get medicineBoughtDate;
   @override
-  @JsonKey(name: 'medicine_after')
-  List<MedicineWithCount> get medicineAfter;
+  @JsonKey(name: 'medicine_before', defaultValue: null)
+  List<MedicineWithCount>? get medicineBefore;
+  @override
+  @JsonKey(name: 'medicine_after', defaultValue: null)
+  List<MedicineWithCount>? get medicineAfter;
+  @override
+  @JsonKey(name: 'done_date')
+  @TimestampSerializer()
+  DateTime? get doneDate;
+  @override
+  @JsonKey(name: 'locked_until_date')
+  @TimestampSerializer()
+  DateTime? get lockedUntil;
   @override
   @JsonKey(ignore: true)
   _$$_PillCountCopyWith<_$_PillCount> get copyWith =>

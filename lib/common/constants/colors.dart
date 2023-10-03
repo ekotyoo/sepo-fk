@@ -46,5 +46,6 @@ const kColorGradient3 = LinearGradient(
 );
 
 const kColorBackground = Color(0xFFF3F5F9);
+const kColorNeutral10 = Color(0xFFD4DBE8);
 const kColorNeutral50 = Color(0xFFB5B5B5);
 const kColorNeutral100 = Color(0xFF858585);

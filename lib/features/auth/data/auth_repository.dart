@@ -64,6 +64,7 @@ class AuthRepository implements IAuthRepository {
         personalDataFilled: response.personalDataFilled,
         currentConditionFilled: response.currentConditionFilled,
         pillCountFilled: response.pillCountFilled,
+        currentExerciseDay: response.currentExerciseDay,
       ) as SignedIn;
 
       final prefs = await SharedPreferences.getInstance();
@@ -96,6 +97,7 @@ class AuthRepository implements IAuthRepository {
         personalDataFilled: response.personalDataFilled,
         currentConditionFilled: response.currentConditionFilled,
         pillCountFilled: response.pillCountFilled,
+        currentExerciseDay: response.currentExerciseDay,
       ) as SignedIn;
 
       ref.read(authStateProvider.notifier).state = user;
@@ -188,7 +190,7 @@ class AuthRepository implements IAuthRepository {
               path,
               filename: fileName,
               contentType:
-              MediaType('image', extension == 'jpg' ? 'jpeg' : extension),
+                  MediaType('image', extension == 'jpg' ? 'jpeg' : extension),
             ),
           ),
         );
@@ -205,13 +207,13 @@ class AuthRepository implements IAuthRepository {
 
         if (currentAuthUser is SignedIn) {
           final newAuthUser = AuthUser.signedIn(
-            id: newAuthUserWrapper.id,
-            name: newAuthUserWrapper.name,
-            email: newAuthUserWrapper.email,
-            avatar: newAuthUserWrapper.avatar?.replaceAll('public', kBaseUrl),
-            isAdmin: newAuthUserWrapper.isAdmin,
-            accessToken: currentAuthUser.accessToken,
-          );
+              id: newAuthUserWrapper.id,
+              name: newAuthUserWrapper.name,
+              email: newAuthUserWrapper.email,
+              avatar: newAuthUserWrapper.avatar?.replaceAll('public', kBaseUrl),
+              isAdmin: newAuthUserWrapper.isAdmin,
+              accessToken: currentAuthUser.accessToken,
+              currentExerciseDay: currentAuthUser.currentExerciseDay);
           return right(newAuthUser);
         }
       }

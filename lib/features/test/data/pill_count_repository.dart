@@ -33,4 +33,31 @@ class PillCountRepository implements IPillCountRepository {
       return left(Failure(exception.getErrorMessage()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> updatePillCount(int userId, int number, PillCount pillCount) async {
+    try {
+      final data = pillCount.toJson();
+      await _client.put('/user/$userId/pillcount/$number', data: data);
+
+      return right(unit);
+    } catch (e) {
+      final exception = NetworkExceptions.getDioException(e);
+      return left(Failure(exception.getErrorMessage()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PillCount>>> getPillCounts(int userId) async {
+    try {
+      final response = await _client.get('/user/$userId/pillcount');
+      final result = (response['data'] as List<dynamic>)
+          .map((e) => PillCount.fromJson(e))
+          .toList();
+      return right(result);
+    } catch (e) {
+      final exception = NetworkExceptions.getDioException(e);
+      return left(Failure(exception.getErrorMessage()));
+    }
+  }
 }
