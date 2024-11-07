@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/common/constants/colors.dart';
-import 'package:sepo_app/features/test/domain/test.dart';
-import 'package:sepo_app/features/test/presentation/test_list/test_provider.dart';
-import 'package:sepo_app/utils/snackbar_utils.dart';
+import 'package:SEPO/common/constants/colors.dart';
+import 'package:SEPO/features/test/domain/test.dart';
+import 'package:SEPO/features/test/presentation/test_list/test_provider.dart';
+import 'package:SEPO/utils/snackbar_utils.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class _TestList extends StatelessWidget {
         return TestCard(
           title: test.title,
           doneDate: test.doneDate,
-          isLocked: test.lockedUntil != null,
+          isLocked: test.lockedUntil != null && DateTime.now().compareTo(test.lockedUntil!) < 0 ,
           onClick: () {
             context.pushNamed('intro', params: {'testId': test.id.toString()});
           },

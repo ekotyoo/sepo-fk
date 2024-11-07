@@ -54,6 +54,7 @@ const _$MedicineSourceEnumMap = {
   MedicineSource.klinik: 'klinik',
   MedicineSource.apotek: 'apotek',
   MedicineSource.toko: 'toko',
+  MedicineSource.puskesmas: 'puskesmas',
 };
 
 const _$MedicineBoughtTimeEnumMap = {

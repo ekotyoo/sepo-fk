@@ -1,16 +1,56 @@
+import 'package:SEPO/features/article/article_card.dart';
+import 'package:SEPO/features/home/test_score_provider.dart';
+import 'package:SEPO/features/test/presentation/test_list/test_list_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sepo_app/features/auth/domain/auth_user.dart';
+import 'package:go_router/go_router.dart';
+import 'package:SEPO/features/auth/domain/auth_user.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../common/constants/colors.dart';
+import '../article/article_progress_provider.dart';
+import '../article/domain/article_list_item.dart';
+import '../auth/data/auth_repository.dart';
+import '../notification/data/notification_repository.dart';
 import 'home_controller.dart';
 import 'package:intl/intl.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  Future<void> initNotificationToken() async {
+    final firebaseMessaging = FirebaseMessaging.instance;
+    final token = await firebaseMessaging.getToken();
+    final authState = ref.read(authStateProvider) as SignedIn;
+
+    if (token != null) {
+      ref
+          .read(notificationRepositoryProvider)
+          .sendDeviceToken(token, authState.id);
+    }
+
+    firebaseMessaging.onTokenRefresh.listen((newToken) {
+      ref
+          .read(notificationRepositoryProvider)
+          .sendDeviceToken(newToken, authState.id);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initNotificationToken();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final stateAsync = ref.watch(homeControllerProvider);
 
     return SafeArea(
@@ -25,24 +65,23 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
                 ...stateAsync.when(
                   data: (data) {
-                    final authState = data.authState as SignedIn;
-                    if (authState.pillCountFilled &&
-                        authState.currentConditionFilled &&
-                        authState.personalDataFilled) {
-                      return [Container()];
-                    }
-                    return const [
-                      SizedBox(height: 24),
-                      _DataCompletenessCard()
+                    return [
+                      _HomeNote(testId: data.testId),
                     ];
                   },
                   error: (error, stackTrace) => [Container()],
-                  loading: () => [Container()],
+                  loading: () => [
+                    const SizedBox(
+                      height: 400,
+                      width: double.infinity,
+                      child: LoadingIndicator(),
+                    )
+                  ],
                 ),
-                _HomeNote(),
                 const SizedBox(height: 24),
-                _HomeArticle(),
+                const _HomeArticle(),
                 const SizedBox(height: 24),
+                const _HomePoster(),
               ],
             ),
           ),
@@ -81,7 +120,7 @@ class _HomeHeader extends ConsumerWidget {
             ),
             IconButton(
               icon: const Icon(Icons.notifications, size: 32),
-              onPressed: () {},
+              onPressed: () => context.pushNamed('notification'),
               color: kColorPrimary,
             )
           ],
@@ -197,12 +236,19 @@ class _DataCompletenessCard extends StatelessWidget {
   }
 }
 
-class _HomeNote extends StatelessWidget {
-  const _HomeNote({Key? key}) : super(key: key);
+class _HomeNote extends ConsumerWidget {
+  const _HomeNote({Key? key, this.testId}) : super(key: key);
+
+  final int? testId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = (MediaQuery.of(context).size.width - 16 * 2) / 2;
+
+    final authState = ref.watch(authStateProvider) as SignedIn;
+
+    final progressAsync = ref.watch(getArticleProgressProvider);
+    final testScoreAsync = ref.watch(getTestScoreProvider(testId));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +257,7 @@ class _HomeNote extends StatelessWidget {
         const SizedBox(height: 16),
         Row(
           children: [
-            Container(
+            SizedBox(
               height: width * 2,
               width: width - 6,
               child: Column(
@@ -235,19 +281,24 @@ class _HomeNote extends StatelessWidget {
                                     .titleLarge
                                     ?.copyWith(color: Colors.white),
                               ),
-                              Spacer(),
-                              Icon(
+                              const Spacer(),
+                              const Icon(
                                 Icons.star,
                                 size: 40,
                                 color: kColorAccent,
                               )
                             ],
                           ),
-                          Spacer(),
-                          Text(
-                            '60',
-                            style: TextStyle(color: Colors.white, fontSize: 65),
-                          )
+                          const Spacer(),
+                          progressAsync.when(
+                            data: (data) => Text(
+                              '${data?.score ?? 0}',
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 65),
+                            ),
+                            error: (error, stackTrace) => Container(),
+                            loading: () => Container(),
+                          ),
                         ],
                       ),
                     ),
@@ -271,18 +322,19 @@ class _HomeNote extends StatelessWidget {
                                     .titleLarge
                                     ?.copyWith(color: Colors.white),
                               ),
-                              Spacer(),
-                              Icon(
+                              const Spacer(),
+                              const Icon(
                                 Icons.sunny,
                                 size: 40,
                                 color: kColorAccent,
                               )
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
-                            '19',
-                            style: TextStyle(color: Colors.white, fontSize: 65),
+                            '${authState.currentExerciseDay}',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 65),
                           )
                         ],
                       ),
@@ -298,85 +350,85 @@ class _HomeNote extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16), color: Colors.white),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text("Nilai Pre Test",
-                      style: Theme.of(context).textTheme.titleLarge),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text('Vas',
-                              style: Theme.of(context).textTheme.titleMedium),
-                          const SizedBox(height: 8),
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/vas.png'),
-                            maxRadius: 32,
-                          ),
-                          const SizedBox(height: 8),
-                          Text('12',
-                              style: Theme.of(context).textTheme.titleLarge),
-                        ],
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          Text('Nyeri',
-                              style: Theme.of(context).textTheme.titleMedium),
-                          const SizedBox(height: 8),
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/pain.png'),
-                            maxRadius: 32,
-                          ),
-                          const SizedBox(height: 8),
-                          Text('82',
-                              style: Theme.of(context).textTheme.titleLarge),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Row(
+              child: testScoreAsync.when(
+                data: (data) {
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Column(
+                      Text("Nilai Pre Test",
+                          style: Theme.of(context).textTheme.titleLarge),
+                      const Spacer(),
+                      Row(
                         children: [
-                          Text('Makanan',
-                              style: Theme.of(context).textTheme.titleMedium),
-                          const SizedBox(height: 8),
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/food.png'),
-                            maxRadius: 32,
+                          Column(
+                            children: [
+                              Text('VAS',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                              const SizedBox(height: 8),
+                              const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/vas.png'),
+                                maxRadius: 32,
+                              ),
+                              const SizedBox(height: 8),
+                              Text('${data?.vas ?? '-'}',
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge),
+                            ],
                           ),
-                          const SizedBox(height: 8),
-                          Text('65',
-                              style: Theme.of(context).textTheme.titleLarge),
+                          const Spacer(),
+                          Column(
+                            children: [
+                              Text('WOMAC',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
+                              const SizedBox(height: 8),
+                              const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/pain.png'),
+                                maxRadius: 32,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '${data?.womac ?? '-'}',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       const Spacer(),
-                      Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Natrium',
-                              style: Theme.of(context).textTheme.titleMedium),
-                          const SizedBox(height: 8),
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/salt.png'),
-                            maxRadius: 32,
+                          Column(
+                            children: [
+                              Text(
+                                'Natrium',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 8),
+                              const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/salt.png'),
+                                maxRadius: 32,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '${data?.kebutuhanNatrium ?? '-'}',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 8),
-                          Text('64',
-                              style: Theme.of(context).textTheme.titleLarge),
+                          const Spacer(),
                         ],
                       ),
                     ],
-                  ),
-                ],
+                  );
+                },
+                error: (error, stackTrace) => Container(),
+                loading: () => Container(),
               ),
             ),
           ],
@@ -386,11 +438,13 @@ class _HomeNote extends StatelessWidget {
   }
 }
 
-class _HomeArticle extends StatelessWidget {
+class _HomeArticle extends ConsumerWidget {
   const _HomeArticle({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progressAsync = ref.watch(getArticleProgressProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -422,12 +476,15 @@ class _HomeArticle extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Text(
-                          'Selengkapnya',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.white),
+                        TextButton(
+                          onPressed: () => context.pushNamed('article'),
+                          child: Text(
+                            'Selengkapnya',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
                         ),
                         const Icon(
                           Icons.chevron_right_rounded,
@@ -439,112 +496,181 @@ class _HomeArticle extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                '30% materi selesai',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: kColorAccent),
-              ),
-              const SizedBox(height: 8),
-              StepProgressIndicator(
-                totalSteps: 100,
-                currentStep: 32,
-                size: 16,
-                padding: 0,
-                selectedColor: kColorAccent,
-                unselectedColor: kColorPrimaryTint3,
-                roundedEdges: Radius.circular(24),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Selesaikan belajarmu dan dapatkan poin tambahan!",
-                textAlign: TextAlign.justify,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: Colors.white70),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Materi baru:",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: Colors.white),
-              ),
-              const SizedBox(height: 8),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(48),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/article.png'),
-                        maxRadius: 32,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.watch_later,
-                                size: 16, color: Colors.white70),
-                            const SizedBox(width: 4),
-                            Text(
-                              '2:12',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Pertolongan pertama ketika terkena Osteoarthritis ',
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleMedium),
-                            const SizedBox(height: 8),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: kColorSecondary,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '10 point',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(color: kColorSecondary),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.play_arrow, size: 40)
-                    ],
-                  ),
-                ),
+              progressAsync.when(
+                data: (data) {
+                  if (data == null) return Container();
+                  return _ArticleProgressContent(
+                    article: data.nextArticle,
+                    progress: data.progress,
+                  );
+                },
+                error: (error, stackTrace) => Text(error.toString()),
+                loading: () => const LoadingIndicator(),
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ArticleProgressContent extends StatelessWidget {
+  const _ArticleProgressContent(
+      {Key? key, required this.progress, this.article})
+      : super(key: key);
+
+  final double progress;
+  final ArticleListItem? article;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '${(progress * 100).toInt()}% materi selesai',
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: kColorAccent),
+        ),
+        const SizedBox(height: 8),
+        StepProgressIndicator(
+          totalSteps: 100,
+          currentStep: (progress * 100).toInt(),
+          size: 16,
+          padding: 0,
+          selectedColor: kColorAccent,
+          unselectedColor: kColorPrimaryTint3,
+          roundedEdges: const Radius.circular(24),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          "Selesaikan belajarmu dan dapatkan poin tambahan!",
+          textAlign: TextAlign.justify,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Colors.white70),
+        ),
+        if (article != null) const SizedBox(height: 16),
+        if (article != null)
+          Text(
+            "Materi baru:",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Colors.white),
+          ),
+        const SizedBox(height: 8),
+        if (article != null)
+          ArticleCard(
+            article: article!,
+            onTap: () => context.pushNamed(
+              'articledetail',
+              params: {'id': '${article!.id}'},
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _HomePoster extends StatelessWidget {
+  const _HomePoster({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Poster Edukasi', style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 16),
+        _PosterCard(
+          title: 'Kandungan natrium pada produk kemasan',
+          image: 'assets/images/poster_natrium_pada_kemasan.png',
+          onClick: () {
+            context.pushNamed('poster',
+                extra: 'assets/images/poster_natrium_pada_makanan.png');
+          },
+        ),
+        const SizedBox(height: 8),
+        _PosterCard(
+          title: 'Kandungan natrium pada produk bahan alam',
+          image: 'assets/images/poster_natrium_pada_makanan.png',
+          onClick: () {
+            context.pushNamed('poster',
+                extra: 'assets/images/poster_natrium_pada_kemasan.png');
+          },
+        ),
+        const SizedBox(height: 8),
+        _PosterCard(
+          title: 'Olahraga "Sendi Lutut"',
+          image: 'assets/images/poster_latihan_pasian_oa.png',
+          onClick: () {
+            context.pushNamed('poster',
+                extra: 'assets/images/poster_latihan_pasian_oa.png');
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _PosterCard extends StatelessWidget {
+  const _PosterCard({
+    Key? key,
+    required this.title,
+    required this.image,
+    this.onClick,
+  }) : super(key: key);
+  final String title;
+  final String image;
+  final VoidCallback? onClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onClick,
+      child: Container(
+        height: 136,
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(image,
+                  height: 120, width: 100, fit: BoxFit.cover),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  const Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text('Lihat selengkapnya'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -27,6 +27,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         'SEPO akan menginformasikan tentang penyebab, pencegahan, dan pengobatan nyeri lutut. Anda akan menerima saran gaya hidup, pola makan, dan latihan fisik yang membantu meringankan nyeri lutut.',
         'assets/images/onboard_2.png'),
     OnboardingItem(
+        'HKI SEPO',
+        'SEPO telah terdaftar di Ditjen Kekayaan Intelektual, Kementerian Hukum dan HAM.',
+        'assets/images/hki.JPG'),
+    OnboardingItem(
         'Terima kasih telah bergabung dengan SEPO',
         'Selesaikan tantangan dan dapatkan HADIAH menarik!',
         'assets/images/onboard_3.png'),

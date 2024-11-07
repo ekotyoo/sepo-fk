@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/common/constants/colors.dart';
-import 'package:sepo_app/common/widgets/sepo_button.dart';
-import 'package:sepo_app/features/assessment/current_condition_form.dart';
-import 'package:sepo_app/features/test/domain/survey.dart';
-import 'package:sepo_app/features/test/presentation/test_list/test_list_screen.dart';
-import 'package:sepo_app/features/test/presentation/test_list/test_provider.dart';
-import 'package:sepo_app/features/test/presentation/test_session/test_session_controller.dart';
+import 'package:SEPO/common/constants/colors.dart';
+import 'package:SEPO/common/widgets/sepo_button.dart';
+import 'package:SEPO/features/assessment/current_condition_form.dart';
+import 'package:SEPO/features/test/domain/survey.dart';
+import 'package:SEPO/features/test/presentation/test_list/test_list_screen.dart';
+import 'package:SEPO/features/test/presentation/test_list/test_provider.dart';
+import 'package:SEPO/features/test/presentation/test_session/test_session_controller.dart';
 
 import '../../../../utils/snackbar_utils.dart';
 
@@ -17,11 +17,13 @@ class TestSessionScreen extends ConsumerStatefulWidget {
   const TestSessionScreen({
     required this.testId,
     required this.surveyId,
+    required this.surveyName,
     Key? key,
   }) : super(key: key);
 
   final String testId;
   final String surveyId;
+  final String surveyName;
 
   @override
   ConsumerState<TestSessionScreen> createState() => _TestSessionScreenState();
@@ -91,11 +93,29 @@ class _TestSessionScreenState extends ConsumerState<TestSessionScreen> {
           elevation: 0,
           backgroundColor: kColorBackground,
           foregroundColor: kColorPrimary,
-          leading: IconButton(
-            onPressed: () {
-              context.pop();
+          leading: questionsAsync.when(
+            data: (data) {
+              if (data.questionNumber > 0) {
+                return IconButton(
+                  onPressed: () =>
+                      _pageController.jumpToPage(data.questionNumber - 1),
+                  icon: const Icon(Icons.arrow_back),
+                );
+              }
+
+              return IconButton(
+                onPressed: () => context.pop(),
+                icon: const Icon(Icons.close),
+              );
             },
-            icon: const Icon(Icons.close),
+            error: (error, stackTrace) => IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.close),
+            ),
+            loading: () => IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.close),
+            ),
           ),
           actions: questionsAsync.when(
             data: (state) => [
@@ -127,13 +147,17 @@ class _TestSessionScreenState extends ConsumerState<TestSessionScreen> {
             children: questionsAsync.when(
               data: (state) {
                 final nextButtonEnabled =
-                    state.questions[state.questionNumber].offeredAnswer != null;
+                    state.questions[state.questionNumber].offeredAnswer !=
+                            null ||
+                        state.questions[state.questionNumber].type ==
+                            QuestionType.range;
                 final allAnswered = state.questions
                     .every((element) => element.offeredAnswer != null);
+
                 return [
                   const SizedBox(height: 16),
                   Text(
-                    'Sesi 1',
+                    'Sesi ${widget.surveyName}',
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 8),
@@ -150,9 +174,11 @@ class _TestSessionScreenState extends ConsumerState<TestSessionScreen> {
                       itemBuilder: (context, index) {
                         final question = state.questions[index];
                         return QuestionContent(
-                            question: question,
-                            testId: widget.testId,
-                            surveyId: widget.surveyId);
+                          question: question,
+                          testId: widget.testId,
+                          surveyId: widget.surveyId,
+                          surveyName: widget.surveyName,
+                        );
                       },
                     ),
                   ),
@@ -161,9 +187,12 @@ class _TestSessionScreenState extends ConsumerState<TestSessionScreen> {
                           loading: state.isLoading,
                           onPressed: () {
                             ref
-                                .read(testSessionControllerProvider(
-                                        widget.testId, widget.surveyId)
-                                    .notifier)
+                                .read(
+                                  testSessionControllerProvider(
+                                    widget.testId,
+                                    widget.surveyId,
+                                  ).notifier,
+                                )
                                 .onSubmit();
                           },
                           label: 'Simpan',
@@ -194,16 +223,18 @@ class _TestSessionScreenState extends ConsumerState<TestSessionScreen> {
 }
 
 class QuestionContent extends ConsumerWidget {
-  const QuestionContent(
-      {Key? key,
-      required this.question,
-      required this.testId,
-      required this.surveyId})
-      : super(key: key);
+  const QuestionContent({
+    Key? key,
+    required this.question,
+    required this.testId,
+    required this.surveyId,
+    required this.surveyName,
+  }) : super(key: key);
 
   final Question question;
   final String testId;
   final String surveyId;
+  final String surveyName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -214,10 +245,11 @@ class QuestionContent extends ConsumerWidget {
       data: (state) {
         bool? boolOptionValue;
         if (question.type == QuestionType.boolean) {
-          if (state.questions[state.questionNumber].offeredAnswer?.option.number !=
+          if (state.questions[state.questionNumber].offeredAnswer?.option
+                  .number !=
               null) {
-            boolOptionValue = state
-                .questions[state.questionNumber].offeredAnswer?.option.number ==
+            boolOptionValue = state.questions[state.questionNumber]
+                    .offeredAnswer?.option.number ==
                 1;
           }
         }
@@ -226,8 +258,8 @@ class QuestionContent extends ConsumerWidget {
         if (question.type == QuestionType.range) {
           if (state.questions[state.questionNumber].offeredAnswer != null) {
             rangeOptionIndex = state.questions[state.questionNumber].options
-                .indexOf(
-                state.questions[state.questionNumber].offeredAnswer!.option);
+                .indexOf(state
+                    .questions[state.questionNumber].offeredAnswer!.option);
           } else {
             rangeOptionIndex = 0;
           }
@@ -235,69 +267,70 @@ class QuestionContent extends ConsumerWidget {
 
         final optionContent = switch (question.type) {
           QuestionType.option => [
-            Expanded(
-              child: FormOption(
-                items: question.options
-                    .map(
-                      (e) => CheckboxItem(
-                    label: e.text,
-                    value: e ==
-                        state.questions[state.questionNumber].offeredAnswer
-                            ?.option,
-                    onChanged: (value) {
-                      ref
-                          .read(testSessionControllerProvider(testId, surveyId)
-                          .notifier)
-                          .answerQuestion(e);
-                    },
-                  ),
-                )
-                    .toList(),
-              ),
-            )
-          ],
+              Expanded(
+                child: FormOption(
+                  items: question.options
+                      .map(
+                        (e) => CheckboxItem(
+                          label: e.text,
+                          value: e ==
+                              state.questions[state.questionNumber]
+                                  .offeredAnswer?.option,
+                          onChanged: (value) {
+                            ref
+                                .read(testSessionControllerProvider(
+                                        testId, surveyId)
+                                    .notifier)
+                                .answerQuestion(e);
+                          },
+                        ),
+                      )
+                      .toList(),
+                ),
+              )
+            ],
           QuestionType.boolean => [
-            const SizedBox(height: 32),
-            BooleanOption(
-              value: boolOptionValue,
-              onPositiveClick: () {
-                final option =
-                state.questions[state.questionNumber].options.firstWhere(
-                      (element) => element.number == 1,
-                );
-                ref
-                    .read(
-                    testSessionControllerProvider(testId, surveyId).notifier)
-                    .answerQuestion(option);
-              },
-              onNegativeClick: () {
-                final option =
-                state.questions[state.questionNumber].options.firstWhere(
-                      (element) => element.number == 0,
-                );
-                ref
-                    .read(
-                    testSessionControllerProvider(testId, surveyId).notifier)
-                    .answerQuestion(option);
-              },
-            ),
-          ],
-          QuestionType.range => [
-            const SizedBox(height: 32),
-            Expanded(
-              child: RangeOption(
-                key: ValueKey(state.questions[state.questionNumber]),
-                options: question.options,
-                initialIndex: rangeOptionIndex,
-                onOptionChanged: (index) {
+              const SizedBox(height: 32),
+              BooleanOption(
+                value: boolOptionValue,
+                onPositiveClick: () {
+                  final option =
+                      state.questions[state.questionNumber].options.firstWhere(
+                    (element) => element.number == 1,
+                  );
                   ref
                       .read(testSessionControllerProvider(testId, surveyId)
-                      .notifier)
-                      .answerQuestion(question.options[index]);
+                          .notifier)
+                      .answerQuestion(option);
+                },
+                onNegativeClick: () {
+                  final option =
+                      state.questions[state.questionNumber].options.firstWhere(
+                    (element) => element.number == 0,
+                  );
+                  ref
+                      .read(testSessionControllerProvider(testId, surveyId)
+                          .notifier)
+                      .answerQuestion(option);
                 },
               ),
-            ),
-          ],
+            ],
+          QuestionType.range => [
+              const SizedBox(height: 32),
+              Expanded(
+                child: RangeOption(
+                  key: ValueKey(state.questions[state.questionNumber]),
+                  options: question.options,
+                  initialIndex: rangeOptionIndex,
+                  onOptionChanged: (index) {
+                    ref
+                        .read(testSessionControllerProvider(testId, surveyId)
+                            .notifier)
+                        .answerQuestion(question.options[index]);
+                  },
+                ),
+              ),
+            ],
         };
 
         return Column(
@@ -308,7 +341,7 @@ class QuestionContent extends ConsumerWidget {
             ),
             const SizedBox(height: 32),
             SizedBox(
-              height: 200,
+              height: surveyName == 'VAS' ? 150 : 200,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
@@ -319,7 +352,12 @@ class QuestionContent extends ConsumerWidget {
               ),
             ),
             if (question.type == QuestionType.range) ...[
-              const SizedBox(height: 16),
+              if (surveyName == 'VAS')
+                Image.asset(
+                  'assets/images/vas_range.png',
+                  width: 250,
+                ),
+              const SizedBox(height: 8),
               Text(
                 'Geser untuk menyesuaikan',
                 style: Theme.of(context)
@@ -363,6 +401,9 @@ class _RangeOptionState extends State<RangeOption> {
       initialPage: widget.initialIndex ?? 0,
       keepPage: false,
     );
+    Future(() {
+      widget.onOptionChanged?.call(widget.initialIndex ?? 0);
+    });
     super.initState();
   }
 
@@ -398,12 +439,20 @@ class _RangeOptionState extends State<RangeOption> {
                     : 1.0,
                 child: Column(
                   children: [
-                    Text(
-                      option.text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          option.text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 16),
+                        if (option.image != null)
+                          Image.network(option.image!, height: 32, width: 32),
+                      ],
                     ),
                     const SizedBox(height: 32),
                     Text(

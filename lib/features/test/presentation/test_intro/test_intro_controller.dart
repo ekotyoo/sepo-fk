@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/test/data/test_repository.dart';
-import 'package:sepo_app/features/test/presentation/test_intro/test_intro_state.dart';
+import 'package:SEPO/features/test/data/test_repository.dart';
+import 'package:SEPO/features/test/presentation/test_intro/test_intro_state.dart';
 
 part 'test_intro_controller.g.dart';
 
@@ -11,8 +11,10 @@ class TestIntroController extends _$TestIntroController {
     final repo = ref.read(testRepositoryProvider);
     final result = await repo.getSurveys(testId);
 
+    final test = (await repo.getTests()).fold((l) => null, (r) => r)?.firstWhere((element) => element.id == int.parse(testId));
+
     return result.fold(
-      (l) => TestIntroState(surveys: [], errorMessage: l.message),
+      (l) => TestIntroState(surveys: [], errorMessage: l.message, test: test),
       (r) {
         int initialIndex = 0;
         for (var survey in r) {
@@ -22,6 +24,7 @@ class TestIntroController extends _$TestIntroController {
         return TestIntroState(
           currentSurveyIndex: initialIndex,
           surveys: r,
+          test: test
         );
       },
     );
@@ -47,7 +50,7 @@ class TestIntroController extends _$TestIntroController {
     );
   }
 
-  void incrementSurveyIndex() {
+  void incrementSurveyIndex() async {
     final oldState = state.requireValue;
     if (oldState.currentSurveyIndex == null || oldState.surveys.isEmpty) return;
     if (oldState.currentSurveyIndex! < oldState.surveys.length - 1) {

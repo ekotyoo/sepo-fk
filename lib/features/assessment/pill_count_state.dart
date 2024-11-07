@@ -28,12 +28,15 @@ enum MedicineSource {
   @JsonValue('apotek')
   apotek,
   @JsonValue('toko')
-  toko;
+  toko,
+  @JsonValue('puskesmas')
+  puskesmas;
 
   String getLabel() => switch(this) {
     klinik => 'Klinik',
     apotek => 'Apotek',
     toko => 'Toko Obat',
+    puskesmas => 'Puskesmas'
   };
 }
 

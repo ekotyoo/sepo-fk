@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sepo_app/features/assessment/assessment_controller.dart';
-import 'package:sepo_app/features/assessment/models/exercise_duration.dart';
-import 'package:sepo_app/features/assessment/models/illness_duration_input.dart';
-import 'package:sepo_app/features/auth/presentation/login/login_screen.dart';
+import 'package:SEPO/features/assessment/assessment_controller.dart';
+import 'package:SEPO/features/assessment/models/exercise_duration.dart';
+import 'package:SEPO/features/assessment/models/illness_duration_input.dart';
+import 'package:SEPO/features/auth/presentation/login/login_screen.dart';
 
 import '../../common/constants/colors.dart';
 

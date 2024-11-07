@@ -7,7 +7,7 @@ part of 'test_session_controller.dart';
 // **************************************************************************
 
 String _$testSessionControllerHash() =>
-    r'e10c8490ca6278ac57599e85e89d1a0a2f126ce3';
+    r'25002016277f187e5d3cccd37b9c84bf2cdd140d';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/test/data/test_repository.dart';
-import 'package:sepo_app/features/test/domain/test.dart';
+import 'package:SEPO/features/test/data/test_repository.dart';
+import 'package:SEPO/features/test/domain/test.dart';
 
 part 'test_provider.g.dart';
 

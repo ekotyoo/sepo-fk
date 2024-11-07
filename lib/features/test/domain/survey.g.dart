@@ -34,6 +34,7 @@ _$_Question _$$_QuestionFromJson(Map<String, dynamic> json) => _$_Question(
           ? null
           : OfferedAnswer.fromJson(
               json['offeredAnswer'] as Map<String, dynamic>),
+      dirty: json['dirty'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_QuestionToJson(_$_Question instance) =>
@@ -44,6 +45,7 @@ Map<String, dynamic> _$$_QuestionToJson(_$_Question instance) =>
       'image_path': instance.image,
       'options': instance.options,
       'offeredAnswer': instance.offeredAnswer,
+      'dirty': instance.dirty,
     };
 
 const _$QuestionTypeEnumMap = {
@@ -56,12 +58,14 @@ _$_Option _$$_OptionFromJson(Map<String, dynamic> json) => _$_Option(
       id: json['id'] as int,
       number: json['number'] as int,
       text: json['text'] as String,
+      image: json['image'] as String?,
     );
 
 Map<String, dynamic> _$$_OptionToJson(_$_Option instance) => <String, dynamic>{
       'id': instance.id,
       'number': instance.number,
       'text': instance.text,
+      'image': instance.image,
     };
 
 _$_OfferedAnswer _$$_OfferedAnswerFromJson(Map<String, dynamic> json) =>

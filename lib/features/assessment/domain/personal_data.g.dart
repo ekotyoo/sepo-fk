@@ -9,7 +9,8 @@ part of 'personal_data.dart';
 _$_PersonalData _$$_PersonalDataFromJson(Map<String, dynamic> json) =>
     _$_PersonalData(
       name: json['name'] as String,
-      birthDate: json['birth_date'] as int,
+      birthDate: json['birth_date_timestamp'] as int?,
+      birth: const TimestampSerializer().fromJson(json['birth_date']),
       gender: $enumDecode(_$GenderEnumMap, json['gender']),
       address: json['address'] as String,
       phone: json['phone'] as String,
@@ -19,7 +20,8 @@ _$_PersonalData _$$_PersonalDataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_PersonalDataToJson(_$_PersonalData instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'birth_date': instance.birthDate,
+      'birth_date_timestamp': instance.birthDate,
+      'birth_date': const TimestampSerializer().toJson(instance.birth),
       'gender': _$GenderEnumMap[instance.gender]!,
       'address': instance.address,
       'phone': instance.phone,

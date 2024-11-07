@@ -1,6 +1,8 @@
+import 'package:SEPO/features/test/data/test_repository.dart';
+import 'package:SEPO/features/test/domain/test.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/auth/domain/auth_user.dart';
-import 'package:sepo_app/features/home/home_state.dart';
+import 'package:SEPO/features/auth/domain/auth_user.dart';
+import 'package:SEPO/features/home/home_state.dart';
 
 import '../auth/data/auth_repository.dart';
 
@@ -13,9 +15,13 @@ class HomeController extends _$HomeController {
     final currentDate = DateTime.now();
     final authState = ref.watch(authStateProvider) as SignedIn;
 
+    final testRepo = ref.read(testRepositoryProvider);
+    final tests = (await testRepo.getTests()).fold((l) => null, (r) => r);
+
     return HomeState(
       currentDate: currentDate,
-      authState: authState
+      authState: authState,
+      testId: tests?[0].id
     );
   }
 }

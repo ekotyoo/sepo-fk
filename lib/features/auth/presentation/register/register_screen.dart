@@ -122,27 +122,6 @@ class RegisterScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 32),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Image.asset('assets/images/google_logo.png'),
-                    ),
-                    SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Image.asset('assets/images/facebook_logo.png'),
-                    ),
-                    SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Image.asset('assets/images/twitter_logo.png'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Sudah memiliki akun?'),

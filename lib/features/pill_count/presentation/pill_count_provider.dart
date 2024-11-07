@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/assessment/domain/pill_count.dart';
-import 'package:sepo_app/features/auth/data/auth_repository.dart';
-import 'package:sepo_app/features/auth/domain/auth_user.dart';
+import 'package:SEPO/features/assessment/domain/pill_count.dart';
+import 'package:SEPO/features/auth/data/auth_repository.dart';
+import 'package:SEPO/features/auth/domain/auth_user.dart';
 
 import '../../test/data/pill_count_repository.dart';
 

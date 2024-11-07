@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:SEPO/features/exercise/exercise_screen.dart';
 
 part 'exercise.freezed.dart';
 part 'exercise.g.dart';
@@ -19,6 +20,7 @@ class Exercise with _$Exercise {
     @JsonKey(name: 'duration_or_repetition') required int durationOrRepetition,
     required int number,
     required String image,
+    required ExerciseLevel level,
   }) = _Training;
 
   factory Exercise.fromJson(Map<String, dynamic> json) => _$ExerciseFromJson(json);

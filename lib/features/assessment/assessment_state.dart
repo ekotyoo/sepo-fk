@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sepo_app/features/auth/domain/auth_user.dart';
+import 'package:SEPO/features/auth/domain/auth_user.dart';
 import 'pill_count_state.dart';
 import 'current_condition_state.dart';
 import 'personal_data_state.dart';

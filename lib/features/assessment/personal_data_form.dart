@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sepo_app/common/constants/colors.dart';
-import 'package:sepo_app/common/widgets/sepo_button.dart';
-import 'package:sepo_app/common/widgets/sepo_dropdown.dart';
-import 'package:sepo_app/features/assessment/models/education_input.dart';
-import 'package:sepo_app/features/assessment/models/gender_input.dart';
+import 'package:SEPO/common/constants/colors.dart';
+import 'package:SEPO/common/widgets/sepo_dropdown.dart';
+import 'package:SEPO/features/assessment/models/education_input.dart';
+import 'package:SEPO/features/assessment/models/gender_input.dart';
+import 'package:intl/intl.dart';
 
 import '../../common/models/date_input.dart';
 import '../auth/presentation/login/login_screen.dart';
@@ -106,6 +106,7 @@ class PersonalDataForm extends ConsumerWidget {
                   SepoTextField(
                     label: 'Nomor Handphone',
                     initialText: state.phoneInput.value,
+                    type: SepoTextFieldType.number,
                     onChanged: (value) {
                       ref
                           .read(assessmentControllerProvider.notifier)
@@ -170,7 +171,7 @@ class PickDateButton extends StatelessWidget {
               Text(
                 dateInput.value == null
                     ? label
-                    : '${dateInput.value}',
+                    : DateFormat.yMMMMd().format(dateInput.value!),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const Icon(Icons.calendar_month),

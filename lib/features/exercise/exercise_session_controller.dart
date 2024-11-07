@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/exercise/exercise.dart';
-import 'package:sepo_app/features/exercise/exercise_session_state.dart';
+import 'package:SEPO/features/exercise/exercise.dart';
+import 'package:SEPO/features/exercise/exercise_session_state.dart';
 
 part 'exercise_session_controller.g.dart';
 
@@ -33,7 +33,9 @@ class ExerciseSessionController extends _$ExerciseSessionController {
       );
     }
 
-    return const ExerciseSessionState();
+    return const ExerciseSessionState(
+      isDone: true
+    );
   }
 
   void initializeTimer() {

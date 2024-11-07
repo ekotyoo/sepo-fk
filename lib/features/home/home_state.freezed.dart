@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   DateTime get currentDate => throw _privateConstructorUsedError;
   AuthUser get authState => throw _privateConstructorUsedError;
+  int? get testId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({DateTime currentDate, AuthUser authState});
+  $Res call({DateTime currentDate, AuthUser authState, int? testId});
 
   $AuthUserCopyWith<$Res> get authState;
 }
@@ -49,6 +50,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? currentDate = null,
     Object? authState = null,
+    Object? testId = freezed,
   }) {
     return _then(_value.copyWith(
       currentDate: null == currentDate
@@ -59,6 +61,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.authState
           : authState // ignore: cast_nullable_to_non_nullable
               as AuthUser,
+      testId: freezed == testId
+          ? _value.testId
+          : testId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -78,7 +84,7 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime currentDate, AuthUser authState});
+  $Res call({DateTime currentDate, AuthUser authState, int? testId});
 
   @override
   $AuthUserCopyWith<$Res> get authState;
@@ -97,6 +103,7 @@ class __$$_HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? currentDate = null,
     Object? authState = null,
+    Object? testId = freezed,
   }) {
     return _then(_$_HomeState(
       currentDate: null == currentDate
@@ -107,6 +114,10 @@ class __$$_HomeStateCopyWithImpl<$Res>
           ? _value.authState
           : authState // ignore: cast_nullable_to_non_nullable
               as AuthUser,
+      testId: freezed == testId
+          ? _value.testId
+          : testId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -114,16 +125,19 @@ class __$$_HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  const _$_HomeState({required this.currentDate, required this.authState});
+  const _$_HomeState(
+      {required this.currentDate, required this.authState, this.testId});
 
   @override
   final DateTime currentDate;
   @override
   final AuthUser authState;
+  @override
+  final int? testId;
 
   @override
   String toString() {
-    return 'HomeState(currentDate: $currentDate, authState: $authState)';
+    return 'HomeState(currentDate: $currentDate, authState: $authState, testId: $testId)';
   }
 
   @override
@@ -134,11 +148,12 @@ class _$_HomeState implements _HomeState {
             (identical(other.currentDate, currentDate) ||
                 other.currentDate == currentDate) &&
             (identical(other.authState, authState) ||
-                other.authState == authState));
+                other.authState == authState) &&
+            (identical(other.testId, testId) || other.testId == testId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentDate, authState);
+  int get hashCode => Object.hash(runtimeType, currentDate, authState, testId);
 
   @JsonKey(ignore: true)
   @override
@@ -150,12 +165,15 @@ class _$_HomeState implements _HomeState {
 abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {required final DateTime currentDate,
-      required final AuthUser authState}) = _$_HomeState;
+      required final AuthUser authState,
+      final int? testId}) = _$_HomeState;
 
   @override
   DateTime get currentDate;
   @override
   AuthUser get authState;
+  @override
+  int? get testId;
   @override
   @JsonKey(ignore: true)
   _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>

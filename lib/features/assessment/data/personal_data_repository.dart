@@ -1,12 +1,11 @@
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/common/error/failure.dart';
-import 'package:sepo_app/features/assessment/data/i_personal_data_repository.dart';
-import 'package:sepo_app/features/assessment/domain/personal_data.dart';
-
+import '../../../common/error/failure.dart';
 import '../../../common/error/network_exceptions.dart';
 import '../../../common/services/http_client.dart';
+import '../domain/personal_data.dart';
+import 'i_personal_data_repository.dart';
 
 part 'personal_data_repository.g.dart';
 
@@ -28,6 +27,18 @@ class PersonalDataRepository implements IPersonalDataRepository {
       await _client.post('/user/personaldata', data: data);
 
       return right(unit);
+    } catch (e) {
+      final exception = NetworkExceptions.getDioException(e);
+      return left(Failure(exception.getErrorMessage()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PersonalData>> getPersonalData(int userId) async {
+    try {
+      final result = await _client.get('/user/$userId/personaldata');
+      final personalData = PersonalData.fromJson(result['data']);
+      return right(personalData);
     } catch (e) {
       final exception = NetworkExceptions.getDioException(e);
       return left(Failure(exception.getErrorMessage()));

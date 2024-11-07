@@ -35,6 +35,7 @@ class Question with _$Question {
     @JsonKey(name: 'image_path') String? image,
     required List<Option> options,
     OfferedAnswer? offeredAnswer,
+    @Default(false) bool dirty,
   }) = _Question;
 
   factory Question.fromJson(Map<String, Object?> json) =>
@@ -47,6 +48,7 @@ class Option with _$Option {
     required int id,
     required int number,
     required String text,
+    @JsonKey(name: 'image') String? image,
   }) = _Option;
 
   factory Option.fromJson(Map<String, Object?> json) => _$OptionFromJson(json);

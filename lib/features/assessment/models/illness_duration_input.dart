@@ -8,7 +8,7 @@ enum IllnessDuration {
   String getLabel() => switch (this) {
         lessThanAYear => 'Kurang dari satu tahun',
         moreThanAYear => 'Lebih dari satu tahun',
-        moreThanThreeYear => 'Lebihd dari tiga tahun'
+        moreThanThreeYear => 'Lebih dari tiga tahun'
       };
 }
 

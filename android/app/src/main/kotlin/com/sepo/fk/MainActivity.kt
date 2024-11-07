@@ -1,4 +1,4 @@
-package com.example.sepo_app
+package com.sepo.fk
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -21,8 +21,11 @@ PersonalData _$PersonalDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PersonalData {
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'birth_date_timestamp')
+  int? get birthDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'birth_date')
-  int get birthDate => throw _privateConstructorUsedError;
+  @TimestampSerializer()
+  DateTime? get birth => throw _privateConstructorUsedError;
   Gender get gender => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
@@ -42,7 +45,8 @@ abstract class $PersonalDataCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
-      @JsonKey(name: 'birth_date') int birthDate,
+      @JsonKey(name: 'birth_date_timestamp') int? birthDate,
+      @JsonKey(name: 'birth_date') @TimestampSerializer() DateTime? birth,
       Gender gender,
       String address,
       String phone,
@@ -63,7 +67,8 @@ class _$PersonalDataCopyWithImpl<$Res, $Val extends PersonalData>
   @override
   $Res call({
     Object? name = null,
-    Object? birthDate = null,
+    Object? birthDate = freezed,
+    Object? birth = freezed,
     Object? gender = null,
     Object? address = null,
     Object? phone = null,
@@ -74,10 +79,14 @@ class _$PersonalDataCopyWithImpl<$Res, $Val extends PersonalData>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      birthDate: null == birthDate
+      birthDate: freezed == birthDate
           ? _value.birthDate
           : birthDate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      birth: freezed == birth
+          ? _value.birth
+          : birth // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -108,7 +117,8 @@ abstract class _$$_PersonalDataCopyWith<$Res>
   @useResult
   $Res call(
       {String name,
-      @JsonKey(name: 'birth_date') int birthDate,
+      @JsonKey(name: 'birth_date_timestamp') int? birthDate,
+      @JsonKey(name: 'birth_date') @TimestampSerializer() DateTime? birth,
       Gender gender,
       String address,
       String phone,
@@ -127,7 +137,8 @@ class __$$_PersonalDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
-    Object? birthDate = null,
+    Object? birthDate = freezed,
+    Object? birth = freezed,
     Object? gender = null,
     Object? address = null,
     Object? phone = null,
@@ -138,10 +149,14 @@ class __$$_PersonalDataCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      birthDate: null == birthDate
+      birthDate: freezed == birthDate
           ? _value.birthDate
           : birthDate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      birth: freezed == birth
+          ? _value.birth
+          : birth // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -167,7 +182,8 @@ class __$$_PersonalDataCopyWithImpl<$Res>
 class _$_PersonalData implements _PersonalData {
   const _$_PersonalData(
       {required this.name,
-      @JsonKey(name: 'birth_date') required this.birthDate,
+      @JsonKey(name: 'birth_date_timestamp') this.birthDate,
+      @JsonKey(name: 'birth_date') @TimestampSerializer() this.birth,
       required this.gender,
       required this.address,
       required this.phone,
@@ -179,8 +195,12 @@ class _$_PersonalData implements _PersonalData {
   @override
   final String name;
   @override
+  @JsonKey(name: 'birth_date_timestamp')
+  final int? birthDate;
+  @override
   @JsonKey(name: 'birth_date')
-  final int birthDate;
+  @TimestampSerializer()
+  final DateTime? birth;
   @override
   final Gender gender;
   @override
@@ -192,7 +212,7 @@ class _$_PersonalData implements _PersonalData {
 
   @override
   String toString() {
-    return 'PersonalData(name: $name, birthDate: $birthDate, gender: $gender, address: $address, phone: $phone, education: $education)';
+    return 'PersonalData(name: $name, birthDate: $birthDate, birth: $birth, gender: $gender, address: $address, phone: $phone, education: $education)';
   }
 
   @override
@@ -203,6 +223,7 @@ class _$_PersonalData implements _PersonalData {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
+            (identical(other.birth, birth) || other.birth == birth) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.phone, phone) || other.phone == phone) &&
@@ -213,7 +234,7 @@ class _$_PersonalData implements _PersonalData {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, birthDate, gender, address, phone, education);
+      runtimeType, name, birthDate, birth, gender, address, phone, education);
 
   @JsonKey(ignore: true)
   @override
@@ -232,7 +253,8 @@ class _$_PersonalData implements _PersonalData {
 abstract class _PersonalData implements PersonalData {
   const factory _PersonalData(
       {required final String name,
-      @JsonKey(name: 'birth_date') required final int birthDate,
+      @JsonKey(name: 'birth_date_timestamp') final int? birthDate,
+      @JsonKey(name: 'birth_date') @TimestampSerializer() final DateTime? birth,
       required final Gender gender,
       required final String address,
       required final String phone,
@@ -244,8 +266,12 @@ abstract class _PersonalData implements PersonalData {
   @override
   String get name;
   @override
+  @JsonKey(name: 'birth_date_timestamp')
+  int? get birthDate;
+  @override
   @JsonKey(name: 'birth_date')
-  int get birthDate;
+  @TimestampSerializer()
+  DateTime? get birth;
   @override
   Gender get gender;
   @override

@@ -26,6 +26,7 @@ mixin _$Exercise {
   int get durationOrRepetition => throw _privateConstructorUsedError;
   int get number => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
+  ExerciseLevel get level => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $ExerciseCopyWith<$Res> {
       ExerciseType type,
       @JsonKey(name: 'duration_or_repetition') int durationOrRepetition,
       int number,
-      String image});
+      String image,
+      ExerciseLevel level});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$ExerciseCopyWithImpl<$Res, $Val extends Exercise>
     Object? durationOrRepetition = null,
     Object? number = null,
     Object? image = null,
+    Object? level = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -86,6 +89,10 @@ class _$ExerciseCopyWithImpl<$Res, $Val extends Exercise>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      level: null == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as ExerciseLevel,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$_TrainingCopyWith<$Res> implements $ExerciseCopyWith<$Res> {
       ExerciseType type,
       @JsonKey(name: 'duration_or_repetition') int durationOrRepetition,
       int number,
-      String image});
+      String image,
+      ExerciseLevel level});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$_TrainingCopyWithImpl<$Res>
     Object? durationOrRepetition = null,
     Object? number = null,
     Object? image = null,
+    Object? level = null,
   }) {
     return _then(_$_Training(
       name: null == name
@@ -143,6 +152,10 @@ class __$$_TrainingCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      level: null == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as ExerciseLevel,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$_Training implements _Training {
       @JsonKey(name: 'duration_or_repetition')
       required this.durationOrRepetition,
       required this.number,
-      required this.image});
+      required this.image,
+      required this.level});
 
   factory _$_Training.fromJson(Map<String, dynamic> json) =>
       _$$_TrainingFromJson(json);
@@ -172,10 +186,12 @@ class _$_Training implements _Training {
   final int number;
   @override
   final String image;
+  @override
+  final ExerciseLevel level;
 
   @override
   String toString() {
-    return 'Exercise(name: $name, type: $type, durationOrRepetition: $durationOrRepetition, number: $number, image: $image)';
+    return 'Exercise(name: $name, type: $type, durationOrRepetition: $durationOrRepetition, number: $number, image: $image, level: $level)';
   }
 
   @override
@@ -188,13 +204,14 @@ class _$_Training implements _Training {
             (identical(other.durationOrRepetition, durationOrRepetition) ||
                 other.durationOrRepetition == durationOrRepetition) &&
             (identical(other.number, number) || other.number == number) &&
-            (identical(other.image, image) || other.image == image));
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.level, level) || other.level == level));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, type, durationOrRepetition, number, image);
+  int get hashCode => Object.hash(
+      runtimeType, name, type, durationOrRepetition, number, image, level);
 
   @JsonKey(ignore: true)
   @override
@@ -217,7 +234,8 @@ abstract class _Training implements Exercise {
       @JsonKey(name: 'duration_or_repetition')
       required final int durationOrRepetition,
       required final int number,
-      required final String image}) = _$_Training;
+      required final String image,
+      required final ExerciseLevel level}) = _$_Training;
 
   factory _Training.fromJson(Map<String, dynamic> json) = _$_Training.fromJson;
 
@@ -232,6 +250,8 @@ abstract class _Training implements Exercise {
   int get number;
   @override
   String get image;
+  @override
+  ExerciseLevel get level;
   @override
   @JsonKey(ignore: true)
   _$$_TrainingCopyWith<_$_Training> get copyWith =>

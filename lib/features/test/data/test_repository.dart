@@ -1,13 +1,14 @@
 import 'dart:convert';
 
+import 'package:SEPO/features/test/domain/test_score.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/common/error/failure.dart';
-import 'package:sepo_app/common/services/http_client.dart';
-import 'package:sepo_app/features/test/data/i_test_repository.dart';
-import 'package:sepo_app/features/test/domain/survey.dart';
-import 'package:sepo_app/features/test/domain/test.dart';
+import 'package:SEPO/common/error/failure.dart';
+import 'package:SEPO/common/services/http_client.dart';
+import 'package:SEPO/features/test/data/i_test_repository.dart';
+import 'package:SEPO/features/test/domain/survey.dart';
+import 'package:SEPO/features/test/domain/test.dart';
 
 import '../../../common/error/network_exceptions.dart';
 
@@ -67,7 +68,7 @@ class TestRepository implements ITestRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> postAnswers({required String testId, required List<Question> questions}) async {
+  Future<Either<Failure, Unit>> postAnswers({required String testId, required String surveyId, required List<Question> questions}) async {
     try {
       final answerRequest = questions
           .map(
@@ -80,10 +81,23 @@ class TestRepository implements ITestRepository {
 
       final data = jsonEncode({
         'test_id': testId,
+        'survey_id': surveyId,
         'answers': answerRequest,
       });
       await _client.post('/question/answer', data: data);
       return right(unit);
+    } catch (e) {
+      final exception = NetworkExceptions.getDioException(e);
+      return left(Failure(exception.getErrorMessage()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TestScore>> getTestScore(int userId, int testId) async {
+    try {
+      final response = await _client.get('/user/$userId/testscore/$testId');
+      final result = TestScore.fromJson(response['data']);
+      return right(result);
     } catch (e) {
       final exception = NetworkExceptions.getDioException(e);
       return left(Failure(exception.getErrorMessage()));

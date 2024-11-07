@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sepo_app/features/assessment/models/education_input.dart';
-import 'package:sepo_app/features/assessment/models/gender_input.dart';
+
+import '../../test/domain/test.dart';
+import '../models/education_input.dart';
+import '../models/gender_input.dart';
 
 part 'personal_data.freezed.dart';
 
@@ -10,7 +12,8 @@ part 'personal_data.g.dart';
 class PersonalData with _$PersonalData {
   const factory PersonalData({
     required String name,
-    @JsonKey(name: 'birth_date') required int birthDate,
+    @JsonKey(name: 'birth_date_timestamp') int? birthDate,
+    @JsonKey(name: 'birth_date') @TimestampSerializer() DateTime? birth,
     required Gender gender,
     required String address,
     required String phone,

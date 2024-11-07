@@ -1,25 +1,25 @@
+import 'package:SEPO/features/assessment/pill_count_state.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/common/models/date_input.dart';
-import 'package:sepo_app/common/models/name_text_input.dart';
-import 'package:sepo_app/features/assessment/assessment_state.dart';
-import 'package:sepo_app/features/assessment/data/personal_data_repository.dart';
-import 'package:sepo_app/features/assessment/domain/current_condition.dart';
-import 'package:sepo_app/features/assessment/domain/personal_data.dart';
-import 'package:sepo_app/features/assessment/domain/pill_count.dart';
-import 'package:sepo_app/features/assessment/models/address_input.dart';
-import 'package:sepo_app/features/assessment/models/education_input.dart';
-import 'package:sepo_app/features/assessment/models/exercise_duration.dart';
-import 'package:sepo_app/features/assessment/models/gender_input.dart';
-import 'package:sepo_app/features/assessment/models/illness_duration_input.dart';
-import 'package:sepo_app/features/assessment/models/phone_input.dart';
-import 'package:sepo_app/features/assessment/pill_count_state.dart';
-import 'package:sepo_app/features/auth/domain/auth_user.dart';
-import 'package:sepo_app/features/test/data/current_condition_repository.dart';
-import 'package:sepo_app/features/test/data/pill_count_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../common/models/date_input.dart';
+import '../../common/models/name_text_input.dart';
 import '../auth/data/auth_repository.dart';
+import '../auth/domain/auth_user.dart';
+import '../test/data/current_condition_repository.dart';
+import '../test/data/pill_count_repository.dart';
+import 'assessment_state.dart';
+import 'data/personal_data_repository.dart';
+import 'domain/current_condition.dart';
+import 'domain/personal_data.dart';
+import 'domain/pill_count.dart';
+import 'models/address_input.dart';
+import 'models/education_input.dart';
+import 'models/exercise_duration.dart';
+import 'models/gender_input.dart';
+import 'models/illness_duration_input.dart';
+import 'models/phone_input.dart';
 
 part 'assessment_controller.g.dart';
 

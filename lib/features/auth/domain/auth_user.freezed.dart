@@ -28,6 +28,8 @@ mixin _$AuthUserWrapper {
   String? get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_admin', defaultValue: false)
   bool get isAdmin => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_google_auth', defaultValue: false)
+  bool get isGoogleAuth => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_active', defaultValue: false)
   bool get isActive => throw _privateConstructorUsedError;
   @JsonKey(name: 'personal_data_filled', defaultValue: false)
@@ -58,6 +60,7 @@ abstract class $AuthUserWrapperCopyWith<$Res> {
       @JsonKey(name: 'access_token') String? accessToken,
       String? avatar,
       @JsonKey(name: 'is_admin', defaultValue: false) bool isAdmin,
+      @JsonKey(name: 'is_google_auth', defaultValue: false) bool isGoogleAuth,
       @JsonKey(name: 'is_active', defaultValue: false) bool isActive,
       @JsonKey(name: 'personal_data_filled', defaultValue: false)
       bool personalDataFilled,
@@ -87,6 +90,7 @@ class _$AuthUserWrapperCopyWithImpl<$Res, $Val extends AuthUserWrapper>
     Object? accessToken = freezed,
     Object? avatar = freezed,
     Object? isAdmin = null,
+    Object? isGoogleAuth = null,
     Object? isActive = null,
     Object? personalDataFilled = null,
     Object? currentConditionFilled = null,
@@ -117,6 +121,10 @@ class _$AuthUserWrapperCopyWithImpl<$Res, $Val extends AuthUserWrapper>
       isAdmin: null == isAdmin
           ? _value.isAdmin
           : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isGoogleAuth: null == isGoogleAuth
+          ? _value.isGoogleAuth
+          : isGoogleAuth // ignore: cast_nullable_to_non_nullable
               as bool,
       isActive: null == isActive
           ? _value.isActive
@@ -157,6 +165,7 @@ abstract class _$$_AuthUserWrapperCopyWith<$Res>
       @JsonKey(name: 'access_token') String? accessToken,
       String? avatar,
       @JsonKey(name: 'is_admin', defaultValue: false) bool isAdmin,
+      @JsonKey(name: 'is_google_auth', defaultValue: false) bool isGoogleAuth,
       @JsonKey(name: 'is_active', defaultValue: false) bool isActive,
       @JsonKey(name: 'personal_data_filled', defaultValue: false)
       bool personalDataFilled,
@@ -184,6 +193,7 @@ class __$$_AuthUserWrapperCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? avatar = freezed,
     Object? isAdmin = null,
+    Object? isGoogleAuth = null,
     Object? isActive = null,
     Object? personalDataFilled = null,
     Object? currentConditionFilled = null,
@@ -214,6 +224,10 @@ class __$$_AuthUserWrapperCopyWithImpl<$Res>
       isAdmin: null == isAdmin
           ? _value.isAdmin
           : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isGoogleAuth: null == isGoogleAuth
+          ? _value.isGoogleAuth
+          : isGoogleAuth // ignore: cast_nullable_to_non_nullable
               as bool,
       isActive: null == isActive
           ? _value.isActive
@@ -249,6 +263,8 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
       @JsonKey(name: 'access_token') this.accessToken,
       this.avatar,
       @JsonKey(name: 'is_admin', defaultValue: false) required this.isAdmin,
+      @JsonKey(name: 'is_google_auth', defaultValue: false)
+      required this.isGoogleAuth,
       @JsonKey(name: 'is_active', defaultValue: false) required this.isActive,
       @JsonKey(name: 'personal_data_filled', defaultValue: false)
       required this.personalDataFilled,
@@ -276,6 +292,9 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
   @JsonKey(name: 'is_admin', defaultValue: false)
   final bool isAdmin;
   @override
+  @JsonKey(name: 'is_google_auth', defaultValue: false)
+  final bool isGoogleAuth;
+  @override
   @JsonKey(name: 'is_active', defaultValue: false)
   final bool isActive;
   @override
@@ -293,7 +312,7 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
 
   @override
   String toString() {
-    return 'AuthUserWrapper(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, isActive: $isActive, personalDataFilled: $personalDataFilled, currentConditionFilled: $currentConditionFilled, pillCountFilled: $pillCountFilled, currentExerciseDay: $currentExerciseDay)';
+    return 'AuthUserWrapper(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, isGoogleAuth: $isGoogleAuth, isActive: $isActive, personalDataFilled: $personalDataFilled, currentConditionFilled: $currentConditionFilled, pillCountFilled: $pillCountFilled, currentExerciseDay: $currentExerciseDay)';
   }
 
   @override
@@ -308,6 +327,8 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
                 other.accessToken == accessToken) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
+            (identical(other.isGoogleAuth, isGoogleAuth) ||
+                other.isGoogleAuth == isGoogleAuth) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.personalDataFilled, personalDataFilled) ||
@@ -330,6 +351,7 @@ class _$_AuthUserWrapper implements _AuthUserWrapper {
       accessToken,
       avatar,
       isAdmin,
+      isGoogleAuth,
       isActive,
       personalDataFilled,
       currentConditionFilled,
@@ -359,6 +381,8 @@ abstract class _AuthUserWrapper implements AuthUserWrapper {
       final String? avatar,
       @JsonKey(name: 'is_admin', defaultValue: false)
       required final bool isAdmin,
+      @JsonKey(name: 'is_google_auth', defaultValue: false)
+      required final bool isGoogleAuth,
       @JsonKey(name: 'is_active', defaultValue: false)
       required final bool isActive,
       @JsonKey(name: 'personal_data_filled', defaultValue: false)
@@ -387,6 +411,9 @@ abstract class _AuthUserWrapper implements AuthUserWrapper {
   @override
   @JsonKey(name: 'is_admin', defaultValue: false)
   bool get isAdmin;
+  @override
+  @JsonKey(name: 'is_google_auth', defaultValue: false)
+  bool get isGoogleAuth;
   @override
   @JsonKey(name: 'is_active', defaultValue: false)
   bool get isActive;
@@ -432,6 +459,7 @@ mixin _$AuthUser {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -449,6 +477,7 @@ mixin _$AuthUser {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -466,6 +495,7 @@ mixin _$AuthUser {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -527,6 +557,7 @@ abstract class _$$SignedInCopyWith<$Res> {
       String? accessToken,
       String? avatar,
       bool isAdmin,
+      bool isGoogleAuth,
       bool personalDataFilled,
       bool currentConditionFilled,
       bool pillCountFilled,
@@ -549,6 +580,7 @@ class __$$SignedInCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? avatar = freezed,
     Object? isAdmin = null,
+    Object? isGoogleAuth = null,
     Object? personalDataFilled = null,
     Object? currentConditionFilled = null,
     Object? pillCountFilled = null,
@@ -578,6 +610,10 @@ class __$$SignedInCopyWithImpl<$Res>
       isAdmin: null == isAdmin
           ? _value.isAdmin
           : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isGoogleAuth: null == isGoogleAuth
+          ? _value.isGoogleAuth
+          : isGoogleAuth // ignore: cast_nullable_to_non_nullable
               as bool,
       personalDataFilled: null == personalDataFilled
           ? _value.personalDataFilled
@@ -609,6 +645,7 @@ class _$SignedIn implements SignedIn {
       required this.accessToken,
       this.avatar,
       this.isAdmin = false,
+      this.isGoogleAuth = false,
       this.personalDataFilled = false,
       this.currentConditionFilled = false,
       this.pillCountFilled = false,
@@ -634,6 +671,9 @@ class _$SignedIn implements SignedIn {
   final bool isAdmin;
   @override
   @JsonKey()
+  final bool isGoogleAuth;
+  @override
+  @JsonKey()
   final bool personalDataFilled;
   @override
   @JsonKey()
@@ -649,7 +689,7 @@ class _$SignedIn implements SignedIn {
 
   @override
   String toString() {
-    return 'AuthUser.signedIn(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, personalDataFilled: $personalDataFilled, currentConditionFilled: $currentConditionFilled, pillCountFilled: $pillCountFilled, currentExerciseDay: $currentExerciseDay)';
+    return 'AuthUser.signedIn(id: $id, name: $name, email: $email, accessToken: $accessToken, avatar: $avatar, isAdmin: $isAdmin, isGoogleAuth: $isGoogleAuth, personalDataFilled: $personalDataFilled, currentConditionFilled: $currentConditionFilled, pillCountFilled: $pillCountFilled, currentExerciseDay: $currentExerciseDay)';
   }
 
   @override
@@ -664,6 +704,8 @@ class _$SignedIn implements SignedIn {
                 other.accessToken == accessToken) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
+            (identical(other.isGoogleAuth, isGoogleAuth) ||
+                other.isGoogleAuth == isGoogleAuth) &&
             (identical(other.personalDataFilled, personalDataFilled) ||
                 other.personalDataFilled == personalDataFilled) &&
             (identical(other.currentConditionFilled, currentConditionFilled) ||
@@ -684,6 +726,7 @@ class _$SignedIn implements SignedIn {
       accessToken,
       avatar,
       isAdmin,
+      isGoogleAuth,
       personalDataFilled,
       currentConditionFilled,
       pillCountFilled,
@@ -705,6 +748,7 @@ class _$SignedIn implements SignedIn {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -719,6 +763,7 @@ class _$SignedIn implements SignedIn {
         accessToken,
         avatar,
         isAdmin,
+        isGoogleAuth,
         personalDataFilled,
         currentConditionFilled,
         pillCountFilled,
@@ -735,6 +780,7 @@ class _$SignedIn implements SignedIn {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -749,6 +795,7 @@ class _$SignedIn implements SignedIn {
         accessToken,
         avatar,
         isAdmin,
+        isGoogleAuth,
         personalDataFilled,
         currentConditionFilled,
         pillCountFilled,
@@ -765,6 +812,7 @@ class _$SignedIn implements SignedIn {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -781,6 +829,7 @@ class _$SignedIn implements SignedIn {
           accessToken,
           avatar,
           isAdmin,
+          isGoogleAuth,
           personalDataFilled,
           currentConditionFilled,
           pillCountFilled,
@@ -836,6 +885,7 @@ abstract class SignedIn implements AuthUser {
       required final String? accessToken,
       final String? avatar,
       final bool isAdmin,
+      final bool isGoogleAuth,
       final bool personalDataFilled,
       final bool currentConditionFilled,
       final bool pillCountFilled,
@@ -849,6 +899,7 @@ abstract class SignedIn implements AuthUser {
   String? get accessToken;
   String? get avatar;
   bool get isAdmin;
+  bool get isGoogleAuth;
   bool get personalDataFilled;
   bool get currentConditionFilled;
   bool get pillCountFilled;
@@ -910,6 +961,7 @@ class _$SignedOut implements SignedOut {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -930,6 +982,7 @@ class _$SignedOut implements SignedOut {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,
@@ -950,6 +1003,7 @@ class _$SignedOut implements SignedOut {
             String? accessToken,
             String? avatar,
             bool isAdmin,
+            bool isGoogleAuth,
             bool personalDataFilled,
             bool currentConditionFilled,
             bool pillCountFilled,

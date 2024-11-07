@@ -1,3 +1,5 @@
+import 'package:SEPO/features/test/domain/test.dart';
+import 'package:SEPO/features/test/domain/test_score.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/survey.dart';
@@ -13,5 +15,7 @@ class TestIntroState with _$TestIntroState {
     int? currentSurveyIndex,
     String? successMessage,
     String? errorMessage,
+    TestScore? testScore,
+    Test? test,
   }) = _TestIntroState;
 }

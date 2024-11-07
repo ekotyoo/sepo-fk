@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sepo_app/features/assessment/pill_count_state.dart';
 
 import '../../test/domain/test.dart';
+import '../pill_count_state.dart';
 
 part 'pill_count.freezed.dart';
 part 'pill_count.g.dart';

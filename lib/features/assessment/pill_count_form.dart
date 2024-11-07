@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sepo_app/features/assessment/assessment_controller.dart';
-import 'package:sepo_app/features/auth/presentation/login/login_screen.dart';
+import 'package:SEPO/features/assessment/assessment_controller.dart';
+import 'package:SEPO/features/auth/presentation/login/login_screen.dart';
 
 import '../../common/constants/colors.dart';
 import '../../common/widgets/sepo_dropdown.dart';
@@ -18,17 +18,19 @@ class PillCountForm extends ConsumerStatefulWidget {
 
 class _PillCountFormState extends ConsumerState<PillCountForm> {
   final List<Medicine> _medicines = const [
-    Medicine(name: 'Obat 1'),
-    Medicine(name: 'Obat 2'),
-    Medicine(name: 'Obat 3'),
-    Medicine(name: 'Obat 4'),
+    Medicine(name: 'Natrium Diklofenak'),
+    Medicine(name: 'Asam Mefenamat'),
+    Medicine(name: 'Paracetamol'),
+    Medicine(name: 'Piroxicam'),
+    Medicine(name: 'Lainnya'),
   ];
 
   final List<MedicineWithCount> _medicinesCount = const [
-    MedicineWithCount(name: 'Obat 1'),
-    MedicineWithCount(name: 'Obat 2'),
-    MedicineWithCount(name: 'Obat 3'),
-    MedicineWithCount(name: 'Obat 4'),
+    MedicineWithCount(name: 'Natrium Diklofenak'),
+    MedicineWithCount(name: 'Asam Mefenamat'),
+    MedicineWithCount(name: 'Paracetamol'),
+    MedicineWithCount(name: 'Piroxicam'),
+    MedicineWithCount(name: 'Lainnya'),
   ];
 
   Medicine? _currentMedicine;
@@ -205,7 +207,7 @@ class _PillCountFormState extends ConsumerState<PillCountForm> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                        'Berapa jumlah obat awal/utuh (saat masih baru belum diminum)?'),
+                        'Berapa jumlah obat awal/utuh (saat masih baru beli)?'),
                   ),
                   const SizedBox(height: 12),
                   ...state.medicineBefore
@@ -244,6 +246,7 @@ class _PillCountFormState extends ConsumerState<PillCountForm> {
                       Expanded(
                         child: SepoTextField(
                           label: 'Jumlah',
+                          type: SepoTextFieldType.number,
                           controller: _currentMedicineBeforeCount,
                         ),
                       ),
@@ -306,6 +309,7 @@ class _PillCountFormState extends ConsumerState<PillCountForm> {
                       Expanded(
                         child: SepoTextField(
                           label: 'Jumlah',
+                          type: SepoTextFieldType.number,
                           controller: _currentMedicineAfterCount,
                         ),
                       ),

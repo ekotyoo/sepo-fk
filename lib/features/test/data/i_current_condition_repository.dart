@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:sepo_app/features/assessment/domain/current_condition.dart';
+import 'package:SEPO/features/assessment/domain/current_condition.dart';
 
 import '../../../common/error/failure.dart';
 

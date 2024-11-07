@@ -13,6 +13,8 @@ abstract class IAuthRepository {
 
   Future<Either<Failure, AuthUser>> loginWithToken();
 
+  Future<Either<Failure, AuthUser>> loginWithGoogle(String idToken);
+
   Future<Either<Failure, Unit>> register({
     required String name,
     required String email,

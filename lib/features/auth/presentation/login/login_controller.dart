@@ -36,7 +36,8 @@ class LoginController extends _$LoginController {
   void setErrorMessage(String? message) =>
       state = state.copyWith(errorMessage: message);
 
-  void setShouldVerifyEmail(bool value) => state = state.copyWith(shouldVerifyEmail: value);
+  void setShouldVerifyEmail(bool value) =>
+      state = state.copyWith(shouldVerifyEmail: value);
 
   Future<void> onSubmit() async {
     state = state.copyWith(isSubmitting: true);
@@ -52,6 +53,25 @@ class LoginController extends _$LoginController {
         if (l.cause is UserUnverifiedException) {
           setShouldVerifyEmail(true);
         }
+        setErrorMessage(l.message);
+      },
+      (r) {
+        ref.read(authControllerProvider.notifier).setAuthUser(r);
+        setSuccessMessage('Login berhasil');
+      },
+    );
+
+    state = state.copyWith(isSubmitting: false);
+  }
+
+  void signInWithGoogle(String idToken) async {
+    state = state.copyWith(isSubmitting: true);
+    final repository = ref.read(authRepositoryProvider);
+
+    final result = await repository.loginWithGoogle(idToken);
+
+    result.fold(
+      (l) {
         setErrorMessage(l.message);
       },
       (r) {

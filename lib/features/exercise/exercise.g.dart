@@ -12,6 +12,7 @@ _$_Training _$$_TrainingFromJson(Map<String, dynamic> json) => _$_Training(
       durationOrRepetition: json['duration_or_repetition'] as int,
       number: json['number'] as int,
       image: json['image'] as String,
+      level: $enumDecode(_$ExerciseLevelEnumMap, json['level']),
     );
 
 Map<String, dynamic> _$$_TrainingToJson(_$_Training instance) =>
@@ -21,9 +22,16 @@ Map<String, dynamic> _$$_TrainingToJson(_$_Training instance) =>
       'duration_or_repetition': instance.durationOrRepetition,
       'number': instance.number,
       'image': instance.image,
+      'level': _$ExerciseLevelEnumMap[instance.level]!,
     };
 
 const _$ExerciseTypeEnumMap = {
   ExerciseType.duration: 'duration',
   ExerciseType.repetition: 'repetition',
+};
+
+const _$ExerciseLevelEnumMap = {
+  ExerciseLevel.beginner: 'beginner',
+  ExerciseLevel.normal: 'normal',
+  ExerciseLevel.advance: 'advance',
 };

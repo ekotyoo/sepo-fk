@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/features/auth/data/auth_repository.dart';
-import 'package:sepo_app/features/exercise/exercise_schedule_provider.dart';
-import 'package:sepo_app/features/exercise/exercise_screen.dart';
-import 'package:sepo_app/features/test/presentation/test_list/test_list_screen.dart';
+import 'package:SEPO/features/auth/data/auth_repository.dart';
+import 'package:SEPO/features/exercise/exercise_schedule_provider.dart';
+import 'package:SEPO/features/exercise/exercise_screen.dart';
+import 'package:SEPO/features/test/presentation/test_list/test_list_screen.dart';
+import 'package:SEPO/utils/snackbar_utils.dart';
 
 import '../../common/constants/colors.dart';
 import '../auth/domain/auth_user.dart';
 
 class ExerciseScheduleScreen extends ConsumerWidget {
-  const ExerciseScheduleScreen({Key? key, required this.level})
+  const ExerciseScheduleScreen({Key? key, this.level = ExerciseLevel.beginner})
       : super(key: key);
 
   final ExerciseLevel level;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final exerciseRecordsAsync = ref.watch(getExerciseRecordsProvider);
-    final authState = ref.watch(authStateProvider) as SignedIn;
-    final currentExerciseDay = authState.currentExerciseDay;
+    final exerciseRecordsAsync = ref.watch(getExerciseRecordsProvider(level));
 
     return SafeArea(
       child: Scaffold(
@@ -46,9 +45,10 @@ class ExerciseScheduleScreen extends ConsumerWidget {
               return ListView(
                 children: [
                   const SizedBox(height: 16),
-                  _ExerciseProgress(value: currentExerciseDay / 28),
+                  _ExerciseProgress(value: exercises.length / 28),
                   const SizedBox(height: 32),
                   _ExerciseSchedule(
+                    level: level,
                     firstWeek: firstWeek,
                     secondWeek: secondWeek,
                     thirdWeek: thirdWeek,
@@ -67,14 +67,16 @@ class ExerciseScheduleScreen extends ConsumerWidget {
 }
 
 class _ExerciseSchedule extends ConsumerWidget {
-  const _ExerciseSchedule(
-      {Key? key,
-      required this.firstWeek,
-      required this.secondWeek,
-      required this.thirdWeek,
-      required this.fourthWeek})
-      : super(key: key);
+  const _ExerciseSchedule({
+    Key? key,
+    required this.level,
+    required this.firstWeek,
+    required this.secondWeek,
+    required this.thirdWeek,
+    required this.fourthWeek,
+  }) : super(key: key);
 
+  final ExerciseLevel level;
   final List<ExerciseRecord> firstWeek;
   final List<ExerciseRecord> secondWeek;
   final List<ExerciseRecord> thirdWeek;
@@ -86,31 +88,47 @@ class _ExerciseSchedule extends ConsumerWidget {
     final currentExerciseDay = authState.currentExerciseDay;
     final currentWeek = currentExerciseDay ~/ 7;
 
-    debugPrint('Current Week $currentWeek');
-
     return Column(
       children: [
         _ExerciseWeekSchedule(
-            week: 1, records: firstWeek, isLocked: (currentWeek + 1) < 1),
+          level: level,
+          week: 1,
+          records: firstWeek,
+          isLocked: (currentWeek + 1) < 1,
+        ),
         _ExerciseWeekSchedule(
-            week: 2, records: secondWeek, isLocked: (currentWeek + 1) < 2),
+          level: level,
+          week: 2,
+          records: secondWeek,
+          isLocked: (currentWeek + 1) < 2,
+        ),
         _ExerciseWeekSchedule(
-            week: 3, records: thirdWeek, isLocked: (currentWeek + 1) < 3),
+          level: level,
+          week: 3,
+          records: thirdWeek,
+          isLocked: (currentWeek + 1) < 3,
+        ),
         _ExerciseWeekSchedule(
-            week: 4, records: fourthWeek, isLocked: (currentWeek + 1) < 4),
+          level: level,
+          week: 4,
+          records: fourthWeek,
+          isLocked: (currentWeek + 1) < 4,
+        ),
       ],
     );
   }
 }
 
 class _ExerciseWeekSchedule extends ConsumerWidget {
-  const _ExerciseWeekSchedule(
-      {Key? key,
-      required this.week,
-      required this.records,
-      this.isLocked = true})
-      : super(key: key);
+  const _ExerciseWeekSchedule({
+    Key? key,
+    required this.level,
+    required this.week,
+    required this.records,
+    this.isLocked = true,
+  }) : super(key: key);
 
+  final ExerciseLevel level;
   final int week;
   final List<ExerciseRecord> records;
   final bool isLocked;
@@ -134,6 +152,7 @@ class _ExerciseWeekSchedule extends ConsumerWidget {
           height: 250,
           child: GridView.builder(
             itemCount: 8,
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               mainAxisExtent: 100,
@@ -150,6 +169,7 @@ class _ExerciseWeekSchedule extends ConsumerWidget {
                 onClick: () {
                   context.pushNamed(
                     'traininglist',
+                    extra: level,
                     params: {
                       'week': week.toString(),
                       'day': (index + 1).toString(),
@@ -207,7 +227,20 @@ class _ScheduleCard extends StatelessWidget {
     return day == null
         ? finishWidget
         : InkWell(
-            onTap: isLocked ? null : onClick,
+            onTap: () {
+              if (isLocked) {
+                showSnackbar(context, message: 'Latihan belum dapat diakses');
+                return;
+              }
+
+              if (isDone) {
+                showSnackbar(context,
+                    message: 'Latihan telah selesai dikerjakan');
+                return;
+              }
+
+              onClick?.call();
+            },
             child: Container(
               height: 100,
               decoration: BoxDecoration(

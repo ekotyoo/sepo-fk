@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/common/constants/colors.dart';
+import 'package:intl/intl.dart';
+import 'package:SEPO/common/constants/colors.dart';
+import 'package:SEPO/features/assessment/domain/personal_data.dart';
 
 import '../../domain/auth_user.dart';
 import 'profile_controller.dart';
@@ -29,10 +31,10 @@ class ProfileScreen extends ConsumerWidget {
               itemBuilder: (context) => stateAsync.when(
                 data: (data) {
                   return [
-                    PopupMenuItem(
-                      child: const Text('Sunting Akun'),
-                      onTap: () {},
-                    ),
+                    // PopupMenuItem(
+                    //   child: const Text('Sunting Akun'),
+                    //   onTap: () {},
+                    // ),
                     PopupMenuItem(
                       child: const Text('Keluar'),
                       onTap: () =>
@@ -51,11 +53,11 @@ class ProfileScreen extends ConsumerWidget {
           error: (error, stackTrace) => const Center(child: Text('error')),
           data: (state) {
             return ListView(
-              padding: const EdgeInsets.all(16),
               children: [
                 _buildProfileHeader(context, state.user),
                 const SizedBox(height: 32),
-                ..._buildMenu(context)
+                if (state.personalData != null)
+                  _buildPersonalData(context, state.personalData!),
               ],
             );
           },
@@ -64,26 +66,99 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  _buildMenu(BuildContext context) {
-    return [
-      MenuTile(
-        color: const Color(0xFFFF6B6B),
-        icon: Icons.local_hospital,
-        title: 'Pill Count',
-        onClick: () {
-          context.pushNamed('pillcount');
-        },
+  _buildPersonalData(BuildContext context, PersonalData personalData) {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+        color: Colors.white,
       ),
-      const SizedBox(height: 16),
-      MenuTile(
-        color: kColorSecondary,
-        icon: Icons.event_note_outlined,
-        title: 'Test',
-        onClick: () {
-          context.pushNamed('test');
-        },
-      )
-    ];
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Text(
+                'Data diri',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const Spacer(),
+              // TextButton(
+              //   onPressed: () {},
+              //   child: const Text('Ubah data'),
+              // ),
+            ],
+          ),
+          _buildPersonalDataInfo(context, 'Nama', personalData.name),
+          _buildPersonalDataInfo(
+              context, 'Jenis Kelamin', personalData.gender.getLabel()),
+          _buildPersonalDataInfo(
+            context,
+            'Tanggal Lahir', DateFormat.yMMMMd().format(personalData.birth!),
+          ),
+          _buildPersonalDataInfo(context, 'Nomor Ponsel', personalData.phone),
+          _buildPersonalDataInfo(context, 'Alamat', personalData.address),
+          _buildPersonalDataInfo(
+            context,
+            'Pendidikan',
+            personalData.education.getLabel(),
+          ),
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 16),
+          _buildMenu(context),
+        ],
+      ),
+    );
+  }
+
+  _buildPersonalDataInfo(BuildContext context, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Expanded(child: Text(label)),
+          Expanded(
+            child: Text(
+              value,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildMenu(BuildContext context) {
+    return Column(
+      children: [
+        MenuTile(
+          color: const Color(0xFFFF6B6B),
+          icon: Icons.local_hospital,
+          title: 'Pill Count',
+          onClick: () {
+            context.pushNamed('pillcount');
+          },
+        ),
+        const SizedBox(height: 16),
+        MenuTile(
+          color: kColorSecondary,
+          icon: Icons.event_note_outlined,
+          title: 'Test',
+          onClick: () => context.pushNamed('test'),
+        ),
+        const SizedBox(height: 16),
+        MenuTile(
+          color: const Color(0xFFEEC73E),
+          icon: Icons.info,
+          title: 'Tentang Sepo',
+          onClick: () => context.pushNamed('about'),
+        ),
+      ],
+    );
   }
 
   _buildProfileHeader(BuildContext context, AuthUser? user) {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,6 +62,7 @@ class AuthRepository implements IAuthRepository {
         avatar: '${response.avatar}'.replaceAll('public', kBaseUrl),
         isAdmin: response.isAdmin,
         accessToken: response.accessToken,
+        isGoogleAuth: response.isGoogleAuth,
         personalDataFilled: response.personalDataFilled,
         currentConditionFilled: response.currentConditionFilled,
         pillCountFilled: response.pillCountFilled,
@@ -92,6 +94,7 @@ class AuthRepository implements IAuthRepository {
         name: response.name,
         email: response.email,
         isAdmin: response.isAdmin,
+        isGoogleAuth: response.isGoogleAuth,
         avatar: '${response.avatar}'.replaceAll('public', kBaseUrl),
         accessToken: token,
         personalDataFilled: response.personalDataFilled,
@@ -109,12 +112,47 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<Either<Failure, AuthUser>> loginWithGoogle(String idToken) async {
+    try {
+      final result = await _client.post(
+        '/auth/signin/google',
+        data: {'idToken': idToken},
+      );
+      final response = AuthUserWrapper.fromJson(result['data']);
+      final user = AuthUser.signedIn(
+        id: response.id,
+        name: response.name,
+        email: response.email,
+        isAdmin: response.isAdmin,
+        isGoogleAuth: response.isGoogleAuth,
+        avatar: '${response.avatar}'.replaceAll('public', kBaseUrl),
+        accessToken: response.accessToken,
+        personalDataFilled: response.personalDataFilled,
+        currentConditionFilled: response.currentConditionFilled,
+        pillCountFilled: response.pillCountFilled,
+        currentExerciseDay: response.currentExerciseDay,
+      ) as SignedIn;
+
+      ref.read(authStateProvider.notifier).state = user;
+      return right(user);
+    } catch (e) {
+      final googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
+
+      final exception = NetworkExceptions.getDioException(e);
+      return left(Failure(exception.getErrorMessage(), cause: exception));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> logout() async {
     try {
+      final googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
+
       ref.read(authStateProvider.notifier).state = const AuthUser.signedOut();
       final prefs = await SharedPreferences.getInstance();
       prefs.remove(kAccessToken);
-
       return right(unit);
     } catch (e) {
       final exception = NetworkExceptions.getDioException(e);

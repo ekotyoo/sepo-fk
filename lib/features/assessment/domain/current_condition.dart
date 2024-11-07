@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sepo_app/features/assessment/models/exercise_duration.dart';
-import 'package:sepo_app/features/assessment/models/illness_duration_input.dart';
+
+import '../models/exercise_duration.dart';
+import '../models/illness_duration_input.dart';
 
 part 'current_condition.freezed.dart';
 part 'current_condition.g.dart';

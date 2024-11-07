@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/common/constants/colors.dart';
-import 'package:sepo_app/common/widgets/sepo_button.dart';
+import 'package:SEPO/common/constants/colors.dart';
+import 'package:SEPO/common/widgets/sepo_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../utils/snackbar_utils.dart';
 import '../../models/email_text_input.dart';
@@ -77,7 +79,7 @@ class _SepoTextFieldState extends State<SepoTextField> {
           obscureText ? Icons.visibility_off_rounded : Icons.visibility_rounded,
         ),
       );
-    } else if  (widget.type == SepoTextFieldType.number) {
+    } else if (widget.type == SepoTextFieldType.number) {
       keyboardType = TextInputType.number;
     }
 
@@ -253,20 +255,44 @@ class LoginScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Image.asset('assets/images/google_logo.png'),
-                    ),
-                    SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Image.asset('assets/images/facebook_logo.png'),
-                    ),
-                    SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Image.asset('assets/images/twitter_logo.png'),
+                    InkWell(
+                      onTap: () async {
+                        try {
+                          final GoogleSignIn googleSignIn = GoogleSignIn(
+                            scopes: [
+                              'email',
+                              "https://www.googleapis.com/auth/userinfo.profile"
+                            ],
+                            serverClientId: "824561687513-lslf63nqnfkphetl8cl8shbdhff69ki7.apps.googleusercontent.com",
+                          );
+
+                          final GoogleSignInAccount? googleSignInAccount =
+                              await googleSignIn.signIn();
+                          final result = await googleSignInAccount?.authentication;
+
+                          if (result?.idToken != null && result?.accessToken != null) {
+                            final credential = GoogleAuthProvider.credential(
+                              idToken: result!.idToken,
+                              accessToken: result.accessToken
+                            );
+
+                            final auth = FirebaseAuth.instance;
+                            final authResult = await auth.signInWithCredential(credential);
+                            final idToken = await authResult.user?.getIdToken();
+                            debugPrint('idToken: $idToken');
+                            if (idToken != null) {
+                              ref.read(loginControllerProvider.notifier).signInWithGoogle(idToken);
+                            }
+                          }
+                        } catch (e) {
+                          debugPrint(e.toString());
+                        }
+                      },
+                      child: SizedBox(
+                        height: 32,
+                        width: 32,
+                        child: Image.asset('assets/images/google_logo.png'),
+                      ),
                     ),
                   ],
                 ),

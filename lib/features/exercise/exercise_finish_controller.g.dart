@@ -7,7 +7,7 @@ part of 'exercise_finish_controller.dart';
 // **************************************************************************
 
 String _$exerciseFinishControllerHash() =>
-    r'6418cca0f2cad37824d365d7a05432639c7bfd69';
+    r'fe08a50cd06bfc97265319c65d1dae1982227c94';
 
 /// See also [ExerciseFinishController].
 @ProviderFor(ExerciseFinishController)

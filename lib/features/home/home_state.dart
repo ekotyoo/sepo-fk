@@ -9,5 +9,6 @@ class HomeState with _$HomeState {
   const factory HomeState({
     required DateTime currentDate,
     required AuthUser authState,
+    int? testId,
   }) = _HomeState;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sepo_app/common/constants/colors.dart';
+
+import '../constants/colors.dart';
 
 class SepoTheme {
   static ThemeData get light => ThemeData(

@@ -1,6 +1,8 @@
+import 'package:SEPO/features/article/domain/article_list_item.dart';
+import 'package:SEPO/utils/int_extenstion.dart';
+import 'package:SEPO/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import '../../common/constants/colors.dart';
-import 'article.dart';
 
 class ArticleCard extends StatelessWidget {
   const ArticleCard({
@@ -9,61 +11,98 @@ class ArticleCard extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-  final Article article;
+  final ArticleListItem article;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+    return InkWell(
+      onTap: article.isLocked
+          ? () => showSnackbar(
+                context,
+                message: 'Konten edukasi belum dapat diakses',
+              )
+          : onTap,
+      child: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(48),
+              color: Colors.white,
+            ),
+            child: Row(
               children: [
-                const Placeholder(
-                  color: Colors.grey,
-                  fallbackHeight: 50,
-                  fallbackWidth: 50,
+                CircleAvatar(
+                  backgroundImage:
+                      const AssetImage('assets/images/article.png'),
+                  maxRadius: 32,
                   child: Row(
-                    children: [Icon(Icons.watch_later_rounded), Text('2:12')],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.watch_later,
+                          size: 16, color: Colors.white70),
+                      const SizedBox(width: 4),
+                      Text(
+                        article.duration.toTimeString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          article.title,
-                          maxLines: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(article.title,
+                          softWrap: true,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const Row(
-                          children: [
-                            Icon(Icons.check_circle),
-                            Text('Selesai')
-                          ],
-                        )
-                      ],
-                    )
+                          style: Theme.of(context).textTheme.titleMedium),
+                      const SizedBox(height: 8),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: kColorSecondary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${article.point} point',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: kColorSecondary),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-                IconButton(onPressed: onTap, icon: Icon(Icons.play_arrow)),
+                const Icon(Icons.play_arrow, size: 40)
               ],
             ),
-            const SizedBox(height: 4),
-          ],
-        ),
+          ),
+          if (article.isLocked)
+            Positioned(
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(48),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

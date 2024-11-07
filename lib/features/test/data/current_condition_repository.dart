@@ -1,10 +1,10 @@
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/common/error/failure.dart';
-import 'package:sepo_app/common/services/http_client.dart';
-import 'package:sepo_app/features/assessment/domain/current_condition.dart';
-import 'package:sepo_app/features/test/data/i_current_condition_repository.dart';
+import 'package:SEPO/common/error/failure.dart';
+import 'package:SEPO/common/services/http_client.dart';
+import 'package:SEPO/features/assessment/domain/current_condition.dart';
+import 'package:SEPO/features/test/data/i_current_condition_repository.dart';
 
 import '../../../common/error/network_exceptions.dart';
 

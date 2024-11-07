@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   AuthUser? get user => throw _privateConstructorUsedError;
+  PersonalData? get personalData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -29,9 +30,10 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({AuthUser? user});
+  $Res call({AuthUser? user, PersonalData? personalData});
 
   $AuthUserCopyWith<$Res>? get user;
+  $PersonalDataCopyWith<$Res>? get personalData;
 }
 
 /// @nodoc
@@ -48,12 +50,17 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @override
   $Res call({
     Object? user = freezed,
+    Object? personalData = freezed,
   }) {
     return _then(_value.copyWith(
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as AuthUser?,
+      personalData: freezed == personalData
+          ? _value.personalData
+          : personalData // ignore: cast_nullable_to_non_nullable
+              as PersonalData?,
     ) as $Val);
   }
 
@@ -68,6 +75,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PersonalDataCopyWith<$Res>? get personalData {
+    if (_value.personalData == null) {
+      return null;
+    }
+
+    return $PersonalDataCopyWith<$Res>(_value.personalData!, (value) {
+      return _then(_value.copyWith(personalData: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -78,10 +97,12 @@ abstract class _$$_ProfileStateCopyWith<$Res>
       __$$_ProfileStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AuthUser? user});
+  $Res call({AuthUser? user, PersonalData? personalData});
 
   @override
   $AuthUserCopyWith<$Res>? get user;
+  @override
+  $PersonalDataCopyWith<$Res>? get personalData;
 }
 
 /// @nodoc
@@ -96,12 +117,17 @@ class __$$_ProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
+    Object? personalData = freezed,
   }) {
     return _then(_$_ProfileState(
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as AuthUser?,
+      personalData: freezed == personalData
+          ? _value.personalData
+          : personalData // ignore: cast_nullable_to_non_nullable
+              as PersonalData?,
     ));
   }
 }
@@ -109,14 +135,16 @@ class __$$_ProfileStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ProfileState implements _ProfileState {
-  const _$_ProfileState({this.user});
+  const _$_ProfileState({this.user, this.personalData});
 
   @override
   final AuthUser? user;
+  @override
+  final PersonalData? personalData;
 
   @override
   String toString() {
-    return 'ProfileState(user: $user)';
+    return 'ProfileState(user: $user, personalData: $personalData)';
   }
 
   @override
@@ -124,11 +152,13 @@ class _$_ProfileState implements _ProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ProfileState &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.personalData, personalData) ||
+                other.personalData == personalData));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(runtimeType, user, personalData);
 
   @JsonKey(ignore: true)
   @override
@@ -138,10 +168,14 @@ class _$_ProfileState implements _ProfileState {
 }
 
 abstract class _ProfileState implements ProfileState {
-  const factory _ProfileState({final AuthUser? user}) = _$_ProfileState;
+  const factory _ProfileState(
+      {final AuthUser? user,
+      final PersonalData? personalData}) = _$_ProfileState;
 
   @override
   AuthUser? get user;
+  @override
+  PersonalData? get personalData;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileStateCopyWith<_$_ProfileState> get copyWith =>

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/common/constants/colors.dart';
-import 'package:sepo_app/common/widgets/sepo_button.dart';
+import 'package:SEPO/common/constants/colors.dart';
+import 'package:SEPO/common/widgets/sepo_button.dart';
+import 'package:SEPO/features/exercise/exercise_screen.dart';
 
 import 'exercise_finish_controller.dart';
 
 class ExerciseFinishScreen extends ConsumerStatefulWidget {
   const ExerciseFinishScreen({
     Key? key,
+    required this.level,
     required this.day,
     required this.week,
   }) : super(key: key);
 
+  final ExerciseLevel level;
   final int day;
   final int week;
 
@@ -23,11 +26,11 @@ class ExerciseFinishScreen extends ConsumerStatefulWidget {
 class _ExerciseFinishScreenState extends ConsumerState<ExerciseFinishScreen> {
   @override
   void initState() {
-    Future(() {
-      ref
-          .read(exerciseFinishControllerProvider.notifier)
-          .onSubmit(widget.week, widget.day);
-    });
+    // Future(() {
+    //   ref
+    //       .read(exerciseFinishControllerProvider.notifier)
+    //       .onSubmit(widget.level, widget.week, widget.day);
+    // });
     super.initState();
   }
 
@@ -55,7 +58,7 @@ class _ExerciseFinishScreenState extends ConsumerState<ExerciseFinishScreen> {
                         ref
                             .read(exerciseFinishControllerProvider
                                 .notifier)
-                            .onSubmit(widget.week, widget.day);
+                            .onSubmit(widget.level, widget.week, widget.day);
                       },
                       label: 'Coba Lagi',
                       style: ElevatedButton.styleFrom(

@@ -250,6 +250,7 @@ mixin _$Question {
   String? get image => throw _privateConstructorUsedError;
   List<Option> get options => throw _privateConstructorUsedError;
   OfferedAnswer? get offeredAnswer => throw _privateConstructorUsedError;
+  bool get dirty => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -268,7 +269,8 @@ abstract class $QuestionCopyWith<$Res> {
       QuestionType type,
       @JsonKey(name: 'image_path') String? image,
       List<Option> options,
-      OfferedAnswer? offeredAnswer});
+      OfferedAnswer? offeredAnswer,
+      bool dirty});
 
   $OfferedAnswerCopyWith<$Res>? get offeredAnswer;
 }
@@ -292,6 +294,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? image = freezed,
     Object? options = null,
     Object? offeredAnswer = freezed,
+    Object? dirty = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -318,6 +321,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.offeredAnswer
           : offeredAnswer // ignore: cast_nullable_to_non_nullable
               as OfferedAnswer?,
+      dirty: null == dirty
+          ? _value.dirty
+          : dirty // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -347,7 +354,8 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       QuestionType type,
       @JsonKey(name: 'image_path') String? image,
       List<Option> options,
-      OfferedAnswer? offeredAnswer});
+      OfferedAnswer? offeredAnswer,
+      bool dirty});
 
   @override
   $OfferedAnswerCopyWith<$Res>? get offeredAnswer;
@@ -370,6 +378,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? image = freezed,
     Object? options = null,
     Object? offeredAnswer = freezed,
+    Object? dirty = null,
   }) {
     return _then(_$_Question(
       id: null == id
@@ -396,6 +405,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.offeredAnswer
           : offeredAnswer // ignore: cast_nullable_to_non_nullable
               as OfferedAnswer?,
+      dirty: null == dirty
+          ? _value.dirty
+          : dirty // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -409,7 +422,8 @@ class _$_Question implements _Question {
       required this.type,
       @JsonKey(name: 'image_path') this.image,
       required final List<Option> options,
-      this.offeredAnswer})
+      this.offeredAnswer,
+      this.dirty = false})
       : _options = options;
 
   factory _$_Question.fromJson(Map<String, dynamic> json) =>
@@ -434,10 +448,13 @@ class _$_Question implements _Question {
 
   @override
   final OfferedAnswer? offeredAnswer;
+  @override
+  @JsonKey()
+  final bool dirty;
 
   @override
   String toString() {
-    return 'Question(id: $id, question: $question, type: $type, image: $image, options: $options, offeredAnswer: $offeredAnswer)';
+    return 'Question(id: $id, question: $question, type: $type, image: $image, options: $options, offeredAnswer: $offeredAnswer, dirty: $dirty)';
   }
 
   @override
@@ -452,13 +469,14 @@ class _$_Question implements _Question {
             (identical(other.image, image) || other.image == image) &&
             const DeepCollectionEquality().equals(other._options, _options) &&
             (identical(other.offeredAnswer, offeredAnswer) ||
-                other.offeredAnswer == offeredAnswer));
+                other.offeredAnswer == offeredAnswer) &&
+            (identical(other.dirty, dirty) || other.dirty == dirty));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, question, type, image,
-      const DeepCollectionEquality().hash(_options), offeredAnswer);
+      const DeepCollectionEquality().hash(_options), offeredAnswer, dirty);
 
   @JsonKey(ignore: true)
   @override
@@ -481,7 +499,8 @@ abstract class _Question implements Question {
       required final QuestionType type,
       @JsonKey(name: 'image_path') final String? image,
       required final List<Option> options,
-      final OfferedAnswer? offeredAnswer}) = _$_Question;
+      final OfferedAnswer? offeredAnswer,
+      final bool dirty}) = _$_Question;
 
   factory _Question.fromJson(Map<String, dynamic> json) = _$_Question.fromJson;
 
@@ -499,6 +518,8 @@ abstract class _Question implements Question {
   @override
   OfferedAnswer? get offeredAnswer;
   @override
+  bool get dirty;
+  @override
   @JsonKey(ignore: true)
   _$$_QuestionCopyWith<_$_Question> get copyWith =>
       throw _privateConstructorUsedError;
@@ -513,6 +534,8 @@ mixin _$Option {
   int get id => throw _privateConstructorUsedError;
   int get number => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image')
+  String? get image => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -524,7 +547,8 @@ abstract class $OptionCopyWith<$Res> {
   factory $OptionCopyWith(Option value, $Res Function(Option) then) =
       _$OptionCopyWithImpl<$Res, Option>;
   @useResult
-  $Res call({int id, int number, String text});
+  $Res call(
+      {int id, int number, String text, @JsonKey(name: 'image') String? image});
 }
 
 /// @nodoc
@@ -543,6 +567,7 @@ class _$OptionCopyWithImpl<$Res, $Val extends Option>
     Object? id = null,
     Object? number = null,
     Object? text = null,
+    Object? image = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -557,6 +582,10 @@ class _$OptionCopyWithImpl<$Res, $Val extends Option>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -567,7 +596,8 @@ abstract class _$$_OptionCopyWith<$Res> implements $OptionCopyWith<$Res> {
       __$$_OptionCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, int number, String text});
+  $Res call(
+      {int id, int number, String text, @JsonKey(name: 'image') String? image});
 }
 
 /// @nodoc
@@ -583,6 +613,7 @@ class __$$_OptionCopyWithImpl<$Res>
     Object? id = null,
     Object? number = null,
     Object? text = null,
+    Object? image = freezed,
   }) {
     return _then(_$_Option(
       id: null == id
@@ -597,6 +628,10 @@ class __$$_OptionCopyWithImpl<$Res>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -604,7 +639,11 @@ class __$$_OptionCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Option implements _Option {
-  const _$_Option({required this.id, required this.number, required this.text});
+  const _$_Option(
+      {required this.id,
+      required this.number,
+      required this.text,
+      @JsonKey(name: 'image') this.image});
 
   factory _$_Option.fromJson(Map<String, dynamic> json) =>
       _$$_OptionFromJson(json);
@@ -615,10 +654,13 @@ class _$_Option implements _Option {
   final int number;
   @override
   final String text;
+  @override
+  @JsonKey(name: 'image')
+  final String? image;
 
   @override
   String toString() {
-    return 'Option(id: $id, number: $number, text: $text)';
+    return 'Option(id: $id, number: $number, text: $text, image: $image)';
   }
 
   @override
@@ -628,12 +670,13 @@ class _$_Option implements _Option {
             other is _$_Option &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.number, number) || other.number == number) &&
-            (identical(other.text, text) || other.text == text));
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.image, image) || other.image == image));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, number, text);
+  int get hashCode => Object.hash(runtimeType, id, number, text, image);
 
   @JsonKey(ignore: true)
   @override
@@ -653,7 +696,8 @@ abstract class _Option implements Option {
   const factory _Option(
       {required final int id,
       required final int number,
-      required final String text}) = _$_Option;
+      required final String text,
+      @JsonKey(name: 'image') final String? image}) = _$_Option;
 
   factory _Option.fromJson(Map<String, dynamic> json) = _$_Option.fromJson;
 
@@ -663,6 +707,9 @@ abstract class _Option implements Option {
   int get number;
   @override
   String get text;
+  @override
+  @JsonKey(name: 'image')
+  String? get image;
   @override
   @JsonKey(ignore: true)
   _$$_OptionCopyWith<_$_Option> get copyWith =>

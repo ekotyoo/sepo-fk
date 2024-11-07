@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart' as fp;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/test/data/test_repository.dart';
-import 'package:sepo_app/features/test/presentation/test_intro/test_intro_controller.dart';
-import 'package:sepo_app/features/test/presentation/test_session/test_session_state.dart';
+import 'package:SEPO/features/test/data/test_repository.dart';
+import 'package:SEPO/features/test/presentation/test_intro/test_intro_controller.dart';
+import 'package:SEPO/features/test/presentation/test_session/test_session_state.dart';
 
 import '../../domain/survey.dart';
 
@@ -61,7 +63,11 @@ class TestSessionController extends _$TestSessionController {
 
     if (questions.any((element) => element.offeredAnswer == null)) return;
 
-    final result = await repo.postAnswers(testId: testId, questions: questions);
+    final result = await repo.postAnswers(
+      testId: testId,
+      surveyId: surveyId,
+      questions: questions,
+    );
 
     result.fold(
       (l) => (l) {

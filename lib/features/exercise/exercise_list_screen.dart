@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/common/widgets/sepo_button.dart';
-import 'package:sepo_app/features/exercise/exercise_list_card.dart';
-import 'package:sepo_app/features/exercise/exercise_list_provider.dart';
-import 'package:sepo_app/features/test/presentation/test_list/test_list_screen.dart';
+import 'package:SEPO/common/widgets/sepo_button.dart';
+import 'package:SEPO/features/exercise/exercise_list_card.dart';
+import 'package:SEPO/features/exercise/exercise_list_provider.dart';
+import 'package:SEPO/features/test/presentation/test_list/test_list_screen.dart';
 
 import 'exercise.dart';
+import 'exercise_screen.dart';
 
 class ExerciseListScreen extends ConsumerWidget {
   const ExerciseListScreen({
     Key? key,
+    required this.level,
     required this.week,
     required this.day,
   }) : super(key: key);
 
+  final ExerciseLevel level;
   final int week;
   final int day;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final exercisesAsync = ref.watch(exerciseListProvider(week, day));
+    final exercisesAsync = ref.watch(exerciseListProvider(level, week, day));
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Hari ke-$day',
+            'Latihan',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           centerTitle: true,
@@ -49,7 +52,7 @@ class ExerciseListScreen extends ConsumerWidget {
                 child: SepoButton(
                   label: 'Mulai Latihan',
                   onPressed: () {
-                    context.pushReplacementNamed(
+                    context.pushNamed(
                       'exercisesession',
                       params: {
                         'week': week.toString(),

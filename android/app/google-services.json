@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "824561687513",
+    "project_id": "app-sepo",
+    "storage_bucket": "app-sepo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824561687513:android:d04b6f4745e846a89d17c8",
+        "android_client_info": {
+          "package_name": "com.sepo.fk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824561687513-38pmr0rn5pbo4qt0cvc6ol43g7q4de9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sepo.fk",
+            "certificate_hash": "440cd879c1855848ceaf0d83f50846a17aee65b1"
+          }
+        },
+        {
+          "client_id": "824561687513-lslf63nqnfkphetl8cl8shbdhff69ki7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9mr5QmxJ7jC6HMvNL7YsEk6Nm5DKokWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824561687513-lslf63nqnfkphetl8cl8shbdhff69ki7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

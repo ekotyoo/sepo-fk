@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/features/pill_count/presentation/pill_count_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:SEPO/features/pill_count/presentation/pill_count_provider.dart';
 
 import '../../../common/constants/colors.dart';
 import '../../../utils/snackbar_utils.dart';
@@ -52,7 +53,7 @@ class _PillCountList extends StatelessWidget {
         return PillCountCard(
           title: pillCount.name ?? '',
           doneDate: pillCount.doneDate,
-          isLocked: pillCount.lockedUntil != null && pillCount.lockedUntil!.isAfter(DateTime.now()),
+          isLocked: pillCount.lockedUntil != null && DateTime.now().compareTo(pillCount.lockedUntil!) < 0,
           onClick: () {
             context.pushNamed('postpillcount', extra: pillCount);
           },
@@ -130,7 +131,7 @@ class PillCountCard extends StatelessWidget {
                                   color: Colors.white),
                               const SizedBox(width: 16),
                               Text(
-                                doneDate.toString(),
+                                DateFormat.yMMMMd().format(doneDate!),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium

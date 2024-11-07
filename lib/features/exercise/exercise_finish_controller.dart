@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/exercise/data/exercise_repository.dart';
+import 'package:SEPO/features/exercise/data/exercise_repository.dart';
+import 'package:SEPO/features/exercise/exercise_screen.dart';
 
 import 'exercise_schedule_provider.dart';
 
@@ -23,10 +24,10 @@ class ExerciseFinishController extends _$ExerciseFinishController {
     return const ExerciseFinishState();
   }
 
-  void onSubmit(int week, int day) async {
+  void onSubmit(ExerciseLevel level, int week, int day) async {
     state = state.copyWith(isLoading: true);
     final repo = ref.read(exerciseRepositoryProvider);
-    final result = await repo.postExerciseRecord(week, day);
+    final result = await repo.postExerciseRecord(level, week, day);
     result.fold(
       (l) => state = state.copyWith(
           isLoading: false, errorMessage: l.message, successMessage: null),

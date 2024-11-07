@@ -6,7 +6,7 @@ part of 'exercise_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$exerciseListHash() => r'af6a4077222c6843f369a8c529ac72b4f84f0517';
+String _$exerciseListHash() => r'4b73b58adb7bb077469a3c9f2fec997bcc886ef2';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,10 +40,12 @@ class ExerciseListFamily extends Family<AsyncValue<List<Exercise>>> {
 
   /// See also [exerciseList].
   ExerciseListProvider call(
+    ExerciseLevel level,
     int week,
     int day,
   ) {
     return ExerciseListProvider(
+      level,
       week,
       day,
     );
@@ -54,6 +56,7 @@ class ExerciseListFamily extends Family<AsyncValue<List<Exercise>>> {
     covariant ExerciseListProvider provider,
   ) {
     return call(
+      provider.level,
       provider.week,
       provider.day,
     );
@@ -78,11 +81,13 @@ class ExerciseListFamily extends Family<AsyncValue<List<Exercise>>> {
 class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
   /// See also [exerciseList].
   ExerciseListProvider(
+    ExerciseLevel level,
     int week,
     int day,
   ) : this._internal(
           (ref) => exerciseList(
             ref as ExerciseListRef,
+            level,
             week,
             day,
           ),
@@ -95,6 +100,7 @@ class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
           dependencies: ExerciseListFamily._dependencies,
           allTransitiveDependencies:
               ExerciseListFamily._allTransitiveDependencies,
+          level: level,
           week: week,
           day: day,
         );
@@ -106,10 +112,12 @@ class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
+    required this.level,
     required this.week,
     required this.day,
   }) : super.internal();
 
+  final ExerciseLevel level;
   final int week;
   final int day;
 
@@ -126,6 +134,7 @@ class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
+        level: level,
         week: week,
         day: day,
       ),
@@ -140,6 +149,7 @@ class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
   @override
   bool operator ==(Object other) {
     return other is ExerciseListProvider &&
+        other.level == level &&
         other.week == week &&
         other.day == day;
   }
@@ -147,6 +157,7 @@ class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, level.hashCode);
     hash = _SystemHash.combine(hash, week.hashCode);
     hash = _SystemHash.combine(hash, day.hashCode);
 
@@ -155,6 +166,9 @@ class ExerciseListProvider extends AutoDisposeFutureProvider<List<Exercise>> {
 }
 
 mixin ExerciseListRef on AutoDisposeFutureProviderRef<List<Exercise>> {
+  /// The parameter `level` of this provider.
+  ExerciseLevel get level;
+
   /// The parameter `week` of this provider.
   int get week;
 
@@ -167,6 +181,8 @@ class _ExerciseListProviderElement
     with ExerciseListRef {
   _ExerciseListProviderElement(super.provider);
 
+  @override
+  ExerciseLevel get level => (origin as ExerciseListProvider).level;
   @override
   int get week => (origin as ExerciseListProvider).week;
   @override

@@ -1,26 +1,31 @@
+import 'package:SEPO/features/auth/presentation/about/about_screen.dart';
+import 'package:SEPO/features/notification/presentation/notification_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sepo_app/features/assessment/assessment_screen.dart';
-import 'package:sepo_app/features/assessment/domain/pill_count.dart';
-import 'package:sepo_app/features/auth/presentation/profile/profile_screen.dart';
-import 'package:sepo_app/features/exercise/exercise.dart';
-import 'package:sepo_app/features/exercise/exercise_finish_screen.dart';
-import 'package:sepo_app/features/exercise/exercise_session_screen.dart';
-import 'package:sepo_app/features/pill_count/presentation/pill_count_list_screen.dart';
-import 'package:sepo_app/features/pill_count/presentation/post_pill_count/post_pill_count_screen.dart';
-import 'package:sepo_app/features/test/presentation/test_list/test_list_screen.dart';
-import 'package:sepo_app/features/test/presentation/test_session/test_session_screen.dart';
+import '../../features/article/article_detail_screen.dart';
+import '../../features/article/article_list_screen.dart';
+import '../../features/assessment/assessment_screen.dart';
+import '../../features/assessment/domain/pill_count.dart';
 import '../../features/auth/auth_controller.dart';
 import '../../features/auth/presentation/email_verification/email_verification_screen.dart';
 import '../../features/auth/presentation/login/login_screen.dart';
+import '../../features/auth/presentation/profile/profile_screen.dart';
 import '../../features/auth/presentation/register/register_screen.dart';
+import '../../features/exercise/exercise.dart';
+import '../../features/exercise/exercise_finish_screen.dart';
 import '../../features/exercise/exercise_list_screen.dart';
-import '../../features/exercise/exercise_schedule_screen.dart';
 import '../../features/exercise/exercise_screen.dart';
+import '../../features/exercise/exercise_session_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
+import '../../features/pill_count/presentation/pill_count_list_screen.dart';
+import '../../features/pill_count/presentation/post_pill_count/post_pill_count_screen.dart';
 import '../../features/test/presentation/test_intro/test_intro_screen.dart';
+import '../../features/test/presentation/test_list/test_list_screen.dart';
+import '../../features/test/presentation/test_session/test_session_screen.dart';
+import '../widgets/image_viewer.dart';
+import '../widgets/splash.dart';
 import 'app_scaffold.dart';
 
 part 'router.g.dart';
@@ -56,6 +61,14 @@ class AppRouter extends _$AppRouter implements Listenable {
   }
 
   List<RouteBase> get routes => [
+        GoRoute(
+          path: '/splash',
+          name: 'splash',
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: const Splash(),
+          ),
+        ),
         ShellRoute(
           builder: (context, state, child) => AppScaffold(child: child),
           routes: [
@@ -67,13 +80,32 @@ class AppRouter extends _$AppRouter implements Listenable {
                 child: const HomeScreen(),
               ),
             ),
+            // GoRoute(
+            //   path: '/exercise',
+            //   name: 'exercise',
+            //   pageBuilder: (context, state) => NoTransitionPage(
+            //     key: state.pageKey,
+            //     child: const ExerciseScheduleScreen(),
+            //   ),
+            // ),
             GoRoute(
               path: '/exercise',
               name: 'exercise',
-              pageBuilder: (context, state) => NoTransitionPage(
-                key: state.pageKey,
-                child: const ExerciseScreen(),
-              ),
+              pageBuilder: (context, state) {
+                const week = 1;
+                const day = 1;
+
+                const level = ExerciseLevel.beginner;
+
+                return NoTransitionPage(
+                  key: state.pageKey,
+                  child: const ExerciseListScreen(
+                    level: level,
+                    week: week,
+                    day: day,
+                  ),
+                );
+              },
             ),
             GoRoute(
               path: '/profile',
@@ -85,62 +117,94 @@ class AppRouter extends _$AppRouter implements Listenable {
             ),
           ],
         ),
+        // GoRoute(
+        //   path: '/traininglist/:week/:day',
+        //   name: 'traininglist',
+        //   parentNavigatorKey: kNavigatorKey,
+        //   pageBuilder: (context, state) {
+        //     final week = int.parse(state.params['week']!);
+        //     final day = int.parse(state.params['day']!);
+        //
+        //     final level = state.extra as ExerciseLevel;
+        //
+        //     return MaterialPage(
+        //       child: ExerciseListScreen(
+        //         level: level,
+        //         week: week,
+        //         day: day,
+        //       ),
+        //     );
+        //   },
+        // ),
         GoRoute(
-          path: '/trainingschedule',
-          name: 'trainingschedule',
+          path: '/exercisesession/:week/:day',
+          name: 'exercisesession',
           parentNavigatorKey: kNavigatorKey,
           pageBuilder: (context, state) {
-            final level = state.extra as ExerciseLevel;
-            return MaterialPage(child: ExerciseScheduleScreen(level: level));
+            final week = int.parse(state.params['week']!);
+            final day = int.parse(state.params['day']!);
+            final exercise = state.extra as List<Exercise>;
+            return MaterialPage(
+              child: ExerciseSessionScreen(
+                exercises: exercise,
+                day: day,
+                week: week,
+              ),
+            );
           },
+        ),
+        GoRoute(
+          path: '/trainingfinish/:week/:day',
+          name: 'trainingfinish',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) {
+            final week = int.parse(state.params['week']!);
+            final day = int.parse(state.params['day']!);
+
+            final level = state.extra as ExerciseLevel;
+
+            return MaterialPage(
+              child: ExerciseFinishScreen(
+                level: level,
+                day: day,
+                week: week,
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/article',
+          name: 'article',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) => const MaterialPage(
+            child: ArticleListScreen(),
+          ),
           routes: [
             GoRoute(
-              path: 'traininglist/:week/:day',
-              name: 'traininglist',
+              path: ':id',
+              name: 'articledetail',
               parentNavigatorKey: kNavigatorKey,
               pageBuilder: (context, state) {
-                final week = int.parse(state.params['week']!);
-                final day = int.parse(state.params['day']!);
+                final id = state.params['id'];
+                if (id == null) throw Error();
+                final articleId = int.parse(state.params['id']!);
 
                 return MaterialPage(
-                  child: ExerciseListScreen(
-                    week: week,
-                    day: day,
+                  child: ArticleDetailScreen(
+                    id: articleId,
                   ),
-                );
-              },
-            ),
-            GoRoute(
-              path: 'exercisesession/:week/:day',
-              name: 'exercisesession',
-              parentNavigatorKey: kNavigatorKey,
-              pageBuilder: (context, state) {
-                final week = int.parse(state.params['week']!);
-                final day = int.parse(state.params['day']!);
-                final exercise = state.extra as List<Exercise>;
-                return MaterialPage(
-                  child: ExerciseSessionScreen(
-                    exercises: exercise,
-                    day: day,
-                    week: week,
-                  ),
-                );
-              },
-            ),
-            GoRoute(
-              path: 'trainingfinish/:week/:day',
-              name: 'trainingfinish',
-              parentNavigatorKey: kNavigatorKey,
-              pageBuilder: (context, state) {
-                final week = int.parse(state.params['week']!);
-                final day = int.parse(state.params['day']!);
-
-                return MaterialPage(
-                  child: ExerciseFinishScreen(day: day, week: week),
                 );
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: '/notification',
+          name: 'notification',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) => const MaterialPage(
+            child: NotificationListScreen(),
+          ),
         ),
         GoRoute(
           path: '/assessment',
@@ -148,6 +212,26 @@ class AppRouter extends _$AppRouter implements Listenable {
           pageBuilder: (context, state) => const MaterialPage(
             child: AssessmentScreen(),
           ),
+        ),
+        GoRoute(
+          path: '/about',
+          name: 'about',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) => const MaterialPage(
+            child: AboutScreen(),
+          ),
+        ),
+        GoRoute(
+          path: '/poster',
+          name: 'poster',
+          parentNavigatorKey: kNavigatorKey,
+          pageBuilder: (context, state) {
+            final image = state.extra as String?;
+            if (image == null) throw Exception();
+            return MaterialPage(
+              child: ImageViewer(url: image),
+            );
+          },
         ),
         GoRoute(
           path: '/pillcount',
@@ -200,9 +284,14 @@ class AppRouter extends _$AppRouter implements Listenable {
               pageBuilder: (context, state) {
                 final testId = state.params['testId'];
                 final surveyId = state.params['surveyId'];
+                final name = state.extra as String;
                 if (testId == null || surveyId == null) throw Error();
                 return MaterialPage(
-                  child: TestSessionScreen(testId: testId, surveyId: surveyId),
+                  child: TestSessionScreen(
+                    testId: testId,
+                    surveyId: surveyId,
+                    surveyName: name,
+                  ),
                 );
               },
             ),
@@ -252,6 +341,8 @@ class AppRouter extends _$AppRouter implements Listenable {
         state.location.contains('register');
 
     if (loggingIn && authenticated) return assessed ? '/home' : '/assessment';
+
+    if (!authenticated && !loggingIn) return '/auth';
 
     return null;
   }

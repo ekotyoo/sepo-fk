@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sepo_app/features/assessment/current_condition_form.dart';
-import 'package:sepo_app/features/assessment/personal_data_form.dart';
-import 'package:sepo_app/features/assessment/pill_count_form.dart';
-import 'package:sepo_app/features/auth/domain/auth_user.dart';
-import 'package:sepo_app/features/onboarding/onboarding_screen.dart';
 
 import '../../common/widgets/sepo_button.dart';
 import '../../utils/snackbar_utils.dart';
+import '../auth/domain/auth_user.dart';
+import '../onboarding/onboarding_screen.dart';
 import 'assessment_controller.dart';
+import 'current_condition_form.dart';
+import 'personal_data_form.dart';
+import 'pill_count_form.dart';
 
 class AssessmentScreen extends ConsumerStatefulWidget {
   const AssessmentScreen({Key? key}) : super(key: key);

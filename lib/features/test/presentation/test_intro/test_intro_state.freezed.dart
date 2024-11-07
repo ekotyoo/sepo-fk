@@ -22,6 +22,8 @@ mixin _$TestIntroState {
   int? get currentSurveyIndex => throw _privateConstructorUsedError;
   String? get successMessage => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  TestScore? get testScore => throw _privateConstructorUsedError;
+  Test? get test => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TestIntroStateCopyWith<TestIntroState> get copyWith =>
@@ -40,7 +42,12 @@ abstract class $TestIntroStateCopyWith<$Res> {
       dynamic isFinished,
       int? currentSurveyIndex,
       String? successMessage,
-      String? errorMessage});
+      String? errorMessage,
+      TestScore? testScore,
+      Test? test});
+
+  $TestScoreCopyWith<$Res>? get testScore;
+  $TestCopyWith<$Res>? get test;
 }
 
 /// @nodoc
@@ -62,6 +69,8 @@ class _$TestIntroStateCopyWithImpl<$Res, $Val extends TestIntroState>
     Object? currentSurveyIndex = freezed,
     Object? successMessage = freezed,
     Object? errorMessage = freezed,
+    Object? testScore = freezed,
+    Object? test = freezed,
   }) {
     return _then(_value.copyWith(
       surveys: null == surveys
@@ -88,7 +97,39 @@ class _$TestIntroStateCopyWithImpl<$Res, $Val extends TestIntroState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      testScore: freezed == testScore
+          ? _value.testScore
+          : testScore // ignore: cast_nullable_to_non_nullable
+              as TestScore?,
+      test: freezed == test
+          ? _value.test
+          : test // ignore: cast_nullable_to_non_nullable
+              as Test?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TestScoreCopyWith<$Res>? get testScore {
+    if (_value.testScore == null) {
+      return null;
+    }
+
+    return $TestScoreCopyWith<$Res>(_value.testScore!, (value) {
+      return _then(_value.copyWith(testScore: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TestCopyWith<$Res>? get test {
+    if (_value.test == null) {
+      return null;
+    }
+
+    return $TestCopyWith<$Res>(_value.test!, (value) {
+      return _then(_value.copyWith(test: value) as $Val);
+    });
   }
 }
 
@@ -106,7 +147,14 @@ abstract class _$$_TestIntroStateCopyWith<$Res>
       dynamic isFinished,
       int? currentSurveyIndex,
       String? successMessage,
-      String? errorMessage});
+      String? errorMessage,
+      TestScore? testScore,
+      Test? test});
+
+  @override
+  $TestScoreCopyWith<$Res>? get testScore;
+  @override
+  $TestCopyWith<$Res>? get test;
 }
 
 /// @nodoc
@@ -126,6 +174,8 @@ class __$$_TestIntroStateCopyWithImpl<$Res>
     Object? currentSurveyIndex = freezed,
     Object? successMessage = freezed,
     Object? errorMessage = freezed,
+    Object? testScore = freezed,
+    Object? test = freezed,
   }) {
     return _then(_$_TestIntroState(
       surveys: null == surveys
@@ -146,6 +196,14 @@ class __$$_TestIntroStateCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      testScore: freezed == testScore
+          ? _value.testScore
+          : testScore // ignore: cast_nullable_to_non_nullable
+              as TestScore?,
+      test: freezed == test
+          ? _value.test
+          : test // ignore: cast_nullable_to_non_nullable
+              as Test?,
     ));
   }
 }
@@ -159,7 +217,9 @@ class _$_TestIntroState implements _TestIntroState {
       this.isFinished = false,
       this.currentSurveyIndex,
       this.successMessage,
-      this.errorMessage})
+      this.errorMessage,
+      this.testScore,
+      this.test})
       : _surveys = surveys;
 
   final List<Survey> _surveys;
@@ -182,10 +242,14 @@ class _$_TestIntroState implements _TestIntroState {
   final String? successMessage;
   @override
   final String? errorMessage;
+  @override
+  final TestScore? testScore;
+  @override
+  final Test? test;
 
   @override
   String toString() {
-    return 'TestIntroState(surveys: $surveys, isLoading: $isLoading, isFinished: $isFinished, currentSurveyIndex: $currentSurveyIndex, successMessage: $successMessage, errorMessage: $errorMessage)';
+    return 'TestIntroState(surveys: $surveys, isLoading: $isLoading, isFinished: $isFinished, currentSurveyIndex: $currentSurveyIndex, successMessage: $successMessage, errorMessage: $errorMessage, testScore: $testScore, test: $test)';
   }
 
   @override
@@ -202,7 +266,10 @@ class _$_TestIntroState implements _TestIntroState {
             (identical(other.successMessage, successMessage) ||
                 other.successMessage == successMessage) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.testScore, testScore) ||
+                other.testScore == testScore) &&
+            (identical(other.test, test) || other.test == test));
   }
 
   @override
@@ -213,7 +280,9 @@ class _$_TestIntroState implements _TestIntroState {
       const DeepCollectionEquality().hash(isFinished),
       currentSurveyIndex,
       successMessage,
-      errorMessage);
+      errorMessage,
+      testScore,
+      test);
 
   @JsonKey(ignore: true)
   @override
@@ -229,7 +298,9 @@ abstract class _TestIntroState implements TestIntroState {
       final dynamic isFinished,
       final int? currentSurveyIndex,
       final String? successMessage,
-      final String? errorMessage}) = _$_TestIntroState;
+      final String? errorMessage,
+      final TestScore? testScore,
+      final Test? test}) = _$_TestIntroState;
 
   @override
   List<Survey> get surveys;
@@ -243,6 +314,10 @@ abstract class _TestIntroState implements TestIntroState {
   String? get successMessage;
   @override
   String? get errorMessage;
+  @override
+  TestScore? get testScore;
+  @override
+  Test? get test;
   @override
   @JsonKey(ignore: true)
   _$$_TestIntroStateCopyWith<_$_TestIntroState> get copyWith =>
